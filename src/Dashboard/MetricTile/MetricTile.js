@@ -13,15 +13,13 @@ const MetricTile = ({ name, current, limit, goal, wish }) => (
   <Card className="card">
     <CardHeader title={name} />
     <CardContent>
-      <Typography p="1px" variant color="textSecondary">
-        <Box>
-          <div>Current: {current}</div>
-          <div>Limit: {limit}</div>
-          <div>Goal: {goal}</div>
-          <div>Wish: {wish}</div>
-          <Box mt={1} color="text.hint" fontSize={12} textAlign="left">
-            Last updated:
-          </Box>
+      <Typography color="textSecondary" component="span">
+        <Box>Current: {current}</Box>
+        <Box>Limit: {limit}</Box>
+        <Box>Goal: {goal}</Box>
+        <Box>Wish: {wish}</Box>
+        <Box mt={1} color="text.hint" fontSize={12} textAlign="left">
+          Last updated:
         </Box>
       </Typography>
     </CardContent>

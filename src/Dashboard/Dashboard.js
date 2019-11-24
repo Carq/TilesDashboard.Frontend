@@ -8,10 +8,12 @@ import config from "../config";
 
 class Dashboard extends React.Component {
   componentDidMount() {
+    console.log("start");
     this.fetchMetrics();
   }
 
   fetchMetrics() {
+    console.log("test");
     fetch(config.api.URL + `/metrics/`, {
       method: "GET",
       headers: {
@@ -29,7 +31,7 @@ class Dashboard extends React.Component {
   render() {
     return (
       <div className="main">
-        <Typography textAlign="center" variant="h2" color="primary">
+        <Typography variant="h2" color="primary">
           <Box lineHeight={2} textAlign="center">
             Metrics
           </Box>
@@ -43,16 +45,16 @@ class Dashboard extends React.Component {
           spacing={4}
         >
           <Grid item>
-            <MetricTile name={"BE Unit Test Coverate"} />
+            <MetricTile name={"BE Unit Test Coverate"} current={42} />
           </Grid>
           <Grid item>
-            <MetricTile name={"BE Build Time"} />
+            <MetricTile name={"BE Build Time"} current={42} />
           </Grid>
           <Grid item>
-            <MetricTile name={"FE Build Time"} />
+            <MetricTile name={"FE Build Time"} current={42} />
           </Grid>
           <Grid item>
-            <MetricTile name={"Monthly Azure Cost"} />
+            <MetricTile name={"Monthly Azure Cost"} current={42} />
           </Grid>
         </Grid>
       </div>
