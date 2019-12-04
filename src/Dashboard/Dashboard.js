@@ -1,19 +1,21 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
+import { Box, Grid, Typography } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 import MetricTile from "./MetricTile";
-import Typography from "@material-ui/core/Typography";
 import "./styles.css";
 import config from "../config";
 
 class Dashboard extends React.Component {
+  state = {
+    isLoadingMetrics: true,
+    metrics: null
+  };
+
   componentDidMount() {
-    console.log("start");
     this.fetchMetrics();
   }
 
   fetchMetrics() {
-    console.log("test");
     fetch(config.api.URL + `/metrics/`, {
       method: "GET",
       headers: {
@@ -22,13 +24,18 @@ class Dashboard extends React.Component {
       }
     })
       .then(response => response.json())
-      .then(data => {
-        this.setState({ metrics: [...data] });
-        console.log(data);
+      .then(data =>
+        this.setState({ metrics: [...data], isLoadingMetrics: false })
+      )
+      .catch(error => {
+        this.setState({ isLoadingMetrics: false });
+        console.log(error);
       });
   }
 
   render() {
+    const { metrics, isLoadingMetrics } = this.state;
+
     return (
       <div className="main">
         <Typography variant="h2" color="primary">
@@ -44,22 +51,33 @@ class Dashboard extends React.Component {
           className="dashboard-grid"
           spacing={4}
         >
-          <Grid item>
-            <MetricTile name={"BE Unit Test Coverate"} current={42} />
-          </Grid>
-          <Grid item>
-            <MetricTile name={"BE Build Time"} current={42} />
-          </Grid>
-          <Grid item>
-            <MetricTile name={"FE Build Time"} current={42} />
-          </Grid>
-          <Grid item>
-            <MetricTile name={"Monthly Azure Cost"} current={42} />
-          </Grid>
+          {isLoadingMetrics && this.displaySkeletons()}
+          {!isLoadingMetrics &&
+            metrics.map(metric => (
+              <Grid item>
+                <MetricTile
+                  name={metric.name}
+                  limit={metric.limit}
+                  goal={metric.goal}
+                  wish={metric.wish}
+                  type={metric.type}
+                  current={42}
+                />
+              </Grid>
+            ))}
         </Grid>
       </div>
     );
   }
+
+  displaySkeletons = () =>
+    Array(4)
+      .fill()
+      .map(x => (
+        <Grid item>
+          <Skeleton variant="rect" height={263} width={275} />
+        </Grid>
+      ));
 }
 
 export default Dashboard;
