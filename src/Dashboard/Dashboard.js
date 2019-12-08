@@ -15,7 +15,7 @@ class Dashboard extends React.Component {
     this.fetchMetrics();
   }
 
-  fetchMetrics() {
+  fetchMetrics = () => {
     fetch(config.api.URL + `/metrics/`, {
       method: "GET",
       headers: {
@@ -31,7 +31,7 @@ class Dashboard extends React.Component {
         this.setState({ isLoadingMetrics: false });
         console.log(error);
       });
-  }
+  };
 
   render() {
     const { metrics, isLoadingMetrics } = this.state;
@@ -54,14 +54,15 @@ class Dashboard extends React.Component {
           {isLoadingMetrics && this.displaySkeletons()}
           {!isLoadingMetrics &&
             metrics.map(metric => (
-              <Grid item>
+              <Grid item key={metric.id}>
                 <MetricTile
                   name={metric.name}
+                  current={metric.current}
                   limit={metric.limit}
                   goal={metric.goal}
                   wish={metric.wish}
+                  lastUpdated={metric.lastUpdated}
                   type={metric.type}
-                  current={42}
                 />
               </Grid>
             ))}
@@ -71,13 +72,12 @@ class Dashboard extends React.Component {
   }
 
   displaySkeletons = () =>
-    Array(4)
-      .fill()
-      .map(x => (
-        <Grid item>
-          <Skeleton variant="rect" height={263} width={275} />
-        </Grid>
-      ));
+    [...Array(4).keys()].map(x => (
+      <Grid item key={x}>
+        <Skeleton variant="rect" height={270} width={275} />
+        {x}
+      </Grid>
+    ));
 }
 
 export default Dashboard;
