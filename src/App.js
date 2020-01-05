@@ -1,5 +1,5 @@
 import React from "react";
-import { ThemeProvider } from "@material-ui/styles";
+import { ThemeProvider } from "@material-ui/core/styles";
 import Dashboard from "./Dashboard";
 import theme from "./Theme/theme";
 import "./App.css";
