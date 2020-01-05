@@ -75,7 +75,6 @@ class Dashboard extends React.Component {
     [...Array(4).keys()].map(x => (
       <Grid item key={x}>
         <Skeleton variant="rect" height={270} width={275} />
-        {x}
       </Grid>
     ));
 }
