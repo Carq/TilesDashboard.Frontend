@@ -40,7 +40,7 @@ class Dashboard extends React.Component {
       <div className="main">
         <Typography variant="h2" color="primary">
           <Box lineHeight={2} textAlign="center">
-            Metrics
+            Tiles
           </Box>
         </Typography>
         <Grid
