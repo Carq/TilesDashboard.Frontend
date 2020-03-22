@@ -8,7 +8,7 @@ import config from "../config";
 class Dashboard extends React.Component {
   state = {
     isLoadingMetrics: true,
-    metrics: null
+    tiles: null
   };
 
   componentDidMount() {
@@ -16,7 +16,7 @@ class Dashboard extends React.Component {
   }
 
   fetchMetrics = () => {
-    fetch(config.api.URL + `/metrics/`, {
+    fetch(config.api.URL + `/tiles/all`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -25,7 +25,7 @@ class Dashboard extends React.Component {
     })
       .then(response => response.json())
       .then(data =>
-        this.setState({ metrics: [...data], isLoadingMetrics: false })
+        this.setState({ tiles: [...data], isLoadingMetrics: false })
       )
       .catch(error => {
         this.setState({ isLoadingMetrics: false });
@@ -34,7 +34,7 @@ class Dashboard extends React.Component {
   };
 
   render() {
-    const { metrics, isLoadingMetrics } = this.state;
+    const { tiles, isLoadingMetrics } = this.state;
 
     return (
       <div className="main">
@@ -53,16 +53,16 @@ class Dashboard extends React.Component {
         >
           {isLoadingMetrics && this.displaySkeletons()}
           {!isLoadingMetrics &&
-            metrics.map(metric => (
-              <Grid item key={metric.id}>
+            tiles.map(tile => (
+              <Grid item key={tile.name}>
                 <MetricTile
-                  name={metric.name}
-                  current={metric.current}
-                  limit={metric.limit}
-                  goal={metric.goal}
-                  wish={metric.wish}
-                  lastUpdated={metric.lastUpdated}
-                  type={metric.type}
+                  name={tile.name}
+                  current={tile.currentData.value}
+                  limit={tile.configuration?.limit}
+                  goal={tile.configuration?.goal}
+                  wish={tile.configuration?.wish}
+                  lastUpdated={tile.currentData.addedOn}
+                  type={tile.configuration?.metricType}
                 />
               </Grid>
             ))}

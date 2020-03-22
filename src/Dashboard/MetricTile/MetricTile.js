@@ -53,7 +53,7 @@ class MetricTile extends React.Component {
 
     switch (valueType) {
       case "percentage":
-        return `${value / 10}%`;
+        return `${value}%`;
       case "money":
         return `${value}€`;
       case "time":
