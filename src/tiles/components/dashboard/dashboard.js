@@ -1,40 +1,22 @@
 import React from "react";
-import { Box, Grid, Typography } from "@material-ui/core";
+import PropTypes from "prop-types";
+import { Box, Grid, Typography, Button } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import MetricTile from "./MetricTile";
+import MetricTile from "../metricTile";
 import "./styles.css";
-import config from "../config";
 
 class Dashboard extends React.Component {
-  state = {
-    isLoadingMetrics: true,
-    tiles: null
-  };
-
-  componentDidMount() {
-    this.fetchMetrics();
-  }
-
-  fetchMetrics = () => {
-    fetch(config.api.URL + `/tiles/all`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }
-    })
-      .then(response => response.json())
-      .then(data =>
-        this.setState({ tiles: [...data], isLoadingMetrics: false })
-      )
-      .catch(error => {
-        this.setState({ isLoadingMetrics: false });
-        console.log(error);
-      });
-  };
+  displaySkeletons = () =>
+    [...Array(4).keys()].map(x => (
+      <Grid item key={x}>
+        <Skeleton variant="rect" height={270} width={275} />
+      </Grid>
+    ));
 
   render() {
-    const { tiles, isLoadingMetrics } = this.state;
+    const { tiles, isLoadingMetrics, getTiles } = this.props;
+
+    console.log(tiles);
 
     return (
       <div className="main">
@@ -53,30 +35,31 @@ class Dashboard extends React.Component {
         >
           {isLoadingMetrics && this.displaySkeletons()}
           {!isLoadingMetrics &&
+            tiles &&
             tiles.map(tile => (
               <Grid item key={tile.name}>
                 <MetricTile
                   name={tile.name}
-                  current={tile.currentData.value}
+                  current={tile.currentData?.value}
                   limit={tile.configuration?.limit}
                   goal={tile.configuration?.goal}
                   wish={tile.configuration?.wish}
-                  lastUpdated={tile.currentData.addedOn}
+                  lastUpdated={tile.currentData?.addedOn}
                   type={tile.configuration?.metricType}
                 />
               </Grid>
             ))}
         </Grid>
+        <Button onClick={getTiles}>Get Tiles</Button>
       </div>
     );
   }
-
-  displaySkeletons = () =>
-    [...Array(4).keys()].map(x => (
-      <Grid item key={x}>
-        <Skeleton variant="rect" height={270} width={275} />
-      </Grid>
-    ));
 }
+
+Dashboard.propTypes = {
+  tiles: PropTypes.array,
+  isLoadingMetrics: PropTypes.bool.isRequired,
+  getTiles: PropTypes.func.isRequired
+};
 
 export default Dashboard;
