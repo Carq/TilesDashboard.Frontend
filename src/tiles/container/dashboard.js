@@ -1,4 +1,5 @@
 import { connect } from "react-redux";
+import { withSnackbar } from "notistack";
 import { getAllTiles } from "../actions";
 import Dashboard from "../components/dashboard";
 
@@ -16,4 +17,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withSnackbar(Dashboard));

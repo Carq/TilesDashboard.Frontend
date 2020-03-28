@@ -37,6 +37,6 @@ export function getAllTiles() {
         return response.json();
       })
       .then(json => dispatch(getAllTilesCompleted(json)))
-      .catch(error => dispatch(getAllTilesFailed(error)));
+      .catch(error => dispatch(getAllTilesFailed(error.message)));
   };
 }

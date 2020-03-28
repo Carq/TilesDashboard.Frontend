@@ -2,6 +2,7 @@ import React from "react";
 import thunkMiddleware from "redux-thunk";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
+import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@material-ui/core/styles";
 import Dashboard from "./tiles/container/dashboard";
 import theme from "./Theme/theme";
@@ -16,7 +17,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <Provider store={store}>
         <div className="App">
-          <Dashboard />
+          <SnackbarProvider>
+            <Dashboard />
+          </SnackbarProvider>
         </div>
       </Provider>
     </ThemeProvider>

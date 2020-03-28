@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, Grid, Typography, Button } from "@material-ui/core";
+import { Box, Grid, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import MetricTile from "../metricTile";
 import "./styles.css";
@@ -13,10 +13,22 @@ class Dashboard extends React.Component {
       </Grid>
     ));
 
-  render() {
-    const { tiles, isLoadingMetrics, getAllTiles, error } = this.props;
+  componentDidMount = () => {
+    const { getAllTiles } = this.props;
+    getAllTiles();
+  };
 
-    console.log(error);
+  componentDidUpdate(prevProps) {
+    const { error, enqueueSnackbar } = this.props;
+    if (prevProps.error !== error && error) {
+      enqueueSnackbar(error, {
+        variant: "error"
+      });
+    }
+  }
+
+  render() {
+    const { tiles, isLoadingMetrics } = this.props;
 
     return (
       <div className="main">
@@ -50,7 +62,6 @@ class Dashboard extends React.Component {
               </Grid>
             ))}
         </Grid>
-        <Button onClick={getAllTiles}>Get Tiles</Button>
       </div>
     );
   }
