@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { tileTypes } from "../../constants";
 import MetricTile from "../metricTile";
+import WeatherTile from "../weatherTile";
 import "./styles.css";
 
 class Dashboard extends React.Component {
@@ -50,15 +52,25 @@ class Dashboard extends React.Component {
             tiles &&
             tiles.map(tile => (
               <Grid item key={tile.name}>
-                <MetricTile
-                  name={tile.name}
-                  current={tile.currentData?.value}
-                  limit={tile.configuration?.limit}
-                  goal={tile.configuration?.goal}
-                  wish={tile.configuration?.wish}
-                  lastUpdated={tile.currentData?.addedOn}
-                  type={tile.configuration?.metricType}
-                />
+                {tile.type === tileTypes.WEATHER && (
+                  <WeatherTile
+                    name={tile.name}
+                    temperature={tile.currentData.temperature}
+                    humidity={tile.currentData.humidity}
+                    lastUpdated={tile.currentData.addedOn}
+                  />
+                )}
+                {tile.type === tileTypes.METRIC && (
+                  <MetricTile
+                    name={tile.name}
+                    current={tile.currentData?.value}
+                    limit={tile.configuration?.limit}
+                    goal={tile.configuration?.goal}
+                    wish={tile.configuration?.wish}
+                    lastUpdated={tile.currentData?.addedOn}
+                    type={tile.configuration?.metricType}
+                  />
+                )}
               </Grid>
             ))}
         </Grid>
