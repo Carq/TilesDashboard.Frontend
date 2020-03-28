@@ -5,13 +5,14 @@ import Dashboard from "../components/dashboard";
 const mapStateToProps = state => {
   return {
     tiles: state.tiles.items,
-    isLoadingMetrics: state.tiles.isLoadingMetrics
+    isLoadingMetrics: state.tiles.isLoadingMetrics,
+    error: state.tiles.error
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getTiles: () => dispatch(getAllTiles())
+    getAllTiles: () => dispatch(getAllTiles())
   };
 };
 

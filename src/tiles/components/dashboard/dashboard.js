@@ -14,9 +14,9 @@ class Dashboard extends React.Component {
     ));
 
   render() {
-    const { tiles, isLoadingMetrics, getTiles } = this.props;
+    const { tiles, isLoadingMetrics, getAllTiles, error } = this.props;
 
-    console.log(tiles);
+    console.log(error);
 
     return (
       <div className="main">
@@ -50,7 +50,7 @@ class Dashboard extends React.Component {
               </Grid>
             ))}
         </Grid>
-        <Button onClick={getTiles}>Get Tiles</Button>
+        <Button onClick={getAllTiles}>Get Tiles</Button>
       </div>
     );
   }
@@ -59,7 +59,7 @@ class Dashboard extends React.Component {
 Dashboard.propTypes = {
   tiles: PropTypes.array,
   isLoadingMetrics: PropTypes.bool.isRequired,
-  getTiles: PropTypes.func.isRequired
+  getAllTiles: PropTypes.func.isRequired
 };
 
 export default Dashboard;
