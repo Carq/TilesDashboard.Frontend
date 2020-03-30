@@ -9,8 +9,11 @@ export const metricTypes = {
   TIME: "time"
 };
 
-export const metricStatuses = {
+export const colorStatuses = {
   GREEN: "green",
+  LIGHTGREEN: "lightgreen",
   AMBER: "amber",
-  RED: "red"
+  RED: "red",
+  BLUE: "blue",
+  LIGHTBLUE: "lightBlue"
 };

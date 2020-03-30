@@ -1,5 +1,4 @@
 import React from "react";
-import classNames from "classnames";
 import {
   Table,
   TableBody,
@@ -10,7 +9,8 @@ import {
 import "./styles.scss";
 import PropTypes from "prop-types";
 import { metricConfiguration } from "../../propTypes";
-import { metricStatuses, metricTypes } from "../../constants";
+import { colorStatuses, metricTypes } from "../../constants";
+import { colorStatusToClassNames } from "../../utils";
 
 class MetricTileContent extends React.Component {
   render() {
@@ -41,13 +41,7 @@ class MetricTileContent extends React.Component {
         <Typography>{name}</Typography>
       </TableCell>
       <TableCell align="center">
-        <Typography
-          className={classNames({
-            green: metricStatus && metricStatus === metricStatuses.GREEN,
-            amber: metricStatus && metricStatus === metricStatuses.AMBER,
-            red: metricStatus && metricStatus === metricStatuses.RED
-          })}
-        >
+        <Typography className={colorStatusToClassNames(metricStatus)}>
           {this.renderValues(value, metricType)}
         </Typography>
       </TableCell>
@@ -72,15 +66,15 @@ class MetricTileContent extends React.Component {
   };
 
   calculateStatusGreater = (current, limit) => {
-    if (current * 0.96 > limit) return metricStatuses.GREEN;
-    if (current > limit) return metricStatuses.AMBER;
-    return metricStatuses.RED;
+    if (current * 0.96 > limit) return colorStatuses.GREEN;
+    if (current > limit) return colorStatuses.AMBER;
+    return colorStatuses.RED;
   };
 
   calculateStatusSmaller = (current, limit) => {
-    if (current * 1.05 < limit) return metricStatuses.GREEN;
-    if (current < limit) return metricStatuses.AMBER;
-    return metricStatuses.RED;
+    if (current * 1.05 < limit) return colorStatuses.GREEN;
+    if (current < limit) return colorStatuses.AMBER;
+    return colorStatuses.RED;
   };
 
   getFormatedTime = totalSeconds => {

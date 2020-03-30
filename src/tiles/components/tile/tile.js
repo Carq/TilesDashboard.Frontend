@@ -30,14 +30,8 @@ class Tile extends React.Component {
       >
         <CardHeader className="card-header" title={basicData.name} />
         <CardContent>{this.renderTileContent(basicData.type)}</CardContent>
-        <CardActions disableSpacing>
-          <Box
-            mt={1}
-            color="text.hint"
-            fontSize={12}
-            textAlign="left"
-            top={100}
-          >
+        <CardActions m={0} disableSpacing>
+          <Box color="text.hint" fontSize={12} textAlign="left" top={100}>
             Last updated:{" "}
             {lastUpdated && moment(lastUpdated).format("DD.MM.YYYY HH:mm")}
           </Box>

@@ -1,3 +1,27 @@
 .App {
   height: 100%;
 }
+
+.green {
+  color: lawngreen;
+}
+
+.amber {
+  color: yellow;
+}
+
+.red {
+  color: tomato;
+}
+
+.light-green {
+  color: lightgreen;
+}
+
+.blue {
+  color: skyblue;
+}
+
+.light-blue {
+  color: lightblue;
+}
