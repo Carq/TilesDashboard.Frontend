@@ -2,9 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { tileTypes } from "../../constants";
-import MetricTile from "../metricTile";
-import WeatherTile from "../weatherTile";
+import Tile from "../tile";
 import "./styles.css";
 
 class Dashboard extends React.Component {
@@ -50,29 +48,19 @@ class Dashboard extends React.Component {
           {isLoadingMetrics && this.displaySkeletons()}
           {!isLoadingMetrics &&
             tiles &&
-            tiles.map(tile => (
-              <Grid item key={tile.name}>
-                {tile.type === tileTypes.WEATHER && (
-                  <WeatherTile
-                    name={tile.name}
-                    temperature={tile.currentData.temperature}
-                    humidity={tile.currentData.humidity}
+            tiles.map(tile => {
+              const basicData = { name: tile.name, type: tile.type };
+              return (
+                <Grid item key={basicData.name}>
+                  <Tile
+                    basicData={basicData}
+                    data={tile.currentData}
+                    configuration={tile.configuration}
                     lastUpdated={tile.currentData.addedOn}
                   />
-                )}
-                {tile.type === tileTypes.METRIC && (
-                  <MetricTile
-                    name={tile.name}
-                    current={tile.currentData?.value}
-                    limit={tile.configuration?.limit}
-                    goal={tile.configuration?.goal}
-                    wish={tile.configuration?.wish}
-                    lastUpdated={tile.currentData?.addedOn}
-                    type={tile.configuration?.metricType}
-                  />
-                )}
-              </Grid>
-            ))}
+                </Grid>
+              );
+            })}
         </Grid>
       </div>
     );
