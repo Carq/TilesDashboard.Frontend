@@ -9,19 +9,25 @@ import {
   CardHeader
 } from "@material-ui/core";
 import SentimentDissatisfiedIcon from "@material-ui/icons/SentimentDissatisfied";
+import classNames from "classnames";
 import PropTypes from "prop-types";
 import { tileTypes } from "../../constants";
 import { tileBasicData } from "../../propTypes";
 import WeatherTileContent from "../weatherTileContent";
 import MetricTileContent from "../metricTileContent";
-import "./styles.css";
+import "./styles.scss";
 
 class Tile extends React.Component {
   render() {
     const { basicData, lastUpdated } = this.props;
 
     return (
-      <Card className="card">
+      <Card
+        className={classNames("card", {
+          metric: basicData.type === tileTypes.METRIC,
+          weather: basicData.type === tileTypes.WEATHER
+        })}
+      >
         <CardHeader title={basicData.name} />
         <CardContent>{this.renderTileContent(basicData.type)}</CardContent>
         <CardActions disableSpacing>
@@ -33,7 +39,7 @@ class Tile extends React.Component {
             top={100}
           >
             Last updated:{" "}
-            {lastUpdated && moment(lastUpdated).format("HH:mm DD.MM.YYYY")}
+            {lastUpdated && moment(lastUpdated).format("DD.MM.YYYY HH:mm")}
           </Box>
         </CardActions>
       </Card>

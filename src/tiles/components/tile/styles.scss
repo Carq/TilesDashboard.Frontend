@@ -1,0 +1,29 @@
+.card {
+  min-width: 275px;
+  min-height: 270px;
+  background: linear-gradient(-45deg, #434343, #484848);
+
+  &.metric {
+    @extend %tile-image;
+    background-image: url("/img/metric-icon.png");
+  }
+
+  &.weather {
+    @extend %tile-image;
+    background-image: url("/img/weather-icon.png");
+  }
+}
+
+%tile-image {
+  background-position: right 10px bottom 8px;
+  background-size: 70px;
+  background-repeat: no-repeat;
+}
+
+.MuiCard-root {
+  display: flex;
+  flex-direction: column;
+}
+.MuiCardActions-root {
+  margin-top: auto;
+}
