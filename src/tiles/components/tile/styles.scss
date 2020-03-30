@@ -1,6 +1,6 @@
 .card {
-  min-width: 275px;
-  min-height: 270px;
+  min-width: 305px;
+  min-height: 300px;
   background: linear-gradient(-45deg, #434343, #484848);
 
   &.metric {
@@ -14,9 +14,13 @@
   }
 }
 
+.card-header {
+  text-align: center;
+}
+
 %tile-image {
   background-position: right 10px bottom 8px;
-  background-size: 70px;
+  background-size: 64px;
   background-repeat: no-repeat;
 }
 

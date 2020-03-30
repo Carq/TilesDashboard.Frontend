@@ -28,7 +28,7 @@ class Tile extends React.Component {
           weather: basicData.type === tileTypes.WEATHER
         })}
       >
-        <CardHeader title={basicData.name} />
+        <CardHeader className="card-header" title={basicData.name} />
         <CardContent>{this.renderTileContent(basicData.type)}</CardContent>
         <CardActions disableSpacing>
           <Box
