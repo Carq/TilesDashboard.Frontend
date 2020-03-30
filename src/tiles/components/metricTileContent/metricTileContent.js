@@ -1,22 +1,25 @@
 import React from "react";
 import classNames from "classnames";
 import {
-  Typography,
   Table,
   TableBody,
+  TableCell,
   TableRow,
-  TableCell
+  Typography
 } from "@material-ui/core";
+import "./styles.scss";
 import PropTypes from "prop-types";
 import { metricConfiguration } from "../../propTypes";
-import { metricStatuses } from "../../constants";
-import "./styles.scss";
+import { metricStatuses, metricTypes } from "../../constants";
 
 class MetricTileContent extends React.Component {
   render() {
     const { current, configuration } = this.props;
     const { metricType, limit, wish, goal } = configuration;
-    const metricStatus = this.calculateStatus(current, limit);
+    const metricStatus =
+      metricType === metricTypes.PERCENTAGE
+        ? this.calculateStatusGreater(current, limit)
+        : this.calculateStatusSmaller(current, limit);
 
     return (
       <div className="metric-tile-content">
@@ -68,15 +71,15 @@ class MetricTileContent extends React.Component {
     }
   };
 
-  calculateStatus = (current, limit) => {
-    if (current * 0.96 > limit) {
-      return metricStatuses.GREEN;
-    }
+  calculateStatusGreater = (current, limit) => {
+    if (current * 0.96 > limit) return metricStatuses.GREEN;
+    if (current > limit) return metricStatuses.AMBER;
+    return metricStatuses.RED;
+  };
 
-    if (current > limit) {
-      return metricStatuses.AMBER;
-    }
-
+  calculateStatusSmaller = (current, limit) => {
+    if (current * 1.05 < limit) return metricStatuses.GREEN;
+    if (current < limit) return metricStatuses.AMBER;
     return metricStatuses.RED;
   };
 

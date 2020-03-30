@@ -5,7 +5,8 @@ export const tileTypes = {
 
 export const metricTypes = {
   PERCENTAGE: "percentage",
-  MONEY: "money"
+  MONEY: "money",
+  TIME: "time"
 };
 
 export const metricStatuses = {
