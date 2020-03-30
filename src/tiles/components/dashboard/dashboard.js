@@ -6,24 +6,41 @@ import Tile from "../tile";
 import "./styles.css";
 
 class Dashboard extends React.Component {
-  displaySkeletons = () =>
-    [...Array(4).keys()].map(x => (
+  state = { lastTilesAmount: 4 };
+
+  displaySkeletons = () => {
+    const { lastTilesAmount } = this.state;
+    console.log(lastTilesAmount);
+
+    return [...Array(parseInt(lastTilesAmount)).keys()].map(x => (
       <Grid item key={x}>
-        <Skeleton variant="rect" height={270} width={275} />
+        <Skeleton variant="rect" height={300} width={305} />
       </Grid>
     ));
+  };
 
   componentDidMount = () => {
     const { getAllTiles } = this.props;
+    var lastTilesAmount = localStorage.getItem("lastTilesAmount");
+    if (lastTilesAmount) {
+      this.setState({
+        lastTilesAmount
+      });
+    }
+
     getAllTiles();
   };
 
   componentDidUpdate(prevProps) {
-    const { error, enqueueSnackbar } = this.props;
+    const { error, enqueueSnackbar, tiles, isLoadingMetrics } = this.props;
     if (prevProps.error !== error && error) {
       enqueueSnackbar(error, {
         variant: "error"
       });
+    }
+
+    if (prevProps.tiles.length !== tiles.length && !isLoadingMetrics) {
+      localStorage.setItem("lastTilesAmount", tiles.length);
     }
   }
 
