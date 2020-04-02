@@ -10,8 +10,6 @@ class Dashboard extends React.Component {
 
   displaySkeletons = () => {
     const { lastTilesAmount } = this.state;
-    console.log(lastTilesAmount);
-
     return [...Array(parseInt(lastTilesAmount)).keys()].map(x => (
       <Grid item key={x}>
         <Skeleton variant="rect" height={300} width={305} />

@@ -11,7 +11,6 @@ class WeatherTileContent extends React.Component {
 
     var colorStatus = this.calculateTemperatureColor(temperature);
 
-    console.log(colorStatus);
     return (
       <div className="weather-tile-content">
         <Box justifyContent="center">
@@ -38,7 +37,7 @@ class WeatherTileContent extends React.Component {
     if (temperature > 25) return colorStatuses.RED;
     if (temperature > 23) return colorStatuses.AMBER;
     if (temperature > 19) return colorStatuses.LIGHTGREEN;
-    if (temperature > 12) return colorStatuses.LIGHTBLUE;
+    if (temperature > 4) return colorStatuses.LIGHTBLUE;
     return colorStatuses.BLUE;
   };
 }
