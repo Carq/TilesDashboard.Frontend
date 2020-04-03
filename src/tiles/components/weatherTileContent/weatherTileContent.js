@@ -18,13 +18,15 @@ class WeatherTileContent extends React.Component {
             className={colorStatusToClassNames(colorStatus)}
             variant="h3"
             align="center"
-          >{`${temperature}°C`}</Typography>
+          >{`${temperature.toFixed(1)}°C`}</Typography>
           <Typography align="center" color="textSecondary">
             Temperature
           </Typography>
         </Box>
         <Box mt={2}>
-          <Typography variant="h5" align="center">{`${humidity}%`}</Typography>
+          <Typography variant="h5" align="center">{`${humidity.toFixed(
+            0
+          )}%`}</Typography>
           <Typography align="center" color="textSecondary">
             Humidity
           </Typography>
