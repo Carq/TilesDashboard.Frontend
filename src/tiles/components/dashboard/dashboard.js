@@ -10,7 +10,7 @@ class Dashboard extends React.Component {
 
   displaySkeletons = () => {
     const { lastTilesAmount } = this.state;
-    return [...Array(parseInt(lastTilesAmount)).keys()].map(x => (
+    return [...Array(parseInt(lastTilesAmount)).keys()].map((x) => (
       <Grid item key={x}>
         <Skeleton variant="rect" height={300} width={305} />
       </Grid>
@@ -22,7 +22,7 @@ class Dashboard extends React.Component {
     var lastTilesAmount = localStorage.getItem("lastTilesAmount");
     if (lastTilesAmount) {
       this.setState({
-        lastTilesAmount
+        lastTilesAmount,
       });
     }
 
@@ -33,7 +33,7 @@ class Dashboard extends React.Component {
     const { error, enqueueSnackbar, tiles, isLoadingMetrics } = this.props;
     if (prevProps.error !== error && error) {
       enqueueSnackbar(error, {
-        variant: "error"
+        variant: "error",
       });
     }
 
@@ -63,13 +63,14 @@ class Dashboard extends React.Component {
           {isLoadingMetrics && this.displaySkeletons()}
           {!isLoadingMetrics &&
             tiles &&
-            tiles.map(tile => {
+            tiles.map((tile) => {
               const basicData = { name: tile.name, type: tile.type };
               return (
                 <Grid item key={basicData.name}>
                   <Tile
                     basicData={basicData}
-                    data={tile.currentData}
+                    currentData={tile.currentData}
+                    recentData={tile.recentData}
                     configuration={tile.configuration}
                     lastUpdated={tile.currentData.addedOn}
                   />
@@ -85,7 +86,7 @@ class Dashboard extends React.Component {
 Dashboard.propTypes = {
   tiles: PropTypes.array,
   isLoadingMetrics: PropTypes.bool.isRequired,
-  getAllTiles: PropTypes.func.isRequired
+  getAllTiles: PropTypes.func.isRequired,
 };
 
 export default Dashboard;

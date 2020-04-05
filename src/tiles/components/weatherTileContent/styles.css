@@ -1,5 +1,12 @@
-.weather-tile-content {
+.weather-tile__content {
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+
+.weather-tile__temperature {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-direction: row;
 }

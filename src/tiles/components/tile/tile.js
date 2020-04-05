@@ -6,7 +6,7 @@ import {
   CardActions,
   CardContent,
   Typography,
-  CardHeader
+  CardHeader,
 } from "@material-ui/core";
 import SentimentDissatisfiedIcon from "@material-ui/icons/SentimentDissatisfied";
 import classNames from "classnames";
@@ -25,7 +25,7 @@ class Tile extends React.Component {
       <Card
         className={classNames("card", {
           metric: basicData.type === tileTypes.METRIC,
-          weather: basicData.type === tileTypes.WEATHER
+          weather: basicData.type === tileTypes.WEATHER,
         })}
       >
         <CardHeader className="card-header" title={basicData.name} />
@@ -40,23 +40,24 @@ class Tile extends React.Component {
     );
   }
 
-  renderTileContent = type => {
-    const { data, configuration } = this.props;
+  renderTileContent = (type) => {
+    const { currentData, recentData, configuration } = this.props;
 
     switch (type) {
       case tileTypes.WEATHER:
-        return this.renderWeatherTileContent(data);
+        return this.renderWeatherTileContent(currentData, recentData);
       case tileTypes.METRIC:
-        return this.renderMetricTileContent(data, configuration);
+        return this.renderMetricTileContent(currentData, configuration);
       default:
         return this.renderUnsupportedTile();
     }
   };
 
-  renderWeatherTileContent = data => (
+  renderWeatherTileContent = (currentData, recentData) => (
     <WeatherTileContent
-      temperature={data.temperature}
-      humidity={data.humidity}
+      temperature={currentData.temperature}
+      humidity={currentData.humidity}
+      recentData={recentData}
     />
   );
 
@@ -74,9 +75,10 @@ class Tile extends React.Component {
 
 Tile.propTypes = {
   basicData: tileBasicData.isRequired,
-  data: PropTypes.object,
+  currentData: PropTypes.object,
+  recentData: PropTypes.arrayOf(PropTypes.object),
   configuration: PropTypes.object,
-  lastUpdated: PropTypes.string
+  lastUpdated: PropTypes.string,
 };
 
 export default Tile;

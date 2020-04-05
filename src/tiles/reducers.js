@@ -1,13 +1,13 @@
 import {
   GET_ALL_TILES_REQUEST,
   GET_ALL_TILES_COMPLETED,
-  GET_ALL_TILES_FAILED
+  GET_ALL_TILES_FAILED,
 } from "./actionTypes";
 
 const initialState = {
   items: [],
   isLoadingMetrics: false,
-  error: ""
+  error: "",
 };
 
 export function tilesReducer(state = initialState, action) {
@@ -15,19 +15,19 @@ export function tilesReducer(state = initialState, action) {
     case GET_ALL_TILES_REQUEST:
       return {
         ...state,
-        isLoadingMetrics: true
+        isLoadingMetrics: true,
       };
     case GET_ALL_TILES_COMPLETED:
       return {
         ...state,
         items: action.tiles,
-        isLoadingMetrics: false
+        isLoadingMetrics: false,
       };
     case GET_ALL_TILES_FAILED:
       return {
         ...state,
         error: action.error,
-        isLoadingMetrics: false
+        isLoadingMetrics: false,
       };
     default:
       return state;

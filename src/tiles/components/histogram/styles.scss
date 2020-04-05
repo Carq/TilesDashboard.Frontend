@@ -1,0 +1,52 @@
+.histogram {
+  display: flex;
+  margin-left: 6px;
+  margin-bottom: 8px;
+  width: 40px;
+  height: 35px;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.histogram__bars {
+  display: flex;
+  height: 70%;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+@mixin histogram__bar {
+  margin-right: 3px;
+  width: 7px;
+  border-radius: 2px;
+  background-color: goldenrod;
+  opacity: 0.6;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.histogram__bar-5 {
+  height: 100%;
+  @include histogram__bar;
+}
+
+.histogram__bar-4 {
+  height: 80%;
+  @include histogram__bar;
+}
+
+.histogram__bar-3 {
+  height: 60%;
+  @include histogram__bar;
+}
+
+.histogram__bar-2 {
+  height: 40%;
+  @include histogram__bar;
+}
+
+.histogram__bar-1 {
+  @include histogram__bar;
+  height: 20%;
+}
