@@ -52,11 +52,11 @@ class Histogram extends React.Component {
   calculateRank = (value, min, max) => {
     if (min === max) return 3;
 
-    const step = Math.max(((max - min) / 5).toFixed(1), 0.1);
+    const step = Math.max(((max - min) / 4).toFixed(1), 0.1);
     if (value >= max) return 5;
-    if (value >= min + step * 4) return 4;
-    if (value >= min + step * 3) return 3;
-    if (value >= min + step * 2) return 2;
+    if (value >= max - step) return 4;
+    if (value >= max - step * 2) return 3;
+    if (value >= max - step * 3) return 2;
     return 1;
   };
 }
