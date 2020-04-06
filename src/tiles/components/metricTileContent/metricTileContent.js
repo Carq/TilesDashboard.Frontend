@@ -4,10 +4,11 @@ import {
   TableBody,
   TableCell,
   TableRow,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import "./styles.scss";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 import { metricConfiguration } from "../../propTypes";
 import { colorStatuses, metricTypes } from "../../constants";
 import { colorStatusToClassNames } from "../../utils";
@@ -41,7 +42,9 @@ class MetricTileContent extends React.Component {
         <Typography>{name}</Typography>
       </TableCell>
       <TableCell align="center">
-        <Typography className={colorStatusToClassNames(metricStatus)}>
+        <Typography
+          className={classNames(colorStatusToClassNames(metricStatus))}
+        >
           {this.renderValues(value, metricType)}
         </Typography>
       </TableCell>
@@ -77,8 +80,8 @@ class MetricTileContent extends React.Component {
     return colorStatuses.RED;
   };
 
-  getFormatedTime = totalSeconds => {
-    const format = val => `${Math.floor(val)}`.slice(-2);
+  getFormatedTime = (totalSeconds) => {
+    const format = (val) => `${Math.floor(val)}`.slice(-2);
     const hours = format(totalSeconds / 3600);
     const minutes = format((totalSeconds % 3600) / 60);
     const seconds = format(totalSeconds % 60);
@@ -93,7 +96,7 @@ class MetricTileContent extends React.Component {
 
 MetricTileContent.propTypes = {
   current: PropTypes.number.isRequired,
-  configuration: metricConfiguration
+  configuration: metricConfiguration,
 };
 
 export default MetricTileContent;

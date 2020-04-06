@@ -1,9 +1,7 @@
 .histogram {
   display: flex;
-  margin-left: 6px;
-  margin-bottom: 8px;
   width: 40px;
-  height: 35px;
+  height: 100%;
   flex-direction: column;
   justify-content: flex-end;
 }
@@ -16,9 +14,9 @@
 }
 
 @mixin histogram__bar {
-  margin-right: 3px;
+  margin-left: 3px;
   width: 7px;
-  border-radius: 2px;
+  border-radius: 1.5px;
   background-color: goldenrod;
   opacity: 0.6;
   &:hover {

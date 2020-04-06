@@ -13,11 +13,11 @@ import "./styles.scss";
 
 class Histogram extends React.Component {
   render() {
-    const { data, currentValue, colorData, valueSuffix } = this.props;
+    const { data, colorData, valueSuffix } = this.props;
 
-    const sortedData = _.sortBy(data, "date").reverse();
-    const max = Math.max(_.maxBy(data, "value")["value"], currentValue);
-    const min = Math.min(_.minBy(data, "value")["value"], currentValue);
+    const sortedData = _.sortBy(data, "date");
+    const max = Math.max(_.maxBy(data, "value")["value"]);
+    const min = Math.min(_.minBy(data, "value")["value"]);
 
     return (
       <div className="histogram">
@@ -50,6 +50,8 @@ class Histogram extends React.Component {
   }
 
   calculateRank = (value, min, max) => {
+    if (min === max) return 3;
+
     const step = Math.max(((max - min) / 5).toFixed(1), 0.1);
     if (value >= max) return 5;
     if (value >= min + step * 4) return 4;
@@ -61,7 +63,6 @@ class Histogram extends React.Component {
 
 Histogram.propTypes = {
   data: PropTypes.arrayOf(histogramData),
-  currentValue: PropTypes.number.isRequired,
   colorData: PropTypes.func,
   valueSuffix: PropTypes.string,
 };

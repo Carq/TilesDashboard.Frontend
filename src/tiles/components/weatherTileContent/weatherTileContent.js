@@ -17,21 +17,22 @@ class WeatherTileContent extends React.Component {
     return (
       <div className="weather-tile__content">
         <Box justifyContent="center">
-          <div className="weather-tile__temperature">
+          <div className="weather-tile__section">
+            <div className="weather-tile__temperature-histogram">
+              <Histogram
+                data={recentData.map((item) => ({
+                  value: item.temperature,
+                  date: item.addedOn,
+                }))}
+                valueSuffix={"°C"}
+                colorData={this.calculateTemperatureColor}
+              />
+            </div>
             <Typography
               className={classNames(colorStatusToClassNames(colorStatus))}
               variant="h3"
               align="center"
             >{`${temperature.toFixed(1)}°C`}</Typography>
-            <Histogram
-              currentValue={temperature}
-              data={recentData.map((item) => ({
-                value: item.temperature,
-                date: item.addedOn,
-              }))}
-              valueSuffix={"°C"}
-              colorData={this.calculateTemperatureColor}
-            />
           </div>
 
           <Typography align="center" color="textSecondary">
@@ -39,9 +40,21 @@ class WeatherTileContent extends React.Component {
           </Typography>
         </Box>
         <Box mt={2}>
-          <Typography variant="h5" align="center">{`${humidity.toFixed(
-            0
-          )}%`}</Typography>
+          <div className="weather-tile__section">
+            <div className="weather-tile__humidity-histogram">
+              <Histogram
+                data={recentData.map((item) => ({
+                  value: item.humidity,
+                  date: item.addedOn,
+                }))}
+                valueSuffix={"%"}
+                colorData={() => colorStatuses.AQUA}
+              />
+            </div>
+            <Typography variant="h5" align="center">{`${humidity.toFixed(
+              0
+            )}%`}</Typography>
+          </div>
           <Typography align="center" color="textSecondary">
             Humidity
           </Typography>

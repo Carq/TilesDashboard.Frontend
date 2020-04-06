@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import Tile from "../tile";
+import config from "../../../config";
 import "./styles.css";
 
 class Dashboard extends React.Component {
@@ -49,7 +50,7 @@ class Dashboard extends React.Component {
       <div className="main">
         <Typography variant="h2" color="primary">
           <Box lineHeight={2} textAlign="center">
-            Tiles
+            {config.DashboardName}
           </Box>
         </Typography>
         <Grid
