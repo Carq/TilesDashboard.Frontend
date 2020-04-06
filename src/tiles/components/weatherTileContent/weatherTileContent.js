@@ -10,7 +10,7 @@ import "./styles.css";
 
 class WeatherTileContent extends React.Component {
   render() {
-    const { temperature, humidity, recentData } = this.props;
+    const { temperature, humidity, data } = this.props;
 
     var colorStatus = this.calculateTemperatureColor(temperature);
 
@@ -20,7 +20,7 @@ class WeatherTileContent extends React.Component {
           <div className="weather-tile__section">
             <div className="weather-tile__temperature-histogram">
               <Histogram
-                data={recentData.map((item) => ({
+                data={data.map((item) => ({
                   value: item.temperature,
                   date: item.addedOn,
                 }))}
@@ -43,7 +43,7 @@ class WeatherTileContent extends React.Component {
           <div className="weather-tile__section">
             <div className="weather-tile__humidity-histogram">
               <Histogram
-                data={recentData.map((item) => ({
+                data={data.map((item) => ({
                   value: item.humidity,
                   date: item.addedOn,
                 }))}
@@ -75,7 +75,7 @@ class WeatherTileContent extends React.Component {
 WeatherTileContent.propTypes = {
   temperature: PropTypes.number.isRequired,
   humidity: PropTypes.number,
-  recentData: PropTypes.arrayOf(weatherData),
+  data: PropTypes.arrayOf(weatherData),
 };
 
 export default WeatherTileContent;

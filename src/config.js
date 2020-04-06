@@ -2,5 +2,8 @@ export default {
   api: {
     URL: "https://localhost:5001",
   },
-  DashboardName: "Tiles",
+  dashboard: {
+    name: "Tiles",
+    refreshInterval: 30, // seconds
+  },
 };

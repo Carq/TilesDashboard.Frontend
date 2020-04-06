@@ -1,13 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
+import _ from "lodash";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import Tile from "../tile";
+import { tileTypes } from "../../constants";
 import config from "../../../config";
 import "./styles.css";
 
 class Dashboard extends React.Component {
-  state = { lastTilesAmount: 4 };
+  state = { lastTilesAmount: 4, lastUpdatedTile: null };
 
   displaySkeletons = () => {
     const { lastTilesAmount } = this.state;
@@ -27,8 +29,17 @@ class Dashboard extends React.Component {
       });
     }
 
+    this.refreshTileInterval = setInterval(
+      () => this.refreshTile(),
+      (config.dashboard.refreshInterval || 60) * 1000
+    );
+
     getAllTiles();
   };
+
+  componentWillUnmount() {
+    clearInterval(this.refreshTileInterval);
+  }
 
   componentDidUpdate(prevProps) {
     const { error, enqueueSnackbar, tiles, isLoadingMetrics } = this.props;
@@ -50,7 +61,7 @@ class Dashboard extends React.Component {
       <div className="main">
         <Typography variant="h2" color="primary">
           <Box lineHeight={2} textAlign="center">
-            {config.DashboardName}
+            {config.dashboard.name || "Tiles"}
           </Box>
         </Typography>
         <Grid
@@ -70,10 +81,9 @@ class Dashboard extends React.Component {
                 <Grid item key={basicData.name}>
                   <Tile
                     basicData={basicData}
-                    currentData={tile.currentData}
-                    recentData={tile.recentData}
+                    data={tile.data}
                     configuration={tile.configuration}
-                    lastUpdated={tile.currentData.addedOn}
+                    lastUpdated={tile.data[0].addedOn}
                   />
                 </Grid>
               );
@@ -82,12 +92,42 @@ class Dashboard extends React.Component {
       </div>
     );
   }
+
+  refreshTile = () => {
+    const { getTile, tiles } = this.props;
+    const { lastUpdatedTile } = this.state;
+    let tileToRefresh;
+
+    if (lastUpdatedTile) {
+      let tileIndex = _.findIndex(tiles, {
+        name: lastUpdatedTile.name,
+        type: lastUpdatedTile.type,
+      });
+
+      if (++tileIndex > tiles.length) {
+        tileIndex = 0;
+      }
+
+      tileToRefresh = tiles[tileIndex];
+    }
+
+    tileToRefresh = tileToRefresh || tiles[0];
+
+    getTile(tileToRefresh.name, tileToRefresh.type);
+    this.setState({
+      lastUpdatedTile: {
+        name: tileToRefresh.name,
+        type: tileToRefresh.type,
+      },
+    });
+  };
 }
 
 Dashboard.propTypes = {
   tiles: PropTypes.array,
   isLoadingMetrics: PropTypes.bool.isRequired,
   getAllTiles: PropTypes.func.isRequired,
+  getTile: PropTypes.func.isRequired,
 };
 
 export default Dashboard;

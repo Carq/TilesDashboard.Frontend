@@ -1,19 +1,20 @@
 import { connect } from "react-redux";
 import { withSnackbar } from "notistack";
-import { getAllTiles } from "../actions";
+import { getAllTiles, getTile } from "../actions";
 import Dashboard from "../components/dashboard";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     tiles: state.tiles.items,
     isLoadingMetrics: state.tiles.isLoadingMetrics,
-    error: state.tiles.error
+    error: state.tiles.error,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    getAllTiles: () => dispatch(getAllTiles())
+    getAllTiles: () => dispatch(getAllTiles()),
+    getTile: (tileName, tileType) => dispatch(getTile(tileName, tileType)),
   };
 };
 

@@ -19,7 +19,8 @@ import "./styles.scss";
 
 class Tile extends React.Component {
   render() {
-    const { basicData, lastUpdated } = this.props;
+    const { basicData, data } = this.props;
+    const lastUpdated = data[0].addedOn;
 
     return (
       <Card
@@ -41,13 +42,13 @@ class Tile extends React.Component {
   }
 
   renderTileContent = (type) => {
-    const { currentData, recentData, configuration } = this.props;
+    const { data, configuration } = this.props;
 
     switch (type) {
       case tileTypes.WEATHER:
-        return this.renderWeatherTileContent(currentData, recentData);
+        return this.renderWeatherTileContent(data[0], data.slice(1));
       case tileTypes.METRIC:
-        return this.renderMetricTileContent(currentData, configuration);
+        return this.renderMetricTileContent(data[0], configuration);
       default:
         return this.renderUnsupportedTile();
     }
@@ -57,7 +58,7 @@ class Tile extends React.Component {
     <WeatherTileContent
       temperature={currentData.temperature}
       humidity={currentData.humidity}
-      recentData={recentData}
+      data={recentData}
     />
   );
 
@@ -75,8 +76,7 @@ class Tile extends React.Component {
 
 Tile.propTypes = {
   basicData: tileBasicData.isRequired,
-  currentData: PropTypes.object,
-  recentData: PropTypes.arrayOf(PropTypes.object),
+  data: PropTypes.arrayOf(PropTypes.object),
   configuration: PropTypes.object,
   lastUpdated: PropTypes.string,
 };
