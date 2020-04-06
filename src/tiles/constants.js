@@ -1,12 +1,12 @@
 export const tileTypes = {
   WEATHER: "weather",
-  METRIC: "metric"
+  METRIC: "metric",
 };
 
 export const metricTypes = {
   PERCENTAGE: "percentage",
   MONEY: "money",
-  TIME: "time"
+  TIME: "time",
 };
 
 export const colorStatuses = {
@@ -15,5 +15,6 @@ export const colorStatuses = {
   AMBER: "amber",
   RED: "red",
   BLUE: "blue",
-  LIGHTBLUE: "lightBlue"
+  LIGHTBLUE: "lightBlue",
+  AQUA: "aqua",
 };
