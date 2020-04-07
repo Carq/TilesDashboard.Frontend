@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0d3b175a0148d6bbbffc5fc2c851b9b1",
+    "revision": "ed69817a6b03bc72ef7bb86e5d5acea2",
     "url": "/TilesDashboard.Frontend/index.html"
   },
   {
-    "revision": "5608be1cb5e2eb43e979",
-    "url": "/TilesDashboard.Frontend/static/css/main.382a7a77.chunk.css"
+    "revision": "7c03db51d4ceea6119c2",
+    "url": "/TilesDashboard.Frontend/static/css/main.85aff3b3.chunk.css"
   },
   {
     "revision": "c9c4963bec84a43293b7",
@@ -16,7 +16,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/TilesDashboard.Frontend/static/js/2.0c7bc0b9.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "5608be1cb5e2eb43e979",
+    "revision": "7c03db51d4ceea6119c2",
     "url": "/TilesDashboard.Frontend/static/js/main.c4ba20b4.chunk.js"
   },
   {

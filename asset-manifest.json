@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/TilesDashboard.Frontend/static/css/main.382a7a77.chunk.css",
+    "main.css": "/TilesDashboard.Frontend/static/css/main.85aff3b3.chunk.css",
     "main.js": "/TilesDashboard.Frontend/static/js/main.c4ba20b4.chunk.js",
     "main.js.map": "/TilesDashboard.Frontend/static/js/main.c4ba20b4.chunk.js.map",
     "runtime-main.js": "/TilesDashboard.Frontend/static/js/runtime-main.120ccb25.js",
@@ -8,15 +8,15 @@
     "static/js/2.0c7bc0b9.chunk.js": "/TilesDashboard.Frontend/static/js/2.0c7bc0b9.chunk.js",
     "static/js/2.0c7bc0b9.chunk.js.map": "/TilesDashboard.Frontend/static/js/2.0c7bc0b9.chunk.js.map",
     "index.html": "/TilesDashboard.Frontend/index.html",
-    "precache-manifest.51a14a9ea1fcb2b6c718ab7dc8923a39.js": "/TilesDashboard.Frontend/precache-manifest.51a14a9ea1fcb2b6c718ab7dc8923a39.js",
+    "precache-manifest.28cd67d1190b63751ed233c056ee8dc0.js": "/TilesDashboard.Frontend/precache-manifest.28cd67d1190b63751ed233c056ee8dc0.js",
     "service-worker.js": "/TilesDashboard.Frontend/service-worker.js",
-    "static/css/main.382a7a77.chunk.css.map": "/TilesDashboard.Frontend/static/css/main.382a7a77.chunk.css.map",
+    "static/css/main.85aff3b3.chunk.css.map": "/TilesDashboard.Frontend/static/css/main.85aff3b3.chunk.css.map",
     "static/js/2.0c7bc0b9.chunk.js.LICENSE.txt": "/TilesDashboard.Frontend/static/js/2.0c7bc0b9.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.120ccb25.js",
     "static/js/2.0c7bc0b9.chunk.js",
-    "static/css/main.382a7a77.chunk.css",
+    "static/css/main.85aff3b3.chunk.css",
     "static/js/main.c4ba20b4.chunk.js"
   ]
 }
