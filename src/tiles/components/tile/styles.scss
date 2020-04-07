@@ -5,12 +5,12 @@
 
   &.metric {
     @extend %tile-image;
-    background-image: url("/img/metric-icon.png");
+    background-image: url(~images/metric-icon.png);
   }
 
   &.weather {
     @extend %tile-image;
-    background-image: url("/img/weather-icon.png");
+    background-image: url(~images/weather-icon.png);
   }
 }
 

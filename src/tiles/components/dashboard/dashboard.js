@@ -4,8 +4,8 @@ import _ from "lodash";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import Tile from "../tile";
-import config from "../../../config";
-import "./styles.css";
+import config from "config";
+import "./styles.scss";
 
 class Dashboard extends React.Component {
   state = { lastTilesAmount: 4, lastUpdatedTile: null };
