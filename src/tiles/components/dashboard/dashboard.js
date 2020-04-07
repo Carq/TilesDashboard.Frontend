@@ -4,7 +4,6 @@ import _ from "lodash";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import Tile from "../tile";
-import { tileTypes } from "../../constants";
 import config from "../../../config";
 import "./styles.css";
 
@@ -75,19 +74,16 @@ class Dashboard extends React.Component {
           {isLoadingMetrics && this.displaySkeletons()}
           {!isLoadingMetrics &&
             tiles &&
-            tiles.map((tile) => {
-              const basicData = { name: tile.name, type: tile.type };
-              return (
-                <Grid item key={basicData.name}>
-                  <Tile
-                    basicData={basicData}
-                    data={tile.data}
-                    configuration={tile.configuration}
-                    lastUpdated={tile.data[0].addedOn}
-                  />
-                </Grid>
-              );
-            })}
+            tiles.map((tile) => (
+              <Grid item key={tile.name}>
+                <Tile
+                  basicData={{ name: tile.name, type: tile.type }}
+                  data={tile.data}
+                  configuration={tile.configuration}
+                  lastUpdated={tile.data[0].addedOn}
+                />
+              </Grid>
+            ))}
         </Grid>
       </div>
     );

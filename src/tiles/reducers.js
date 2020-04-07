@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 import {
   GET_ALL_TILES_REQUEST,
   GET_ALL_TILES_COMPLETED,
@@ -41,23 +39,14 @@ export function tilesReducer(state = initialState, action) {
     case GET_TILE_COMPLETED:
       const { items } = state;
 
-      const itemIndex = _.findIndex(items, {
-        name: action.tileName,
-        type: action.tileType,
-      });
-
-      if (itemIndex < 0) {
-        return { ...state };
-      }
-
-      const updatedItem = {
-        ...state.items[itemIndex],
-        data: action.data,
-      };
-
       return {
         ...state,
-        items: updateObjectInArray(state.items, itemIndex, updatedItem),
+        items: updateTileDataInArray(
+          items,
+          action.tileName,
+          action.tileType,
+          action.data
+        ),
       };
     case GET_TILE_FAILED:
       return {
@@ -69,17 +58,20 @@ export function tilesReducer(state = initialState, action) {
   }
 }
 
-function updateObjectInArray(array, itemIndex, updatedItem) {
-  return array.map((item, index) => {
-    if (index !== itemIndex) {
-      // This isn't the item we care about - keep it as-is
-      return item;
+function updateTileDataInArray(tiles, tileName, tileType, data) {
+  return tiles.map((tile) => {
+    if (tile.name !== tileName || tile.type !== tileType) {
+      return tile;
     }
 
-    // Otherwise, this is the one we want - return an updated value
+    const updatedTile = {
+      ...tile,
+      data: data,
+    };
+
     return {
-      ...item,
-      ...updatedItem,
+      ...tile,
+      ...updatedTile,
     };
   });
 }

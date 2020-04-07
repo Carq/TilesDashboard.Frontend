@@ -48,6 +48,7 @@ class WeatherTileContent extends React.Component {
                   date: item.addedOn,
                 }))}
                 valueSuffix={"%"}
+                minimalStep={1}
                 colorData={() => colorStatuses.AQUA}
               />
             </div>
