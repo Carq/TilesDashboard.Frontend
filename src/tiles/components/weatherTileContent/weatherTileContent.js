@@ -6,7 +6,7 @@ import { colorStatusToClassNames } from "../../utils";
 import { weatherData } from "../../propTypes";
 import Histogram from "../histogram";
 import classNames from "classnames";
-import "./styles.css";
+import "./styles.scss";
 
 class WeatherTileContent extends React.Component {
   render() {

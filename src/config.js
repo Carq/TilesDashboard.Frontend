@@ -4,6 +4,6 @@ export default {
   },
   dashboard: {
     name: "Tiles",
-    refreshInterval: 30, // seconds
+    refreshInterval: 180, // seconds
   },
 };
