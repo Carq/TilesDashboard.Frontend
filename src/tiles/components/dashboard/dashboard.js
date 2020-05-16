@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import _ from "lodash";
+import { HubConnectionBuilder } from "@aspnet/signalr";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import Tile from "../tile";
@@ -8,7 +8,7 @@ import config from "config";
 import "./styles.scss";
 
 class Dashboard extends React.Component {
-  state = { lastTilesAmount: 4, lastUpdatedTile: null };
+  state = { lastTilesAmount: 4 };
 
   displaySkeletons = () => {
     const { lastTilesAmount } = this.state;
@@ -28,16 +28,22 @@ class Dashboard extends React.Component {
       });
     }
 
-    this.refreshTileInterval = setInterval(
-      () => this.refreshTile(),
-      (config.dashboard.refreshInterval || 60) * 1000
-    );
+    this.setupNotifications();
 
     getAllTiles();
   };
 
-  componentWillUnmount() {
-    clearInterval(this.refreshTileInterval);
+  setupNotifications() {
+    const signalRConnection = new HubConnectionBuilder()
+      .withUrl(`${config.api.URL}/notifications`)
+      .build();
+    signalRConnection.start().catch((err) => {
+      console.log("Connection error" + err);
+    });
+    signalRConnection.on("NewData", (tileName, tileType) => {
+      const { getTile } = this.props;
+      getTile(tileName, tileType.toLowerCase());
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -88,35 +94,6 @@ class Dashboard extends React.Component {
       </div>
     );
   }
-
-  refreshTile = () => {
-    const { getTile, tiles } = this.props;
-    const { lastUpdatedTile } = this.state;
-    let tileToRefresh;
-
-    if (lastUpdatedTile) {
-      let tileIndex = _.findIndex(tiles, {
-        name: lastUpdatedTile.name,
-        type: lastUpdatedTile.type,
-      });
-
-      if (++tileIndex > tiles.length) {
-        tileIndex = 0;
-      }
-
-      tileToRefresh = tiles[tileIndex];
-    }
-
-    tileToRefresh = tileToRefresh || tiles[0];
-
-    getTile(tileToRefresh.name, tileToRefresh.type);
-    this.setState({
-      lastUpdatedTile: {
-        name: tileToRefresh.name,
-        type: tileToRefresh.type,
-      },
-    });
-  };
 }
 
 Dashboard.propTypes = {
