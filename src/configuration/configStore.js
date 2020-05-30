@@ -4,7 +4,9 @@ import rootReducer from "../rootReducer";
 
 export default function configureStore() {
   const composeEnhancers =
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    (process.env.NODE_ENV !== "production" &&
+      window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+    compose;
 
   return createStore(
     rootReducer,

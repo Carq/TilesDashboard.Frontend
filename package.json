@@ -14,7 +14,6 @@
     "fibers": "^4.0.2",
     "gh-pages": "^2.2.0",
     "loadash": "^1.0.0",
-    "moment": "^2.24.0",
     "notistack": "^0.9.9",
     "prop-types": "^15.7.2",
     "react": "^16.13.0",
@@ -32,6 +31,7 @@
     "build": "webpack --mode production",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "stats": "webpack --profile --json > stats.json",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {

@@ -2,7 +2,10 @@ import React from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { Tooltip, Zoom } from "@material-ui/core";
-import _ from "lodash";
+import maxBy from "lodash/maxBy";
+import minBy from "lodash/minBy";
+import sortBy from "lodash/sortBy";
+import uniqueId from "lodash/uniqueId";
 import {
   colorStatusToBackgroundClassNames,
   convertToTimeOnly,
@@ -15,9 +18,9 @@ class Histogram extends React.Component {
   render() {
     const { data, colorData, valueSuffix, minimalStep } = this.props;
 
-    const sortedData = _.sortBy(data, "date");
-    const max = Math.max(_.maxBy(data, "value")["value"]);
-    const min = Math.min(_.minBy(data, "value")["value"]);
+    const sortedData = sortBy(data, "date");
+    const max = Math.max(maxBy(data, "value")["value"]);
+    const min = Math.min(minBy(data, "value")["value"]);
 
     return (
       <div className="histogram">
@@ -29,7 +32,7 @@ class Histogram extends React.Component {
 
             return (
               <Tooltip
-                key={_.uniqueId()}
+                key={uniqueId()}
                 TransitionComponent={Zoom}
                 title={tooltipText}
                 arrow

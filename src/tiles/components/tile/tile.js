@@ -1,5 +1,4 @@
 import React from "react";
-import moment from "moment";
 import {
   Box,
   Card,
@@ -8,13 +7,13 @@ import {
   Typography,
   CardHeader,
 } from "@material-ui/core";
-import SentimentDissatisfiedIcon from "@material-ui/icons/SentimentDissatisfied";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { tileTypes } from "../../constants";
-import { tileBasicData } from "../../propTypes";
+import { tileTypes } from "tiles/constants";
+import { tileBasicData } from "tiles/propTypes";
 import WeatherTileContent from "../weatherTileContent";
 import MetricTileContent from "../metricTileContent";
+import { convertDateTime } from "tiles/utils";
 import "./styles.scss";
 
 class Tile extends React.Component {
@@ -33,8 +32,7 @@ class Tile extends React.Component {
         <CardContent>{this.renderTileContent(basicData.type)}</CardContent>
         <CardActions m={0} disableSpacing>
           <Box color="text.hint" fontSize={12} textAlign="left" top={100}>
-            Last updated:{" "}
-            {lastUpdated && moment(lastUpdated).format("DD.MM.YYYY HH:mm")}
+            Last updated: {lastUpdated && convertDateTime(lastUpdated)}
           </Box>
         </CardActions>
       </Card>
@@ -68,7 +66,6 @@ class Tile extends React.Component {
 
   renderUnsupportedTile = () => (
     <Box textAlign="center">
-      <SentimentDissatisfiedIcon fontSize="large" color="error" />
       <Typography color="error">Unsupported Tile</Typography>
     </Box>
   );

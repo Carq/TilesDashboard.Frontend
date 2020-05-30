@@ -33,3 +33,11 @@ export function convertToTimeOnly(date) {
   var minutes = `${localTime.getMinutes()}`.padStart(2, "0");
   return `${localTime.getHours()}:${minutes}`;
 }
+
+export function convertDateTime(date) {
+  var localTime = new Date(date);
+  var day = `${localTime.getDay()}`.padStart(2, "0");
+  var month = `${localTime.getMonth()}`.padStart(2, "0");
+  var minutes = `${localTime.getMinutes()}`.padStart(2, "0");
+  return `${day}.${month}.${localTime.getFullYear()} ${localTime.getHours()}:${minutes}`;
+}
