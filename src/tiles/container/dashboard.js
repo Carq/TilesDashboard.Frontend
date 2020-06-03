@@ -14,7 +14,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllTiles: () => dispatch(getAllTiles()),
-    getTile: (tileName, tileType) => dispatch(getTile(tileName, tileType)),
+    getTile: (tileName, tileType, newValue) =>
+      dispatch(getTile(tileName, tileType, newValue)),
   };
 };
 

@@ -56,19 +56,8 @@ export function getAllTiles() {
   };
 }
 
-export function getTile(tileName, tileType) {
+export function getTile(tileName, tileType, newValue) {
   return function (dispatch) {
-    dispatch(getTileRequest(tileName, tileType));
-
-    return fetch(`${config.api.URL}/tiles/${tileType}/${tileName}/recent`)
-      .then((response) => {
-        if (response.status >= 400) {
-          throw new Error("Bad response from server");
-        }
-
-        return response.json();
-      })
-      .then((json) => dispatch(getTileCompleted(json, tileName, tileType)))
-      .catch((error) => dispatch(getTileFailed(error.message)));
+    dispatch(getTileCompleted(newValue, tileName, tileType, newValue));
   };
 }

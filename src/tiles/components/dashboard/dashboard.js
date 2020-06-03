@@ -40,9 +40,9 @@ class Dashboard extends React.Component {
     signalRConnection.start().catch((err) => {
       console.log("Connection error" + err);
     });
-    signalRConnection.on("NewData", (tileName, tileType) => {
+    signalRConnection.on("NewData", (tileName, tileType, newValue) => {
       const { getTile } = this.props;
-      getTile(tileName, tileType.toLowerCase());
+      getTile(tileName, tileType.toLowerCase(), newValue);
     });
   }
 

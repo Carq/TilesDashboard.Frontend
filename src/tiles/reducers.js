@@ -64,9 +64,13 @@ function updateTileDataInArray(tiles, tileName, tileType, data) {
       return tile;
     }
 
+    let oldData = tile.data;
+    oldData.pop();
+    oldData.unshift(data);
+
     const updatedTile = {
       ...tile,
-      data: data,
+      data: oldData,
     };
 
     return {
