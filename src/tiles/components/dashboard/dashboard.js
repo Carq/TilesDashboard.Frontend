@@ -1,30 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { HubConnectionBuilder } from "@aspnet/signalr";
-import { Box, Grid, Typography } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
-import Tile from "../tile";
+import { Box, Typography } from "@material-ui/core";
+import groupBy from "lodash/groupBy";
+import orderBy from "lodash/orderBy";
 import config from "config";
 import "./styles.scss";
+import TilesGroup from "../tilesGroup";
+import NamedDivider from "../namedDivider";
 
 class Dashboard extends React.Component {
-  state = { lastTilesAmount: 4 };
-
-  displaySkeletons = () => {
-    const { lastTilesAmount } = this.state;
-    return [...Array(parseInt(lastTilesAmount)).keys()].map((x) => (
-      <Grid item key={x}>
-        <Skeleton variant="rect" height={300} width={305} />
-      </Grid>
-    ));
-  };
+  state = { lastGroups: undefined };
 
   componentDidMount = () => {
     const { getAllTiles } = this.props;
-    var lastTilesAmount = localStorage.getItem("lastTilesAmount");
-    if (lastTilesAmount) {
+    var groups = localStorage.getItem("groups");
+    if (groups) {
       this.setState({
-        lastTilesAmount,
+        lastGroups: JSON.parse(groups),
       });
     }
 
@@ -55,44 +48,61 @@ class Dashboard extends React.Component {
     }
 
     if (prevProps.tiles.length !== tiles.length && !isLoadingMetrics) {
-      localStorage.setItem("lastTilesAmount", tiles.length);
+      var grouped = this.groupTiles(tiles);
+      localStorage.setItem(
+        "groups",
+        JSON.stringify(
+          grouped.map((group) => ({
+            name: group.name,
+            count: group.tiles.length,
+          }))
+        )
+      );
     }
   }
 
   render() {
-    const { tiles, isLoadingMetrics } = this.props;
+    const { isLoadingMetrics, tiles } = this.props;
+    const { lastGroups } = this.state;
+
+    var grouped = isLoadingMetrics ? lastGroups : this.groupTiles(tiles);
 
     return (
-      <div className="main">
-        <Typography variant="h2" color="primary">
-          <Box lineHeight={2} textAlign="center">
+      <div className="dashboard">
+        <Typography variant="h3" color="primary">
+          <Box lineHeight={1.5} textAlign="center">
             {config.dashboard.name || "Tiles"}
           </Box>
         </Typography>
-        <Grid
-          container
-          direction="row"
-          justify="center"
-          alignItems="flex-start"
-          className="dashboard-grid"
-          spacing={4}
-        >
-          {isLoadingMetrics && this.displaySkeletons()}
-          {!isLoadingMetrics &&
-            tiles &&
-            tiles.map((tile) => (
-              <Grid item key={tile.name}>
-                <Tile
-                  basicData={{ name: tile.name, type: tile.type }}
-                  data={tile.data}
-                  configuration={tile.configuration}
-                  lastUpdated={tile.data[0].addedOn}
+        {grouped &&
+          grouped.map((group) => (
+            <div key={group.name || "default"}>
+              {group.name && (
+                <NamedDivider
+                  name={group.name !== "undefined" ? group.name : null}
                 />
-              </Grid>
-            ))}
-        </Grid>
+              )}
+              <TilesGroup
+                isLoadingMetrics={isLoadingMetrics}
+                tiles={group.tiles}
+                lastTilesAmount={group.count}
+              />
+            </div>
+          ))}
       </div>
     );
+  }
+
+  groupTiles(tiles) {
+    return Object.entries(
+      groupBy(
+        orderBy(tiles, (x) => x.group.order, "desc"),
+        (tile) => tile.group.name
+      )
+    ).map((group) => ({
+      name: group[0] === "undefined" ? undefined : group[0],
+      tiles: group[1],
+    }));
   }
 }
 
