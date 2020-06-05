@@ -1,14 +1,17 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Helmet } from "react-helmet";
 import { Provider } from "react-redux";
 import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@material-ui/core/styles";
-import Dashboard from "./tiles/container/dashboard";
 import theme from "./Theme/theme";
 import configStore from "./configuration/configStore";
 import config from "./config";
 
 import "./App.scss";
+
+const DashboardLazyLoading = React.lazy(() =>
+  import("./tiles/container/dashboard")
+);
 
 const store = configStore();
 
@@ -21,7 +24,9 @@ function App() {
             <title>{config.dashboard.name || "Tiles Dashboard"}</title>
           </Helmet>
           <SnackbarProvider>
-            <Dashboard />
+            <Suspense fallback="Loading...">
+              <DashboardLazyLoading />
+            </Suspense>
           </SnackbarProvider>
         </div>
       </Provider>

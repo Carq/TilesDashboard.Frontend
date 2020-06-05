@@ -39,14 +39,14 @@ class Histogram extends React.Component {
               >
                 <div
                   className={classNames(
+                    colorData &&
+                      colorStatusToBackgroundClassNames(colorData(x.value)),
                     `histogram__bar-${this.calculateRank(
                       x.value,
                       min,
                       max,
                       minimalStep
-                    )}`,
-                    colorData &&
-                      colorStatusToBackgroundClassNames(colorData(x.value))
+                    )}`
                   )}
                 />
               </Tooltip>
