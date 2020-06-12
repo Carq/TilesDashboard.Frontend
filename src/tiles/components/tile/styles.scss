@@ -1,6 +1,6 @@
 .card {
-  min-width: 305px;
-  min-height: 300px;
+  width: 305px;
+  height: 300px;
   background: linear-gradient(-45deg, #434343, #484848);
 
   &.metric {
@@ -11,6 +11,10 @@
   &.weather {
     @extend %tile-image;
     background-image: url(~images/weather-icon.png);
+  }
+
+  &__tile-graph {
+    height: 100%;
   }
 }
 
@@ -28,6 +32,7 @@
   display: flex;
   flex-direction: column;
 }
+
 .MuiCardActions-root {
   margin-top: auto;
 }

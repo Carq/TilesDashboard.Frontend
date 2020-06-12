@@ -9,6 +9,11 @@ export const metricTypes = {
   TIME: "time",
 };
 
+export const viewModes = {
+  CURRENT: "CURRENT",
+  GRAPH: "graph",
+};
+
 export const colorStatuses = {
   GREEN: "green",
   LIGHTGREEN: "lightgreen",

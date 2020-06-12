@@ -2,24 +2,36 @@ import React from "react";
 import {
   Box,
   Card,
+  IconButton,
   CardActions,
   CardContent,
   Typography,
   CardHeader,
 } from "@material-ui/core";
+import TimelineOutlinedIcon from "@material-ui/icons/TimelineOutlined";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { tileTypes } from "tiles/constants";
+import { tileTypes, viewModes } from "tiles/constants";
 import { tileBasicData } from "tiles/propTypes";
 import WeatherTileContent from "../weatherTileContent";
+import WeatherTileContentGraph from "../weatherTileContentGraph";
 import MetricTileContent from "../metricTileContent";
 import { convertDateTime } from "tiles/utils";
 import "./styles.scss";
+import config from "config";
 
 class Tile extends React.Component {
+  state = {
+    series: [],
+    loadingSeries: false,
+    view: viewModes.CURRENT,
+  };
+
   render() {
     const { basicData, data } = this.props;
+    const { series, view, loadingSeries } = this.state;
     const lastUpdated = data[0].addedOn;
+    const isGraph = view === viewModes.GRAPH;
 
     return (
       <Card
@@ -28,13 +40,38 @@ class Tile extends React.Component {
           weather: basicData.type === tileTypes.WEATHER,
         })}
       >
-        <CardHeader className="card-header" title={basicData.name} />
-        <CardContent>{this.renderTileContent(basicData.type)}</CardContent>
-        <CardActions m={0} disableSpacing>
-          <Box color="text.hint" fontSize={12} textAlign="left" top={100}>
-            Last updated: {lastUpdated && convertDateTime(lastUpdated)}
-          </Box>
-        </CardActions>
+        <CardHeader
+          className="card-header"
+          title={basicData.name}
+          action={
+            basicData.type === tileTypes.WEATHER && (
+              <IconButton
+                onClick={this.toggleView}
+                color={isGraph ? "primary" : "inherit"}
+              >
+                <TimelineOutlinedIcon />
+              </IconButton>
+            )
+          }
+        />
+        {isGraph && (
+          <div className="card__tile-graph">
+            <WeatherTileContentGraph
+              series={series}
+              loadingSeries={loadingSeries}
+            />
+          </div>
+        )}
+        {view === viewModes.CURRENT && (
+          <React.Fragment>
+            <CardContent>{this.renderTileContent(basicData.type)}</CardContent>
+            <CardActions m={0} disableSpacing>
+              <Box color="text.hint" fontSize={12} textAlign="left" top={100}>
+                Last updated: {lastUpdated && convertDateTime(lastUpdated)}
+              </Box>
+            </CardActions>
+          </React.Fragment>
+        )}
       </Card>
     );
   }
@@ -69,6 +106,66 @@ class Tile extends React.Component {
       <Typography color="error">Unsupported Tile</Typography>
     </Box>
   );
+
+  toggleView = () => {
+    const { view } = this.state;
+
+    this.setState(
+      {
+        view: view === viewModes.CURRENT ? viewModes.GRAPH : viewModes.CURRENT,
+      },
+      this.loadDataForGraphs
+    );
+  };
+
+  loadDataForGraphs = () => {
+    const { basicData } = this.props;
+    const { series, loadingSeries } = this.state;
+    if (series.length > 0 || loadingSeries) {
+      return;
+    }
+
+    this.setState(
+      {
+        loadingSeries: true,
+      },
+      this.makeRequestForTileData(basicData)
+    );
+  };
+
+  makeRequestForTileData(basicData) {
+    fetch(`${config.api.URL}/tiles/weather/${basicData.name}/today`)
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            series: [
+              {
+                name: "Temperature",
+                data: result.map((i) => [
+                  new Date(i.addedOn).getTime(),
+                  i.temperature,
+                ]),
+              },
+              {
+                name: "Humidity",
+                data: result.map((i) => [
+                  new Date(i.addedOn).getTime(),
+                  i.humidity,
+                ]),
+              },
+            ],
+            loadingSeries: false,
+          });
+        },
+        (error) => {
+          this.setState({
+            loadingSeries: false,
+          });
+          console.error(error);
+        }
+      );
+  }
 }
 
 Tile.propTypes = {
