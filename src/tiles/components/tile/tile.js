@@ -139,7 +139,7 @@ class Tile extends React.Component {
   };
 
   makeRequestForTileData(basicData) {
-    fetch(`${config.api.URL}/tiles/weather/${basicData.name}/last24h`)
+    fetch(`${config.api.URL}/tiles/weather/${basicData.name}/since?hours=12`)
       .then((res) => res.json())
       .then(
         (result) => {

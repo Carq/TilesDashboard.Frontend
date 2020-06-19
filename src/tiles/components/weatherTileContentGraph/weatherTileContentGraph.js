@@ -102,9 +102,6 @@ class WeatherTileContentGraph extends React.Component {
       theme: {
         mode: "dark",
       },
-      zoom: {
-        enabled: false,
-      },
     };
 
     return (
