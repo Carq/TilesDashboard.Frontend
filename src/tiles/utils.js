@@ -29,15 +29,20 @@ export function colorStatusToBackgroundClassNames(colorStatus) {
 }
 
 export function convertToTimeOnly(date) {
-  var localTime = new Date(date);
-  var minutes = `${localTime.getMinutes()}`.padStart(2, "0");
+  const localTime = new Date(date);
+  const minutes = `${localTime.getMinutes()}`.padStart(2, "0");
   return `${localTime.getHours()}:${minutes}`;
 }
 
 export function convertDateTime(date) {
-  var localTime = new Date(date);
-  var day = `${localTime.getDay()}`.padStart(2, "0");
-  var month = `${localTime.getMonth()}`.padStart(2, "0");
-  var minutes = `${localTime.getMinutes()}`.padStart(2, "0");
+  const localTime = new Date(date);
+  const day = `${localTime.getDate()}`.padStart(2, "0");
+  const month = `${localTime.getMonth()}`.padStart(2, "0");
+  const minutes = `${localTime.getMinutes()}`.padStart(2, "0");
   return `${day}.${month}.${localTime.getFullYear()} ${localTime.getHours()}:${minutes}`;
+}
+
+export function addHours(date, hours) {
+  const dateObject = new Date(date);
+  return dateObject.setHours(dateObject.getHours() + hours);
 }

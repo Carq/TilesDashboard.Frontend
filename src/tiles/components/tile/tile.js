@@ -16,20 +16,20 @@ import { tileBasicData } from "tiles/propTypes";
 import WeatherTileContent from "../weatherTileContent";
 import WeatherTileContentGraph from "../weatherTileContentGraph";
 import MetricTileContent from "../metricTileContent";
-import { convertDateTime } from "tiles/utils";
+import { convertDateTime, addHours } from "tiles/utils";
 import "./styles.scss";
 import config from "config";
 
 class Tile extends React.Component {
   state = {
-    series: [],
-    loadingSeries: false,
+    tileData: [],
+    loadingData: false,
     view: viewModes.CURRENT,
   };
 
   render() {
     const { basicData, data } = this.props;
-    const { series, view, loadingSeries } = this.state;
+    const { tileData, view, loadingData } = this.state;
     const lastUpdated = data[0].addedOn;
     const isGraph = view === viewModes.GRAPH;
 
@@ -57,8 +57,8 @@ class Tile extends React.Component {
         {isGraph && (
           <div className="card__tile-graph">
             <WeatherTileContentGraph
-              series={series}
-              loadingSeries={loadingSeries}
+              data={tileData}
+              loadingData={loadingData}
             />
           </div>
         )}
@@ -120,14 +120,19 @@ class Tile extends React.Component {
 
   loadDataForGraphs = () => {
     const { basicData } = this.props;
-    const { series, loadingSeries } = this.state;
-    if (series.length > 0 || loadingSeries) {
+    const { loadingSeries, loadedDate, view } = this.state;
+
+    if (view !== viewModes.GRAPH) {
+      return;
+    }
+
+    if (loadingSeries || (loadedDate && addHours(loadedDate, 1) > Date.now())) {
       return;
     }
 
     this.setState(
       {
-        loadingSeries: true,
+        loadingData: true,
       },
       this.makeRequestForTileData(basicData)
     );
@@ -139,28 +144,14 @@ class Tile extends React.Component {
       .then(
         (result) => {
           this.setState({
-            series: [
-              {
-                name: "Temperature",
-                data: result.map((i) => [
-                  new Date(i.addedOn).getTime(),
-                  i.temperature,
-                ]),
-              },
-              {
-                name: "Humidity",
-                data: result.map((i) => [
-                  new Date(i.addedOn).getTime(),
-                  i.humidity,
-                ]),
-              },
-            ],
-            loadingSeries: false,
+            tileData: result,
+            loadingData: false,
+            loadedDate: Date.now(),
           });
         },
         (error) => {
           this.setState({
-            loadingSeries: false,
+            loadingData: false,
           });
           console.error(error);
         }
