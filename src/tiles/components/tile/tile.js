@@ -120,13 +120,13 @@ class Tile extends React.Component {
 
   loadDataForGraphs = () => {
     const { basicData } = this.props;
-    const { loadingSeries, loadedDate, view } = this.state;
+    const { loadingData, loadedDate, view } = this.state;
 
     if (view !== viewModes.GRAPH) {
       return;
     }
 
-    if (loadingSeries || (loadedDate && addHours(loadedDate, 1) > Date.now())) {
+    if (loadingData || (loadedDate && addHours(loadedDate, 1) > Date.now())) {
       return;
     }
 
@@ -139,7 +139,7 @@ class Tile extends React.Component {
   };
 
   makeRequestForTileData(basicData) {
-    fetch(`${config.api.URL}/tiles/weather/${basicData.name}/today`)
+    fetch(`${config.api.URL}/tiles/weather/${basicData.name}/last24h`)
       .then((res) => res.json())
       .then(
         (result) => {

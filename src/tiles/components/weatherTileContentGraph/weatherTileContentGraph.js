@@ -64,6 +64,9 @@ class WeatherTileContentGraph extends React.Component {
       },
       xaxis: {
         type: "datetime",
+        labels: {
+          datetimeUTC: false,
+        },
         axisTicks: {
           show: true,
         },
