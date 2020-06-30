@@ -37,11 +37,12 @@ class WeatherTileContentGraph extends React.Component {
       },
     ];
 
-    let tempMax = maxBy(data, "temperature")?.temperature + 2;
-    let tempMin = minBy(data, "temperature")?.temperature - 2;
+    let tempMax = maxBy(data, "temperature")?.temperature;
+    let tempMin = minBy(data, "temperature")?.temperature;
+    let tempOffset = 0.5;
 
-    let humidityMax = Math.min(maxBy(data, "humidity")?.humidity + 10, 102);
-    let humidityMin = Math.max(minBy(data, "humidity")?.humidity - 10, 0);
+    let humidityMax = 105;
+    let humidityMin = 10;
 
     const options = {
       chart: {
@@ -62,6 +63,43 @@ class WeatherTileContentGraph extends React.Component {
           opacity: 0.1,
         },
       },
+      annotations: {
+        position: "back",
+        yaxis: [
+          {
+            y: tempMax,
+            strokeDashArray: 0,
+            borderColor: "mediumvioletred",
+            borderWidth: 2,
+            label: {
+              text: tempMax + "°C",
+              position: "left",
+              borderWidth: 0,
+              textAnchor: "start",
+              style: {
+                background: "mediumvioletred",
+              },
+            },
+          },
+          {
+            y: tempMin,
+            strokeDashArray: 0,
+            opacity: 0.2,
+            borderColor: "lightgreen",
+            borderWidth: 2,
+            label: {
+              text: tempMin + "°C",
+              borderWidth: 0,
+              position: "left",
+              textAnchor: "start",
+              offsetY: 18,
+              style: {
+                background: "darkgreen",
+              },
+            },
+          },
+        ],
+      },
       xaxis: {
         type: "datetime",
         labels: {
@@ -75,8 +113,8 @@ class WeatherTileContentGraph extends React.Component {
         {
           show: false,
           tickAmount: 5,
-          min: tempMin,
-          max: tempMax,
+          min: tempMin - tempOffset,
+          max: tempMax + tempOffset,
           labels: {
             show: true,
           },
@@ -89,7 +127,7 @@ class WeatherTileContentGraph extends React.Component {
       colors: ["#ff6600", "#99ccff"],
       fill: {
         type: "solid",
-        opacity: [0.1, 0.1],
+        opacity: [0.05, 0.05],
       },
       legend: {
         show: false,
