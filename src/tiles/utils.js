@@ -37,7 +37,7 @@ export function convertToTimeOnly(date) {
 export function convertDateTime(date) {
   const localTime = new Date(date);
   const day = `${localTime.getDate()}`.padStart(2, "0");
-  const month = `${localTime.getMonth()}`.padStart(2, "0");
+  const month = `${localTime.getMonth() + 1}`.padStart(2, "0");
   const minutes = `${localTime.getMinutes()}`.padStart(2, "0");
   return `${day}.${month}.${localTime.getFullYear()} ${localTime.getHours()}:${minutes}`;
 }
