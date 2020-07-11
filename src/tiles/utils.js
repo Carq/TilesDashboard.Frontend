@@ -34,6 +34,13 @@ export function convertToTimeOnly(date) {
   return `${localTime.getHours()}:${minutes}`;
 }
 
+export function convertToDateWithoutYearOnly(date) {
+  const localTime = new Date(date);
+  const day = `${localTime.getDate()}`.padStart(2, "0");
+  const month = `${localTime.getMonth() + 1}`.padStart(2, "0");
+  return `${day}.${month}`;
+}
+
 export function convertDateTime(date) {
   const localTime = new Date(date);
   const day = `${localTime.getDate()}`.padStart(2, "0");

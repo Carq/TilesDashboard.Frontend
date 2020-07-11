@@ -7,7 +7,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import "./styles.scss";
-import PropTypes from "prop-types";
+import Histogram from "../histogram";
+import PropTypes, { object } from "prop-types";
 import classNames from "classnames";
 import { metricConfiguration } from "../../propTypes";
 import { colorStatuses, metricTypes } from "../../constants";
@@ -15,18 +16,24 @@ import { colorStatusToClassNames } from "../../utils";
 
 class MetricTileContent extends React.Component {
   render() {
-    const { current, configuration } = this.props;
+    const { current, data, configuration } = this.props;
     const { metricType, limit, wish, goal } = configuration;
     const metricStatus =
       metricType === metricTypes.PERCENTAGE
-        ? this.calculateStatusGreater(current, limit)
-        : this.calculateStatusSmaller(current, limit);
+        ? this.calculateStatusGreater(current, limit, goal)
+        : this.calculateStatusSmaller(current, limit, goal);
 
     return (
       <div className="metric-tile-content">
         <Table size="small" style={{ width: 200 }}>
           <TableBody>
-            {this.renderTableRow("Current", current, metricType, metricStatus)}
+            {this.renderMainTableRow(
+              "Current",
+              current,
+              data,
+              metricType,
+              metricStatus
+            )}
             {this.renderTableRow("Limit", limit, metricType)}
             {this.renderTableRow("Goal", goal, metricType)}
             {this.renderTableRow("Wish", wish, metricType)}
@@ -35,6 +42,33 @@ class MetricTileContent extends React.Component {
       </div>
     );
   }
+
+  renderMainTableRow = (name, value, data, metricType, metricStatus) => (
+    <TableRow key={name} align="center">
+      <TableCell colSpan={2} align="center">
+        <div className="metric-tile__current-section ">
+          <div className="metric-tile__histogram">
+            <Histogram
+              data={data.map((item) => ({
+                value: item.value,
+                date: item.addedOn,
+              }))}
+              displayOnlyTime={false}
+              colorData={this.calculateColor}
+              valueSuffix={"%"}
+            />
+          </div>
+          <Typography
+            variant="h3"
+            align="center"
+            className={classNames(colorStatusToClassNames(metricStatus))}
+          >
+            {this.renderValues(value, metricType)}
+          </Typography>
+        </div>
+      </TableCell>
+    </TableRow>
+  );
 
   renderTableRow = (name, value, metricType, metricStatus) => (
     <TableRow key={name}>
@@ -68,15 +102,15 @@ class MetricTileContent extends React.Component {
     }
   };
 
-  calculateStatusGreater = (current, limit) => {
-    if (current * 0.96 > limit) return colorStatuses.GREEN;
+  calculateStatusGreater = (current, limit, goal) => {
+    if (current >= goal) return colorStatuses.GREEN;
     if (current > limit) return colorStatuses.AMBER;
     return colorStatuses.RED;
   };
 
-  calculateStatusSmaller = (current, limit) => {
-    if (current * 1.05 < limit) return colorStatuses.GREEN;
-    if (current < limit) return colorStatuses.AMBER;
+  calculateStatusSmaller = (current, limit, goal) => {
+    if (current <= goal) return colorStatuses.GREEN;
+    if (current <= limit) return colorStatuses.AMBER;
     return colorStatuses.RED;
   };
 
@@ -92,11 +126,21 @@ class MetricTileContent extends React.Component {
 
     return finalFormat;
   };
+
+  calculateColor = (value) => {
+    const { configuration } = this.props;
+    const { metricType, limit, goal } = configuration;
+
+    return metricType === metricTypes.PERCENTAGE
+      ? this.calculateStatusGreater(value, limit, goal)
+      : this.calculateStatusSmaller(value, limit, goal);
+  };
 }
 
 MetricTileContent.propTypes = {
   current: PropTypes.number.isRequired,
   configuration: metricConfiguration,
+  data: PropTypes.arrayOf(object),
 };
 
 export default MetricTileContent;

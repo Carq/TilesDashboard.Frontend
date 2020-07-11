@@ -42,6 +42,7 @@ class Tile extends React.Component {
       >
         <CardHeader
           className="card-header"
+          style={{ padding: "14px 8px 8px" }}
           title={basicData.name}
           action={
             basicData.type === tileTypes.WEATHER && (
@@ -64,7 +65,9 @@ class Tile extends React.Component {
         )}
         {view === viewModes.CURRENT && (
           <React.Fragment>
-            <CardContent>{this.renderTileContent(basicData.type)}</CardContent>
+            <CardContent style={{ padding: "4px" }}>
+              {this.renderTileContent(basicData.type)}
+            </CardContent>
             <CardActions m={0} disableSpacing>
               <Box color="text.hint" fontSize={12} textAlign="left" top={100}>
                 Last updated: {lastUpdated && convertDateTime(lastUpdated)}
@@ -83,7 +86,11 @@ class Tile extends React.Component {
       case tileTypes.WEATHER:
         return this.renderWeatherTileContent(data[0], data.slice(1));
       case tileTypes.METRIC:
-        return this.renderMetricTileContent(data[0], configuration);
+        return this.renderMetricTileContent(
+          data[0],
+          data.slice(1),
+          configuration
+        );
       default:
         return this.renderUnsupportedTile();
     }
@@ -97,8 +104,12 @@ class Tile extends React.Component {
     />
   );
 
-  renderMetricTileContent = (data, configuration) => (
-    <MetricTileContent current={data.value} configuration={configuration} />
+  renderMetricTileContent = (data, recentData, configuration) => (
+    <MetricTileContent
+      current={data.value}
+      data={recentData}
+      configuration={configuration}
+    />
   );
 
   renderUnsupportedTile = () => (

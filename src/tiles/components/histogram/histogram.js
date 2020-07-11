@@ -9,6 +9,7 @@ import uniqueId from "lodash/uniqueId";
 import {
   colorStatusToBackgroundClassNames,
   convertToTimeOnly,
+  convertToDateWithoutYearOnly,
 } from "../../utils";
 import { histogramData } from "../../propTypes";
 
@@ -16,7 +17,17 @@ import "./styles.scss";
 
 class Histogram extends React.Component {
   render() {
-    const { data, colorData, valueSuffix, minimalStep } = this.props;
+    const {
+      data,
+      colorData,
+      valueSuffix,
+      minimalStep,
+      displayOnlyTime,
+    } = this.props;
+
+    if (data.length === 0) {
+      return <div className="histogram"></div>;
+    }
 
     const sortedData = sortBy(data, "date");
     const max = Math.max(maxBy(data, "value")["value"]);
@@ -26,9 +37,11 @@ class Histogram extends React.Component {
       <div className="histogram">
         <div className="histogram__bars">
           {sortedData.map((x) => {
-            const tooltipText = `${x.value}${
-              valueSuffix || ""
-            } ${convertToTimeOnly(x.date)}`;
+            const tooltipText = `${x.value}${valueSuffix || ""} ${
+              displayOnlyTime
+                ? convertToTimeOnly(x.date)
+                : convertToDateWithoutYearOnly(x.date)
+            }`;
 
             return (
               <Tooltip
@@ -74,10 +87,12 @@ Histogram.propTypes = {
   colorData: PropTypes.func,
   valueSuffix: PropTypes.string,
   minimalStep: PropTypes.number,
+  displayOnlyTime: PropTypes.bool,
 };
 
 Histogram.defaultProps = {
   minimalStep: 0.1,
+  displayOnlyTime: true,
 };
 
 export default Histogram;
