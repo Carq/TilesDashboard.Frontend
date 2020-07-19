@@ -104,7 +104,7 @@ class MetricTileContent extends React.Component {
 
   calculateStatusGreater = (current, limit, goal) => {
     if (current >= goal) return colorStatuses.GREEN;
-    if (current > limit) return colorStatuses.AMBER;
+    if (current >= limit) return colorStatuses.AMBER;
     return colorStatuses.RED;
   };
 

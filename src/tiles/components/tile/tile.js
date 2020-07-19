@@ -6,6 +6,7 @@ import {
   CardActions,
   CardContent,
   Typography,
+  Tooltip,
   CardHeader,
 } from "@material-ui/core";
 import TimelineOutlinedIcon from "@material-ui/icons/TimelineOutlined";
@@ -16,6 +17,7 @@ import { tileBasicData } from "tiles/propTypes";
 import WeatherTileContent from "../weatherTileContent";
 import WeatherTileContentGraph from "../weatherTileContentGraph";
 import MetricTileContent from "../metricTileContent";
+import MetricTileContentGraph from "../metricTileContentGraph";
 import { convertDateTime, addHours } from "tiles/utils";
 import "./styles.scss";
 import config from "config";
@@ -32,6 +34,9 @@ class Tile extends React.Component {
     const { tileData, view, loadingData } = this.state;
     const lastUpdated = data[0].addedOn;
     const isGraph = view === viewModes.GRAPH;
+    const supportGraph =
+      basicData.type === tileTypes.WEATHER ||
+      basicData.type === tileTypes.METRIC;
 
     return (
       <Card
@@ -45,22 +50,21 @@ class Tile extends React.Component {
           style={{ padding: "14px 8px 8px" }}
           title={basicData.name}
           action={
-            basicData.type === tileTypes.WEATHER && (
-              <IconButton
-                onClick={this.toggleView}
-                color={isGraph ? "primary" : "inherit"}
-              >
-                <TimelineOutlinedIcon />
-              </IconButton>
+            supportGraph && (
+              <Tooltip title="History">
+                <IconButton
+                  onClick={this.toggleView}
+                  color={isGraph ? "primary" : "inherit"}
+                >
+                  <TimelineOutlinedIcon />
+                </IconButton>
+              </Tooltip>
             )
           }
         />
         {isGraph && (
           <div className="card__tile-graph">
-            <WeatherTileContentGraph
-              data={tileData}
-              loadingData={loadingData}
-            />
+            {this.renderTileGraph(basicData.type, tileData, loadingData)}
           </div>
         )}
         {view === viewModes.CURRENT && (
@@ -70,7 +74,7 @@ class Tile extends React.Component {
             </CardContent>
             <CardActions m={0} disableSpacing>
               <Box color="text.hint" fontSize={12} textAlign="left" top={100}>
-                Last updated: {lastUpdated && convertDateTime(lastUpdated)}
+                Last update: {lastUpdated && convertDateTime(lastUpdated)}
               </Box>
             </CardActions>
           </React.Fragment>
@@ -96,6 +100,19 @@ class Tile extends React.Component {
     }
   };
 
+  renderTileGraph = (type, tileData, loadingData) => {
+    const { configuration } = this.props;
+
+    switch (type) {
+      case tileTypes.WEATHER:
+        return this.renderWeatherTileGraph(tileData, loadingData);
+      case tileTypes.METRIC:
+        return this.renderMetricTileGraph(tileData, configuration, loadingData);
+      default:
+        return this.renderUnsupportedTile();
+    }
+  };
+
   renderWeatherTileContent = (currentData, recentData) => (
     <WeatherTileContent
       temperature={currentData.temperature}
@@ -104,11 +121,23 @@ class Tile extends React.Component {
     />
   );
 
+  renderWeatherTileGraph = (tileData, loadingData) => (
+    <WeatherTileContentGraph data={tileData} loadingData={loadingData} />
+  );
+
   renderMetricTileContent = (data, recentData, configuration) => (
     <MetricTileContent
       current={data.value}
       data={recentData}
       configuration={configuration}
+    />
+  );
+
+  renderMetricTileGraph = (tileData, configuration, loadingData) => (
+    <MetricTileContentGraph
+      data={tileData}
+      configuration={configuration}
+      loadingData={loadingData}
     />
   );
 
@@ -150,7 +179,12 @@ class Tile extends React.Component {
   };
 
   makeRequestForTileData(basicData) {
-    fetch(`${config.api.URL}/tiles/weather/${basicData.name}/since?hours=16`)
+    var parameters =
+      basicData.type === tileTypes.METRIC ? "days=30" : "hours=16";
+
+    fetch(
+      `${config.api.URL}/tiles/${basicData.type}/${basicData.name}/since?${parameters}`
+    )
       .then((res) => res.json())
       .then(
         (result) => {
