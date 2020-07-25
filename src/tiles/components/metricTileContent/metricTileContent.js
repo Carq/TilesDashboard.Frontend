@@ -12,7 +12,7 @@ import PropTypes, { object } from "prop-types";
 import classNames from "classnames";
 import { metricConfiguration } from "../../propTypes";
 import { colorStatuses, metricTypes } from "../../constants";
-import { colorStatusToClassNames } from "../../utils";
+import { colorStatusToClassNames, metricTypeToSufix } from "../../utils";
 
 class MetricTileContent extends React.Component {
   render() {
@@ -55,7 +55,7 @@ class MetricTileContent extends React.Component {
               }))}
               displayOnlyTime={false}
               colorData={this.calculateColor}
-              valueSuffix={"%"}
+              valueSuffix={metricTypeToSufix(metricType)}
             />
           </div>
           <Typography

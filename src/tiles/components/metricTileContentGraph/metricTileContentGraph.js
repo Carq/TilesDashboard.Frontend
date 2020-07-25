@@ -2,6 +2,9 @@ import React from "react";
 import Chart from "react-apexcharts";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import PropTypes from "prop-types";
+import maxBy from "lodash/maxBy";
+import minBy from "lodash/minBy";
+import { metricTypes } from "../../constants";
 
 import "./styles.scss";
 
@@ -22,11 +25,39 @@ class MetricTileContentGraph extends React.Component {
   }
 
   renderChart = () => {
-    const { data, configuration } = this.props;
+    const { data, configuration, loadingData } = this.props;
+
+    if (loadingData) {
+      return;
+    }
+
+    let dataSeriesName;
+    let min = minBy(data, "value")?.value - 5;
+    let max;
+    let lowerIsBetter;
+    switch (configuration.metricType) {
+      case metricTypes.PERCENTAGE:
+        dataSeriesName = "%";
+        max = Math.min(maxBy(data, "value")?.value + 7, 100);
+        lowerIsBetter = false;
+        break;
+      case metricTypes.MONEY:
+        dataSeriesName = "€";
+        max = maxBy(data, "value")?.value + 550;
+        lowerIsBetter = true;
+        break;
+      case metricTypes.TIME:
+        dataSeriesName = "Time";
+        lowerIsBetter = true;
+        break;
+      default:
+        dataSeriesName = "";
+        lowerIsBetter = false;
+    }
 
     const series = [
       {
-        name: "Code Coverage",
+        name: dataSeriesName,
         data: data.map((i) => [new Date(i.addedOn).getTime(), i.value]),
       },
     ];
@@ -35,7 +66,6 @@ class MetricTileContentGraph extends React.Component {
       chart: {
         zoom: {
           enabled: false,
-          autoScaleYaxis: true,
         },
         toolbar: {
           show: false,
@@ -58,16 +88,16 @@ class MetricTileContentGraph extends React.Component {
         position: "back",
         yaxis: [
           {
-            y: configuration.limit,
-            y2: configuration.goal,
+            y: Math.min(configuration.limit, configuration.goal),
+            y2: Math.max(configuration.limit, configuration.goal),
             strokeDashArray: 0,
             opacity: 0.1,
             fillColor: "yellow",
             borderWidth: 0,
           },
           {
-            y: configuration.goal,
-            y2: configuration.wish,
+            y: Math.min(configuration.wish, configuration.goal),
+            y2: Math.max(configuration.wish, configuration.goal),
             strokeDashArray: 0,
             opacity: 0.2,
             fillColor: "lightgreen",
@@ -81,7 +111,7 @@ class MetricTileContentGraph extends React.Component {
           },
           {
             y: configuration.limit,
-            y2: 0,
+            y2: lowerIsBetter ? 10000 : 0,
             strokeDashArray: 0,
             opacity: 0.2,
             fillColor: "tomato",
@@ -100,10 +130,9 @@ class MetricTileContentGraph extends React.Component {
       yaxis: [
         {
           show: true,
-          tickAmount: 5,
-          min: configuration.limit - 10,
-          max: 100,
-          forceNiceScale: true,
+          min: min,
+          max: max,
+          tickAmount: 6,
           labels: {
             show: true,
           },

@@ -1,4 +1,5 @@
 import { colorStatuses } from "./constants";
+import { metricTypes } from "./constants";
 
 export function colorStatusToClassNames(colorStatus) {
   if (!colorStatus) return;
@@ -52,4 +53,17 @@ export function convertDateTime(date) {
 export function addHours(date, hours) {
   const dateObject = new Date(date);
   return dateObject.setHours(dateObject.getHours() + hours);
+}
+
+export function metricTypeToSufix(metricType) {
+  switch (metricType) {
+    case metricTypes.PERCENTAGE:
+      return "%";
+    case metricTypes.MONEY:
+      return "€";
+    case metricTypes.TIME:
+      return "Time";
+    default:
+      return "";
+  }
 }
