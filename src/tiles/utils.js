@@ -26,6 +26,7 @@ export function colorStatusToBackgroundClassNames(colorStatus) {
     "background-blue": colorStatus === colorStatuses.BLUE,
     "background-light-blue": colorStatus === colorStatuses.LIGHTBLUE,
     "background-aqua": colorStatus === colorStatuses.AQUA,
+    "background-silver": colorStatus === colorStatuses.SILVER,
   };
 }
 

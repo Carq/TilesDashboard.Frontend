@@ -18,6 +18,7 @@ import WeatherTileContent from "../weatherTileContent";
 import WeatherTileContentGraph from "../weatherTileContentGraph";
 import MetricTileContent from "../metricTileContent";
 import MetricTileContentGraph from "../metricTileContentGraph";
+import IntegerTileContent from "../integerTileContent";
 import { convertDateTime, addHours } from "tiles/utils";
 import "./styles.scss";
 import config from "config";
@@ -95,6 +96,12 @@ class Tile extends React.Component {
           data.slice(1),
           configuration
         );
+      case tileTypes.INTEGER:
+        return this.renderIntegerTileContent(
+          data[0],
+          data.slice(1),
+          configuration
+        );
       default:
         return this.renderUnsupportedTile();
     }
@@ -127,6 +134,14 @@ class Tile extends React.Component {
 
   renderMetricTileContent = (data, recentData, configuration) => (
     <MetricTileContent
+      current={data.value}
+      data={recentData}
+      configuration={configuration}
+    />
+  );
+
+  renderIntegerTileContent = (data, recentData, configuration) => (
+    <IntegerTileContent
       current={data.value}
       data={recentData}
       configuration={configuration}

@@ -13,6 +13,10 @@ export const metricConfiguration = PropTypes.shape({
   metricType: PropTypes.oneOf(Object.values(metricTypes)).isRequired,
 });
 
+export const integerConfiguration = PropTypes.shape({
+  unit: PropTypes.string,
+});
+
 export const weatherData = PropTypes.shape({
   temperature: PropTypes.number.isRequired,
   humidity: PropTypes.number,

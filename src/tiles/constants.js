@@ -1,6 +1,7 @@
 export const tileTypes = {
   WEATHER: "weather",
   METRIC: "metric",
+  INTEGER: "integer",
 };
 
 export const metricTypes = {
@@ -22,4 +23,5 @@ export const colorStatuses = {
   BLUE: "blue",
   LIGHTBLUE: "lightBlue",
   AQUA: "aqua",
+  SILVER: "silver",
 };

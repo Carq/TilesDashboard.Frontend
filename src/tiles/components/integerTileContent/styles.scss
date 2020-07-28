@@ -1,0 +1,19 @@
+.integer-tile-content {
+  display: flex;
+  justify-content: center;
+}
+
+.red.MuiTypography-body1 {
+  color: tomato;
+}
+
+.integer-tile__current-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.integer-tile__histogram {
+  height: 50px;
+}

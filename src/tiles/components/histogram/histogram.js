@@ -12,7 +12,7 @@ import {
   convertToDateWithoutYearOnly,
 } from "../../utils";
 import { histogramData } from "../../propTypes";
-
+import { colorStatuses } from "../../constants";
 import "./styles.scss";
 
 class Histogram extends React.Component {
@@ -52,8 +52,9 @@ class Histogram extends React.Component {
               >
                 <div
                   className={classNames(
-                    colorData &&
-                      colorStatusToBackgroundClassNames(colorData(x.value)),
+                    (colorData &&
+                      colorStatusToBackgroundClassNames(colorData(x.value))) ||
+                      colorStatusToBackgroundClassNames(colorStatuses.SILVER),
                     `histogram__bar-${this.calculateRank(
                       x.value,
                       min,
