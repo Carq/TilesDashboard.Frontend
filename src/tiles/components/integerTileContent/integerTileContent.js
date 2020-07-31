@@ -8,13 +8,16 @@ import { integerConfiguration } from "../../propTypes";
 class IntegerTileContent extends React.Component {
   render() {
     const { current, data, configuration } = this.props;
-    const { unit } = configuration;
+    const { unit, description } = configuration;
 
     return (
       <div className="integer-tile-content">
         <div className="integer-tile__current-section ">
           <Typography variant="h1" align="center">
             {this.renderValues(current, unit)}
+          </Typography>
+          <Typography color="textSecondary" align="center">
+            {description}
           </Typography>
           <div className="integer-tile__histogram">
             <Histogram

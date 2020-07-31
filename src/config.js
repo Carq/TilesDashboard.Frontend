@@ -3,6 +3,6 @@ export default {
     URL: "https://localhost:5001",
   },
   dashboard: {
-    name: "SporTTec",
+    name: "Tiles",
   },
 };

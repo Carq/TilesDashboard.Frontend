@@ -19,6 +19,7 @@ import WeatherTileContentGraph from "../weatherTileContentGraph";
 import MetricTileContent from "../metricTileContent";
 import MetricTileContentGraph from "../metricTileContentGraph";
 import IntegerTileContent from "../integerTileContent";
+import IntegerTileContentGraph from "../integerTileContentGraph";
 import { convertDateTime, addHours } from "tiles/utils";
 import "./styles.scss";
 import config from "config";
@@ -35,15 +36,12 @@ class Tile extends React.Component {
     const { tileData, view, loadingData } = this.state;
     const lastUpdated = data[0].addedOn;
     const isGraph = view === viewModes.GRAPH;
-    const supportGraph =
-      basicData.type === tileTypes.WEATHER ||
-      basicData.type === tileTypes.METRIC;
 
     return (
       <Card
         className={classNames("card", {
-          metric: basicData.type === tileTypes.METRIC,
-          weather: basicData.type === tileTypes.WEATHER,
+          metric: basicData.type === tileTypes.METRIC && !isGraph,
+          weather: basicData.type === tileTypes.WEATHER && !isGraph,
         })}
       >
         <CardHeader
@@ -51,16 +49,14 @@ class Tile extends React.Component {
           style={{ padding: "14px 8px 8px" }}
           title={basicData.name}
           action={
-            supportGraph && (
-              <Tooltip title="History">
-                <IconButton
-                  onClick={this.toggleView}
-                  color={isGraph ? "primary" : "inherit"}
-                >
-                  <TimelineOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-            )
+            <Tooltip title="History">
+              <IconButton
+                onClick={this.toggleView}
+                color={isGraph ? "primary" : "inherit"}
+              >
+                <TimelineOutlinedIcon />
+              </IconButton>
+            </Tooltip>
           }
         />
         {isGraph && (
@@ -115,6 +111,12 @@ class Tile extends React.Component {
         return this.renderWeatherTileGraph(tileData, loadingData);
       case tileTypes.METRIC:
         return this.renderMetricTileGraph(tileData, configuration, loadingData);
+      case tileTypes.INTEGER:
+        return this.renderIntegerTileGraph(
+          tileData,
+          configuration,
+          loadingData
+        );
       default:
         return this.renderUnsupportedTile();
     }
@@ -140,6 +142,14 @@ class Tile extends React.Component {
     />
   );
 
+  renderMetricTileGraph = (tileData, configuration, loadingData) => (
+    <MetricTileContentGraph
+      data={tileData}
+      configuration={configuration}
+      loadingData={loadingData}
+    />
+  );
+
   renderIntegerTileContent = (data, recentData, configuration) => (
     <IntegerTileContent
       current={data.value}
@@ -148,8 +158,8 @@ class Tile extends React.Component {
     />
   );
 
-  renderMetricTileGraph = (tileData, configuration, loadingData) => (
-    <MetricTileContentGraph
+  renderIntegerTileGraph = (tileData, configuration, loadingData) => (
+    <IntegerTileContentGraph
       data={tileData}
       configuration={configuration}
       loadingData={loadingData}
@@ -195,7 +205,7 @@ class Tile extends React.Component {
 
   makeRequestForTileData(basicData) {
     var parameters =
-      basicData.type === tileTypes.METRIC ? "days=30" : "hours=16";
+      basicData.type === tileTypes.WEATHER ? "hours=16" : "days=30";
 
     fetch(
       `${config.api.URL}/tiles/${basicData.type}/${basicData.name}/since?${parameters}`
