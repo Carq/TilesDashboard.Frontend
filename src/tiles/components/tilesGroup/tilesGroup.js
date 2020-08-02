@@ -9,7 +9,7 @@ class TilesGroup extends React.Component {
     const { lastTilesAmount } = this.props;
     return [...Array(parseInt(lastTilesAmount || 1)).keys()].map((x) => (
       <Grid item key={x}>
-        <Skeleton variant="rect" height={300} width={305} />
+        <Skeleton variant="rect" height={295} width={305} />
       </Grid>
     ));
   };

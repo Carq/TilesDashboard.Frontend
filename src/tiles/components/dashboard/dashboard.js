@@ -70,7 +70,7 @@ class Dashboard extends React.Component {
     return (
       <div className="dashboard">
         <Typography variant="h3" color="primary">
-          <Box lineHeight={1.5} textAlign="center">
+          <Box lineHeight={1.4} textAlign="center">
             {config.dashboard.name || "Tiles"}
           </Box>
         </Typography>

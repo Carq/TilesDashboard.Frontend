@@ -46,7 +46,7 @@ class Tile extends React.Component {
       >
         <CardHeader
           className="card-header"
-          style={{ padding: "14px 8px 8px" }}
+          style={{ padding: "6px" }}
           title={basicData.name}
           action={
             <Tooltip title="History">
