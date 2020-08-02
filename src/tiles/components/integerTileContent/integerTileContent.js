@@ -14,8 +14,9 @@ class IntegerTileContent extends React.Component {
       <div className="integer-tile-content">
         <div className="integer-tile__current-section ">
           <Typography variant="h1" align="center">
-            {this.renderValues(current, unit)}
+            {current}
           </Typography>
+          <Typography align="center">{unit}</Typography>
           <Typography color="textSecondary" align="center">
             {description}
           </Typography>
@@ -39,7 +40,7 @@ class IntegerTileContent extends React.Component {
     }
 
     if (unit) {
-      return `${unit} ${value}`;
+      return `${value} ${unit}`;
     }
 
     return value;

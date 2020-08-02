@@ -36,7 +36,7 @@ class IntegerTileContentGraph extends React.Component {
 
     const series = [
       {
-        name: "Value",
+        name: unit || "Value",
         data: data.map((i) => [new Date(i.addedOn).getTime(), i.value]),
       },
     ];
@@ -71,7 +71,7 @@ class IntegerTileContentGraph extends React.Component {
             borderColor: "mediumvioletred",
             borderWidth: 2,
             label: {
-              text: `${unit || ""}${max}`,
+              text: `${max}${unit || ""}`,
               position: "left",
               borderWidth: 0,
               textAnchor: "start",
@@ -87,7 +87,7 @@ class IntegerTileContentGraph extends React.Component {
             borderColor: "lightgreen",
             borderWidth: 2,
             label: {
-              text: `${unit || ""}${min}`,
+              text: `${max}${unit || ""}`,
               borderWidth: 0,
               position: "left",
               textAnchor: "start",
