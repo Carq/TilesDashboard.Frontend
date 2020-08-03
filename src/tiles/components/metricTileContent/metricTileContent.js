@@ -17,9 +17,16 @@ import { colorStatusToClassNames, metricTypeToSufix } from "../../utils";
 class MetricTileContent extends React.Component {
   render() {
     const { current, data, configuration } = this.props;
-    const { metricType, limit, wish, goal } = configuration;
+    const {
+      metricType,
+      limit,
+      wish,
+      goal,
+      unit,
+      lowerIsBetter,
+    } = configuration;
     const metricStatus =
-      metricType === metricTypes.PERCENTAGE
+      metricType === metricTypes.PERCENTAGE || lowerIsBetter === false
         ? this.calculateStatusGreater(current, limit, goal)
         : this.calculateStatusSmaller(current, limit, goal);
 
@@ -31,6 +38,7 @@ class MetricTileContent extends React.Component {
               "Current",
               current,
               data,
+              unit,
               metricType,
               metricStatus
             )}
@@ -43,7 +51,7 @@ class MetricTileContent extends React.Component {
     );
   }
 
-  renderMainTableRow = (name, value, data, metricType, metricStatus) => (
+  renderMainTableRow = (name, value, data, unit, metricType, metricStatus) => (
     <TableRow key={name} align="center">
       <TableCell colSpan={2} align="center">
         <div className="metric-tile__current-section ">
@@ -55,7 +63,7 @@ class MetricTileContent extends React.Component {
               }))}
               displayOnlyTime={false}
               colorData={this.calculateColor}
-              valueSuffix={metricTypeToSufix(metricType)}
+              valueSuffix={metricTypeToSufix(metricType, unit)}
             />
           </div>
           <Typography
@@ -63,7 +71,7 @@ class MetricTileContent extends React.Component {
             align="center"
             className={classNames(colorStatusToClassNames(metricStatus))}
           >
-            {this.renderValues(value, metricType)}
+            {this.renderValues(value, metricType, unit)}
           </Typography>
         </div>
       </TableCell>
@@ -85,7 +93,7 @@ class MetricTileContent extends React.Component {
     </TableRow>
   );
 
-  renderValues = (value, valueType) => {
+  renderValues = (value, valueType, unit) => {
     if (value === undefined || value === null) {
       return "-";
     }
@@ -94,7 +102,7 @@ class MetricTileContent extends React.Component {
       case "percentage":
         return `${value}%`;
       case "money":
-        return `${value}€`;
+        return `${value.toFixed(0)}` + (unit || "€");
       case "time":
         return this.getFormatedTime(value);
       default:
@@ -129,9 +137,9 @@ class MetricTileContent extends React.Component {
 
   calculateColor = (value) => {
     const { configuration } = this.props;
-    const { metricType, limit, goal } = configuration;
+    const { metricType, limit, goal, lowerIsBetter } = configuration;
 
-    return metricType === metricTypes.PERCENTAGE
+    return metricType === metricTypes.PERCENTAGE || lowerIsBetter === false
       ? this.calculateStatusGreater(value, limit, goal)
       : this.calculateStatusSmaller(value, limit, goal);
   };

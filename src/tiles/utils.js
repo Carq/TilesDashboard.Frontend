@@ -56,12 +56,12 @@ export function addHours(date, hours) {
   return dateObject.setHours(dateObject.getHours() + hours);
 }
 
-export function metricTypeToSufix(metricType) {
+export function metricTypeToSufix(metricType, unit) {
   switch (metricType) {
     case metricTypes.PERCENTAGE:
       return "%";
     case metricTypes.MONEY:
-      return "€";
+      return unit || "€";
     case metricTypes.TIME:
       return "Time";
     default:

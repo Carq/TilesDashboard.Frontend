@@ -87,7 +87,7 @@ class IntegerTileContentGraph extends React.Component {
             borderColor: "lightgreen",
             borderWidth: 2,
             label: {
-              text: `${max}${unit || ""}`,
+              text: `${min}${unit || ""}`,
               borderWidth: 0,
               position: "left",
               textAnchor: "start",

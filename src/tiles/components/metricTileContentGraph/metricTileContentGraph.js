@@ -26,6 +26,7 @@ class MetricTileContentGraph extends React.Component {
 
   renderChart = () => {
     const { data, configuration, loadingData } = this.props;
+    const { unit, metricType, lowerIsBetter } = configuration;
 
     if (loadingData) {
       return;
@@ -34,25 +35,20 @@ class MetricTileContentGraph extends React.Component {
     let dataSeriesName;
     let min = minBy(data, "value")?.value - 5;
     let max;
-    let lowerIsBetter;
-    switch (configuration.metricType) {
+    switch (metricType) {
       case metricTypes.PERCENTAGE:
         dataSeriesName = "%";
         max = Math.min(maxBy(data, "value")?.value + 7, 100);
-        lowerIsBetter = false;
         break;
       case metricTypes.MONEY:
-        dataSeriesName = "€";
-        max = maxBy(data, "value")?.value + 550;
-        lowerIsBetter = true;
+        dataSeriesName = unit || "€";
+        max = maxBy(data, "value")?.value / 5;
         break;
       case metricTypes.TIME:
         dataSeriesName = "Time";
-        lowerIsBetter = true;
         break;
       default:
         dataSeriesName = "";
-        lowerIsBetter = false;
     }
 
     const series = [
