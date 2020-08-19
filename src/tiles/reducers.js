@@ -60,7 +60,10 @@ export function tilesReducer(state = initialState, action) {
 
 function updateTileDataInArray(tiles, tileName, tileType, data) {
   return tiles.map((tile) => {
-    if (tile.name !== tileName || tile.type !== tileType) {
+    if (
+      tile.name !== tileName ||
+      tile.type.toUpperCase() !== tileType.toUpperCase()
+    ) {
       return tile;
     }
 
@@ -72,6 +75,8 @@ function updateTileDataInArray(tiles, tileName, tileType, data) {
       ...tile,
       data: oldData,
     };
+
+    console.log(updatedTile);
 
     return {
       ...tile,
