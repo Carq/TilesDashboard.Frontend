@@ -1,0 +1,28 @@
+.heartBeat-content {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.red.MuiTypography-body1 {
+  color: tomato;
+}
+
+.heartBeat__icon-section {
+  display: flex;
+  justify-content: center;
+}
+
+.heartBeat__current-section {
+  display: flex;
+  padding-right: 20px;
+  justify-content: center;
+  align-items: flex-end;
+  flex-direction: row;
+}
+
+.heartBeat__histogram {
+  height: 30px;
+  margin-bottom: 6px;
+  margin-right: 6px;
+}

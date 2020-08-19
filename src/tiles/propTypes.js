@@ -17,6 +17,17 @@ export const integerConfiguration = PropTypes.shape({
   unit: PropTypes.string,
 });
 
+export const heartBeatConfiguration = PropTypes.shape({
+  applicationUrl: PropTypes.string.isRequired,
+  applicationHeartBeatUrl: PropTypes.string.isRequired,
+});
+
+export const heartBeatData = PropTypes.shape({
+  responseTimeInMs: PropTypes.number.isRequired,
+  AppVersion: PropTypes.string,
+  addedOn: PropTypes.string.isRequired,
+});
+
 export const weatherData = PropTypes.shape({
   temperature: PropTypes.number.isRequired,
   humidity: PropTypes.number,

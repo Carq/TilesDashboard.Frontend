@@ -20,6 +20,7 @@ import MetricTileContent from "../metricTileContent";
 import MetricTileContentGraph from "../metricTileContentGraph";
 import IntegerTileContent from "../integerTileContent";
 import IntegerTileContentGraph from "../integerTileContentGraph";
+import HeartBeatTileContent from "../heartBeatTileContent";
 import { convertDateTime, addHours } from "tiles/utils";
 import "./styles.scss";
 import config from "config";
@@ -35,6 +36,7 @@ class Tile extends React.Component {
     const { basicData, data } = this.props;
     const { tileData, view, loadingData } = this.state;
     const lastUpdated = data[0].addedOn;
+    const graphSupport = basicData.type !== tileTypes.HEARTBEAT;
     const isGraph = view === viewModes.GRAPH;
 
     return (
@@ -49,14 +51,16 @@ class Tile extends React.Component {
           style={{ padding: "6px" }}
           title={basicData.name}
           action={
-            <Tooltip title="History">
-              <IconButton
-                onClick={this.toggleView}
-                color={isGraph ? "primary" : "inherit"}
-              >
-                <TimelineOutlinedIcon />
-              </IconButton>
-            </Tooltip>
+            graphSupport && (
+              <Tooltip title="History">
+                <IconButton
+                  onClick={this.toggleView}
+                  color={isGraph ? "primary" : "inherit"}
+                >
+                  <TimelineOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            )
           }
         />
         {isGraph && (
@@ -94,6 +98,12 @@ class Tile extends React.Component {
         );
       case tileTypes.INTEGER:
         return this.renderIntegerTileContent(
+          data[0],
+          data.slice(1),
+          configuration
+        );
+      case tileTypes.HEARTBEAT:
+        return this.renderHearBeatTileContent(
           data[0],
           data.slice(1),
           configuration
@@ -163,6 +173,14 @@ class Tile extends React.Component {
       data={tileData}
       configuration={configuration}
       loadingData={loadingData}
+    />
+  );
+
+  renderHearBeatTileContent = (data, recentData, configuration) => (
+    <HeartBeatTileContent
+      current={data}
+      data={recentData}
+      configuration={configuration}
     />
   );
 

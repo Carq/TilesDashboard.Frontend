@@ -2,6 +2,7 @@ export const tileTypes = {
   WEATHER: "weather",
   METRIC: "metric",
   INTEGER: "integer",
+  HEARTBEAT: "heartBeat",
 };
 
 export const metricTypes = {
