@@ -4,7 +4,7 @@ import "./styles.scss";
 import classNames from "classnames";
 import Link from "@material-ui/core/Link";
 import { colorStatuses } from "../../constants";
-import { colorStatusToClassNames } from "../../utils";
+import { colorStatusToClassNames, convertToSeconds } from "../../utils";
 import Histogram from "../histogram";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import PropTypes, { object } from "prop-types";
@@ -13,7 +13,7 @@ import { heartBeatData, heartBeatConfiguration } from "../../propTypes";
 class HeartBeatTileContent extends React.Component {
   render() {
     const { current, data, configuration } = this.props;
-    const { applicationUrl } = configuration;
+    const { applicationUrl, description } = configuration;
     const { responseTimeInMs } = current;
 
     const color = this.calculateColor(responseTimeInMs);
@@ -27,25 +27,23 @@ class HeartBeatTileContent extends React.Component {
             colorStatusToClassNames(color)
           )}
         >
-          <Link href={applicationUrl} color="inherit">
-            <FavoriteIcon
-              fontSize="large"
-              style={{
-                color: colorStatusToClassNames(color),
-                fontSize: 160,
-              }}
-            />
-          </Link>
+          <FavoriteIcon
+            fontSize="large"
+            style={{
+              color: colorStatusToClassNames(color),
+              fontSize: 160,
+            }}
+          />
         </div>
 
         <div className="heartBeat__current-section ">
           <div className="heartBeat__histogram">
             <Histogram
               data={data.map((item) => ({
-                value: item.responseTimeInMs,
+                value: convertToSeconds(item.responseTimeInMs),
                 date: item.addedOn,
               }))}
-              valueSuffix={"ms"}
+              valueSuffix={"s"}
               colorData={this.calculateColor}
             />
           </div>
@@ -53,8 +51,15 @@ class HeartBeatTileContent extends React.Component {
             className={classNames(colorStatusToClassNames(color))}
             align="center"
           >
-            {(appIsRun && `${responseTimeInMs}ms`) || `No Response`}
+            {(appIsRun && `${convertToSeconds(responseTimeInMs)}s`) ||
+              `No Response`}
           </Typography>
+        </div>
+
+        <div className="heartBeat__description-section ">
+          <Link href={applicationUrl} color="inherit">
+            <Typography>{description || "Link"}</Typography>
+          </Link>
         </div>
       </div>
     );

@@ -68,3 +68,7 @@ export function metricTypeToSufix(metricType, unit) {
       return "";
   }
 }
+
+export function convertToSeconds(microseconds) {
+  return parseFloat((microseconds / 1000).toFixed(1));
+}
