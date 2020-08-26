@@ -42,9 +42,9 @@ class MetricTileContent extends React.Component {
               metricType,
               metricStatus
             )}
-            {this.renderTableRow("Limit", limit, metricType)}
-            {this.renderTableRow("Goal", goal, metricType)}
-            {this.renderTableRow("Wish", wish, metricType)}
+            {this.renderTableRow("Limit", limit, unit, metricType)}
+            {this.renderTableRow("Goal", goal, unit, metricType)}
+            {this.renderTableRow("Wish", wish, unit, metricType)}
           </TableBody>
         </Table>
       </div>
@@ -78,7 +78,7 @@ class MetricTileContent extends React.Component {
     </TableRow>
   );
 
-  renderTableRow = (name, value, metricType, metricStatus) => (
+  renderTableRow = (name, value, unit, metricType, metricStatus) => (
     <TableRow key={name}>
       <TableCell align="right">
         <Typography>{name}</Typography>
@@ -87,7 +87,7 @@ class MetricTileContent extends React.Component {
         <Typography
           className={classNames(colorStatusToClassNames(metricStatus))}
         >
-          {this.renderValues(value, metricType)}
+          {this.renderValues(value, metricType, unit)}
         </Typography>
       </TableCell>
     </TableRow>
