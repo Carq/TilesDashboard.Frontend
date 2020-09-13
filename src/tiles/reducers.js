@@ -76,8 +76,6 @@ function updateTileDataInArray(tiles, tileName, tileType, data) {
       data: oldData,
     };
 
-    console.log(updatedTile);
-
     return {
       ...tile,
       ...updatedTile,

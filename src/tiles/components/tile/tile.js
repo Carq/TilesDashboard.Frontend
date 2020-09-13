@@ -30,20 +30,26 @@ class Tile extends React.Component {
     tileData: [],
     loadingData: false,
     view: viewModes.CURRENT,
+    animate: true,
   };
 
   render() {
     const { basicData, data } = this.props;
-    const { tileData, view, loadingData } = this.state;
+    const { tileData, view, loadingData, animate } = this.state;
     const lastUpdated = data[0].addedOn;
     const graphSupport = basicData.type !== tileTypes.HEARTBEAT;
     const isGraph = view === viewModes.GRAPH;
+
+    if (animate) {
+      this.animationInterval = setInterval(this.resetAnimation, 2000);
+    }
 
     return (
       <Card
         className={classNames("card", {
           metric: basicData.type === tileTypes.METRIC && !isGraph,
           weather: basicData.type === tileTypes.WEATHER && !isGraph,
+          animate: animate,
         })}
       >
         <CardHeader
@@ -83,6 +89,21 @@ class Tile extends React.Component {
       </Card>
     );
   }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.lastUpdated !== this.props.lastUpdated) {
+      this.setState({
+        animate: true,
+      });
+    }
+  }
+
+  resetAnimation = () => {
+    clearInterval(this.animationInterval);
+    this.setState({
+      animate: false,
+    });
+  };
 
   renderTileContent = (type) => {
     const { data, configuration } = this.props;

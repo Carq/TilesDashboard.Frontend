@@ -31,7 +31,7 @@ class HeartBeatTileContent extends React.Component {
             fontSize="large"
             style={{
               color: colorStatusToClassNames(color),
-              fontSize: 160,
+              fontSize: 150,
             }}
           />
         </div>
