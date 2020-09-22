@@ -243,11 +243,13 @@ class Tile extends React.Component {
   };
 
   makeRequestForTileData(basicData) {
-    var parameters =
-      basicData.type === tileTypes.WEATHER ? "hours=16" : "days=30";
+    var query =
+      basicData.type === tileTypes.WEATHER
+        ? "since?hours=16"
+        : "recent?amountOfData=30";
 
     fetch(
-      `${config.api.URL}/tiles/${basicData.type}/${basicData.name}/since?${parameters}`
+      `${config.api.URL}/tiles/${basicData.type}/${basicData.name}/${query}`
     )
       .then((res) => res.json())
       .then(
