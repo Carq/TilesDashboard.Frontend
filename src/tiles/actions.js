@@ -58,6 +58,6 @@ export function getAllTiles() {
 
 export function getTile(tileName, tileType, newValue) {
   return function (dispatch) {
-    dispatch(getTileCompleted(newValue, tileName, tileType, newValue));
+    dispatch(getTileCompleted(newValue, tileName, tileType));
   };
 }

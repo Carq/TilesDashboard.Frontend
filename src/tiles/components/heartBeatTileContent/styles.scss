@@ -14,7 +14,7 @@
   }
 
   100% {
-    transform: scale(1);
+    transform: scale(0.9);
   }
 }
 
@@ -44,7 +44,12 @@
   margin-right: 6px;
 }
 
-.heartBeat__description-section {
+.heartBeat__description-env {
+  display: flex;
+  justify-content: center;
+}
+
+.heartBeat__description-additionalInfo {
   display: flex;
   justify-content: center;
 }

@@ -14,7 +14,7 @@ class HeartBeatTileContent extends React.Component {
   render() {
     const { current, data, configuration } = this.props;
     const { applicationUrl, description } = configuration;
-    const { responseTimeInMs } = current;
+    const { responseTimeInMs, appVersion, additionalInfo } = current;
 
     const color = this.calculateColor(responseTimeInMs);
     const appIsRun = responseTimeInMs > 0;
@@ -31,7 +31,7 @@ class HeartBeatTileContent extends React.Component {
             fontSize="large"
             style={{
               color: colorStatusToClassNames(color),
-              fontSize: 150,
+              fontSize: appVersion === undefined ? 130 : 110,
             }}
           />
         </div>
@@ -40,10 +40,10 @@ class HeartBeatTileContent extends React.Component {
           <div className="heartBeat__histogram">
             <Histogram
               data={data.map((item) => ({
-                value: convertToSeconds(item.responseTimeInMs),
+                value: item.responseTimeInMs,
                 date: item.addedOn,
               }))}
-              valueSuffix={"s"}
+              valueSuffix={"ms"}
               colorData={this.calculateColor}
             />
           </div>
@@ -56,18 +56,48 @@ class HeartBeatTileContent extends React.Component {
           </Typography>
         </div>
 
-        <div className="heartBeat__description-section ">
+        <div className="heartBeat__description-env">
           <Link href={applicationUrl} color="inherit">
             <Typography>{description || "Link"}</Typography>
           </Link>
         </div>
+
+        {appVersion && (
+          <div className="heartBeat__description-env">
+            <Typography variant="caption">{`Version: ${appVersion}`}</Typography>
+          </div>
+        )}
+
+        {additionalInfo && (
+          <div className="heartBeat__description-additionalInfo">
+            <Typography
+              variant="caption"
+              align="center"
+              color="textSecondary"
+              noWrap={true}
+            >
+              {additionalInfo}
+            </Typography>
+          </div>
+        )}
       </div>
     );
   }
 
   calculateColor = (responseInMs) => {
-    if (responseInMs > 0) return colorStatuses.LIGHTGREEN;
-    return colorStatuses.RED;
+    if (responseInMs <= 0) return colorStatuses.RED;
+    if (responseInMs < 500) return colorStatuses.LIGHTGREEN;
+    return colorStatuses.AMBER;
+  };
+
+  createDescription = (description, appVersion) => {
+    const envName = description || "Link";
+
+    if (appVersion) {
+      return `${envName}: ${appVersion}`;
+    }
+
+    return envName;
   };
 }
 
