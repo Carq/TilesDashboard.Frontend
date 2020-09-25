@@ -249,7 +249,12 @@ class Tile extends React.Component {
         : "recent?amountOfData=30";
 
     fetch(
-      `${config.api.URL}/tiles/${basicData.type}/${basicData.name}/${query}`
+      `${config.api.URL}/tiles/${basicData.type}/${basicData.name}/${query}`,
+      {
+        headers: {
+          Authorization: localStorage.getItem("secret"),
+        },
+      }
     )
       .then((res) => res.json())
       .then(

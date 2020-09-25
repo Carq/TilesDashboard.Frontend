@@ -43,7 +43,11 @@ export function getAllTiles() {
   return function (dispatch) {
     dispatch(getAllTilesRequest());
 
-    return fetch(`${config.api.URL}/tiles/all`)
+    return fetch(`${config.api.URL}/tiles/all`, {
+      headers: {
+        Authorization: localStorage.getItem("secret"),
+      },
+    })
       .then((response) => {
         if (response.status >= 400) {
           throw new Error("Bad response from server");

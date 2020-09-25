@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet";
 import { Provider } from "react-redux";
 import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@material-ui/core/styles";
+import SecretProvider from "./tiles/components/secretProvider";
 import theme from "./Theme/theme";
 import configStore from "./configuration/configStore";
 import config from "./config";
@@ -15,23 +16,42 @@ const DashboardLazyLoading = React.lazy(() =>
 
 const store = configStore();
 
-function App() {
-  return (
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <div className="App">
-          <Helmet>
-            <title>{config.dashboard.name || "Tiles Dashboard"}</title>
-          </Helmet>
-          <SnackbarProvider>
-            <Suspense fallback="Loading...">
-              <DashboardLazyLoading />
-            </Suspense>
-          </SnackbarProvider>
-        </div>
-      </Provider>
-    </ThemeProvider>
-  );
+class App extends React.Component {
+  state = {
+    isAuth: false,
+  };
+
+  render() {
+    const { isAuth } = this.state;
+
+    return (
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <div className="App">
+            <Helmet>
+              <title>{config.dashboard.name || "Tiles Dashboard"}</title>
+            </Helmet>
+            <SnackbarProvider>
+              {(!config.api.protectReadEndpoints || isAuth) && (
+                <Suspense fallback="Loading...">
+                  <DashboardLazyLoading />
+                </Suspense>
+              )}
+              {config.api.protectReadEndpoints && !isAuth && (
+                <SecretProvider onSuccess={this.onSuccess} />
+              )}
+            </SnackbarProvider>
+          </div>
+        </Provider>
+      </ThemeProvider>
+    );
+  }
+
+  onSuccess = () => {
+    this.setState({
+      isAuth: true,
+    });
+  };
 }
 
 export default App;
