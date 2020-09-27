@@ -42,7 +42,7 @@ class MetricTileContentGraph extends React.Component {
         break;
       case metricTypes.MONEY:
         dataSeriesName = unit || "€";
-        max = maxBy(data, "value")?.value / 5;
+        max = maxBy(data, "value")?.value + 5;
         break;
       case metricTypes.TIME:
         dataSeriesName = "Time";
