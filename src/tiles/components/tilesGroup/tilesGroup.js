@@ -17,6 +17,8 @@ class TilesGroup extends React.Component {
   render() {
     const { tiles, isLoadingMetrics } = this.props;
 
+    console.log(tiles);
+
     return (
       <Grid
         container
@@ -28,16 +30,18 @@ class TilesGroup extends React.Component {
         {isLoadingMetrics && this.displaySkeletons()}
         {!isLoadingMetrics &&
           tiles &&
-          tiles.map((tile) => (
-            <Grid item key={tile.name}>
-              <Tile
-                basicData={{ name: tile.name, type: tile.type }}
-                data={tile.data}
-                configuration={tile.configuration}
-                lastUpdated={tile.data[0].addedOn}
-              />
-            </Grid>
-          ))}
+          tiles
+            .filter((x) => x.data.length > 0)
+            .map((tile) => (
+              <Grid item key={tile.name}>
+                <Tile
+                  basicData={{ name: tile.name, type: tile.type }}
+                  data={tile.data}
+                  configuration={tile.configuration}
+                  lastUpdated={tile.data[0].addedOn}
+                />
+              </Grid>
+            ))}
       </Grid>
     );
   }
