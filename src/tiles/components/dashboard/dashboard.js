@@ -96,7 +96,7 @@ class Dashboard extends React.Component {
   groupTiles(tiles) {
     return Object.entries(
       groupBy(
-        orderBy(tiles, (x) => x.group.order, "desc"),
+        orderBy(tiles, (x) => x.group.order, "asc"),
         (tile) => tile.group.name
       )
     ).map((group) => ({
