@@ -39,7 +39,12 @@ class WeatherTileContentGraph extends React.Component {
 
     let tempMax = maxBy(data, "temperature")?.temperature;
     let tempMin = minBy(data, "temperature")?.temperature;
+    let diff = tempMax - tempMin;
+
     let tempOffset = 0.5;
+    if (diff <= 3) {
+      tempOffset = 5 - diff;
+    }
 
     let humidityMax = 105;
     let humidityMin = 10;
