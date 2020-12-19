@@ -17,8 +17,6 @@ class TilesGroup extends React.Component {
   render() {
     const { tiles, isLoadingMetrics } = this.props;
 
-    console.log(tiles);
-
     return (
       <Grid
         container
