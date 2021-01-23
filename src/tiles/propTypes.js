@@ -34,6 +34,12 @@ export const weatherData = PropTypes.shape({
   addedOn: PropTypes.string.isRequired,
 });
 
+export const dualData = PropTypes.shape({
+  primary: PropTypes.number.isRequired,
+  secondary: PropTypes.number.isRequired,
+  addedOn: PropTypes.string.isRequired,
+});
+
 export const histogramData = PropTypes.shape({
   value: PropTypes.number.isRequired,
   date: PropTypes.string.isRequired,

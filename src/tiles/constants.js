@@ -3,6 +3,7 @@ export const tileTypes = {
   METRIC: "metric",
   INTEGER: "integer",
   HEARTBEAT: "heartBeat",
+  DUAL: "dual",
 };
 
 export const metricTypes = {

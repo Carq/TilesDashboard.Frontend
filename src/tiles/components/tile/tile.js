@@ -21,6 +21,9 @@ import MetricTileContentGraph from "../metricTileContentGraph";
 import IntegerTileContent from "../integerTileContent";
 import IntegerTileContentGraph from "../integerTileContentGraph";
 import HeartBeatTileContent from "../heartBeatTileContent";
+import DualTileContent from "../dualTileContent";
+import DualTileContentGraph from "../dualTileContentGraph";
+
 import { convertDateTime, addHours } from "tiles/utils";
 import "./styles.scss";
 import config from "config";
@@ -129,6 +132,12 @@ class Tile extends React.Component {
           data.slice(1),
           configuration
         );
+      case tileTypes.DUAL:
+        return this.renderDualTileContent(
+          data[0],
+          data.slice(1),
+          configuration
+        );
       default:
         return this.renderUnsupportedTile();
     }
@@ -148,6 +157,8 @@ class Tile extends React.Component {
           configuration,
           loadingData
         );
+      case tileTypes.DUAL:
+        return this.renderDualTileGraph(tileData, loadingData);
       default:
         return this.renderUnsupportedTile();
     }
@@ -203,6 +214,19 @@ class Tile extends React.Component {
       data={recentData}
       configuration={configuration}
     />
+  );
+
+  renderDualTileContent = (data, recentData, configuration) => (
+    <DualTileContent
+      primary={data.primary}
+      secondary={data.secondary}
+      data={recentData}
+      configuration={configuration}
+    />
+  );
+
+  renderDualTileGraph = (tileData, loadingData) => (
+    <DualTileContentGraph data={tileData} loadingData={loadingData} />
   );
 
   renderUnsupportedTile = () => (
