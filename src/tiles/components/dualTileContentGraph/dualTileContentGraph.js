@@ -2,6 +2,7 @@ import React from "react";
 import Chart from "react-apexcharts";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import PropTypes from "prop-types";
+import { dualConfiguration } from "../../propTypes";
 import maxBy from "lodash/maxBy";
 import minBy from "lodash/minBy";
 
@@ -14,7 +15,7 @@ class DualTileContentGraph extends React.Component {
     return (
       <React.Fragment>
         {loadingData && (
-          <div className="weather-tile-graph">
+          <div className="dual-tile-graph">
             <CircularProgress size={60} thickness={5} />
           </div>
         )}
@@ -24,30 +25,43 @@ class DualTileContentGraph extends React.Component {
   }
 
   renderChart = () => {
-    const { data } = this.props;
+    const { data, configuration } = this.props;
+
+    const primaryDecimalPlaces = configuration.primaryIntegerOnly ? 0 : 1;
+    const secondaryDecimalPlaces = configuration.secondaryIntegerOnly ? 0 : 1;
+    const primaryColor = configuration.primaryGraphColor || "#0FDF7D";
+    const secondaryColor = configuration.secondaryGraphColor || "#3797D5";
 
     const series = [
       {
-        name: "PM2.5",
-        data: data.map((i) => [new Date(i.addedOn).getTime(), i.primary]),
+        name: configuration.primaryName || "Primary",
+        data: data.map((i) => [
+          new Date(i.addedOn).getTime(),
+          i.primary.toFixed(primaryDecimalPlaces),
+        ]),
       },
       {
-        name: "PM10",
-        data: data.map((i) => [new Date(i.addedOn).getTime(), i.secondary]),
+        name: configuration.secondaryName || "Secondary",
+        data: data.map((i) => [
+          new Date(i.addedOn).getTime(),
+          i.secondary.toFixed(secondaryDecimalPlaces),
+        ]),
       },
     ];
 
-    let primaryMax = maxBy(data, "primary")?.primary;
-    let primaryMin = minBy(data, "primary")?.primary;
-    let diff = primaryMax - primaryMin;
+    let primaryHighestValue = Number(
+      maxBy(data, "primary")?.primary.toFixed(primaryDecimalPlaces)
+    );
 
-    let primaryOffset = 0.5;
-    if (diff <= 3) {
-      primaryOffset = 5 - diff;
-    }
+    let primaryOffset = 5;
 
-    let secondaryMax = 150;
-    let secondaryMin = 0;
+    let primaryMax =
+      configuration.primaryMaxGraphValue || primaryHighestValue + primaryOffset;
+    let primaryMin = isNaN(configuration.primaryMinGraphValue)
+      ? 0
+      : configuration.primaryMinGraphValue;
+    let secondaryMax = configuration.secondaryMaxGraphValue || 100;
+    let secondaryMin = configuration.secondaryMinGraphValue || 0;
 
     const options = {
       chart: {
@@ -68,43 +82,7 @@ class DualTileContentGraph extends React.Component {
           opacity: 0.1,
         },
       },
-      annotations: {
-        position: "back",
-        yaxis: [
-          {
-            y: primaryMax,
-            strokeDashArray: 0,
-            borderColor: "#705955",
-            borderWidth: 2,
-            label: {
-              text: primaryMax + " PM2.5",
-              position: "left",
-              borderWidth: 0,
-              textAnchor: "start",
-              style: {
-                background: "#705955",
-              },
-            },
-          },
-          {
-            y: primaryMin,
-            strokeDashArray: 0,
-            opacity: 0.2,
-            borderColor: "#6E423B",
-            borderWidth: 2,
-            label: {
-              text: primaryMin + " PM2.5",
-              borderWidth: 0,
-              position: "left",
-              textAnchor: "start",
-              offsetY: 18,
-              style: {
-                background: "#6E423B",
-              },
-            },
-          },
-        ],
-      },
+
       xaxis: {
         type: "datetime",
         labels: {
@@ -118,8 +96,8 @@ class DualTileContentGraph extends React.Component {
         {
           show: false,
           tickAmount: 5,
-          min: primaryMin - primaryOffset,
-          max: primaryMax + primaryOffset,
+          min: primaryMin,
+          max: primaryMax,
           labels: {
             show: true,
           },
@@ -129,10 +107,10 @@ class DualTileContentGraph extends React.Component {
       dataLabels: {
         enabled: false,
       },
-      colors: ["#705955", "#463836"],
+      colors: [primaryColor, secondaryColor],
       fill: {
         type: "solid",
-        opacity: [0.05, 0.05],
+        opacity: [0.9, 0.6],
       },
       legend: {
         show: false,
@@ -147,11 +125,91 @@ class DualTileContentGraph extends React.Component {
       },
     };
 
+    if (
+      !isNaN(configuration.primaryGreenValue) &&
+      !isNaN(configuration.primaryYellowValue) &&
+      !isNaN(configuration.primaryRedValue)
+    ) {
+      options.annotations = {
+        position: "back",
+        yaxis: [
+          {
+            y: configuration.primaryYellowValue,
+            strokeDashArray: 0,
+            borderColor: "#D5A406",
+            borderWidth: 2,
+            label: {
+              text:
+                configuration.primaryYellowValue +
+                ` ${configuration.primaryUnit}`,
+              position: "left",
+              borderWidth: 0,
+              textAnchor: "start",
+              style: {
+                background: "#D5A406",
+              },
+            },
+          },
+          {
+            y: configuration.primaryRedValue,
+            strokeDashArray: 0,
+            borderColor: "red",
+            borderWidth: 2,
+            label: {
+              text:
+                configuration.primaryRedValue + ` ${configuration.primaryUnit}`,
+              position: "left",
+              borderWidth: 0,
+              textAnchor: "start",
+              style: {
+                background: "red",
+              },
+            },
+          },
+          {
+            y: Math.min(
+              configuration.primaryYellowValue,
+              configuration.primaryRedValue
+            ),
+            y2: Math.max(
+              configuration.primaryYellowValue,
+              configuration.primaryRedValue
+            ),
+            strokeDashArray: 0,
+            opacity: 0.1,
+            fillColor: "yellow",
+            borderWidth: 0,
+          },
+          {
+            y: Math.min(
+              configuration.primaryGreenValue,
+              configuration.primaryYellowValue
+            ),
+            y2: Math.max(
+              configuration.primaryGreenValue,
+              configuration.primaryYellowValue
+            ),
+            strokeDashArray: 0,
+            opacity: 0.2,
+            fillColor: "green",
+            borderWidth: 1,
+          },
+          {
+            y: configuration.primaryRedValue,
+            y2: configuration.lowerIsBetter ? 10000 : 0,
+            strokeDashArray: 0,
+            opacity: 0.2,
+            fillColor: "tomato",
+          },
+        ],
+      };
+    }
+
     return (
       <Chart
         options={options}
         series={series}
-        type="area"
+        type="line"
         height="100%"
         width="100%"
       />
@@ -161,6 +219,7 @@ class DualTileContentGraph extends React.Component {
 
 DualTileContentGraph.propTypes = {
   data: PropTypes.array.isRequired,
+  configuration: dualConfiguration,
   loadingData: PropTypes.bool,
 };
 

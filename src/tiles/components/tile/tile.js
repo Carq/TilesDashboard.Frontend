@@ -158,7 +158,7 @@ class Tile extends React.Component {
           loadingData
         );
       case tileTypes.DUAL:
-        return this.renderDualTileGraph(tileData, loadingData);
+        return this.renderDualTileGraph(tileData, loadingData, configuration);
       default:
         return this.renderUnsupportedTile();
     }
@@ -225,8 +225,12 @@ class Tile extends React.Component {
     />
   );
 
-  renderDualTileGraph = (tileData, loadingData) => (
-    <DualTileContentGraph data={tileData} loadingData={loadingData} />
+  renderDualTileGraph = (tileData, loadingData, configuration) => (
+    <DualTileContentGraph
+      data={tileData}
+      loadingData={loadingData}
+      configuration={configuration}
+    />
   );
 
   renderUnsupportedTile = () => (

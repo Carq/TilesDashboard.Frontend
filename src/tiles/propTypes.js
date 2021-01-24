@@ -40,6 +40,28 @@ export const dualData = PropTypes.shape({
   addedOn: PropTypes.string.isRequired,
 });
 
+export const dualConfiguration = PropTypes.shape({
+  primaryName: PropTypes.string,
+  primaryUnit: PropTypes.string,
+  primaryIntegerOnly: PropTypes.boolean,
+  primaryMaxGraphValue: PropTypes.number,
+  primaryMinGraphValue: PropTypes.number,
+  primaryGraphColor: PropTypes.string,
+  primaryGreenValue: PropTypes.number,
+  primaryYellowValue: PropTypes.number,
+  primaryRedValue: PropTypes.number,
+  secondaryName: PropTypes.string,
+  secondaryUnit: PropTypes.string,
+  secondaryIntegerOnly: PropTypes.boolean,
+  secondaryMaxGraphValue: PropTypes.number,
+  secondaryMinGraphValue: PropTypes.number,
+  secondaryGraphColor: PropTypes.string,
+  secondaryGreenValue: PropTypes.number,
+  secondaryYellowValue: PropTypes.number,
+  secondaryRedValue: PropTypes.number,
+  lowerIsBetter: PropTypes.boolean,
+});
+
 export const histogramData = PropTypes.shape({
   value: PropTypes.number.isRequired,
   date: PropTypes.string.isRequired,
