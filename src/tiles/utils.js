@@ -36,6 +36,11 @@ export function convertToTimeOnly(date) {
   return `${localTime.getHours()}:${minutes}`;
 }
 
+export function convertToMonthOnly(date) {
+  const localTime = new Date(date);
+  return `${localTime.toLocaleString("default", { month: "short" })}`;
+}
+
 export function convertToDateWithoutYearOnly(date) {
   const localTime = new Date(date);
   const day = `${localTime.getDate()}`.padStart(2, "0");

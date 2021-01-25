@@ -12,6 +12,12 @@ export const metricTypes = {
   TIME: "time",
 };
 
+export const dateTimeFormatTypes = {
+  TIMEONLY: "timeOnly",
+  DATEONLY: "dateOnly",
+  MONTHONLY: "monthOnly",
+};
+
 export const viewModes = {
   CURRENT: "CURRENT",
   GRAPH: "graph",

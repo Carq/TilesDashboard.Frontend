@@ -10,9 +10,10 @@ import {
   colorStatusToBackgroundClassNames,
   convertToTimeOnly,
   convertToDateWithoutYearOnly,
+  convertToMonthOnly,
 } from "../../utils";
 import { histogramData } from "../../propTypes";
-import { colorStatuses } from "../../constants";
+import { colorStatuses, dateTimeFormatTypes } from "../../constants";
 import "./styles.scss";
 
 class Histogram extends React.Component {
@@ -22,7 +23,7 @@ class Histogram extends React.Component {
       colorData,
       valueSuffix,
       minimalStep,
-      displayOnlyTime,
+      dateTimeFormat,
     } = this.props;
 
     if (data.length === 0) {
@@ -37,11 +38,9 @@ class Histogram extends React.Component {
       <div className="histogram">
         <div className="histogram__bars">
           {sortedData.map((x) => {
-            const tooltipText = `${x.value}${valueSuffix || ""} ${
-              displayOnlyTime
-                ? convertToTimeOnly(x.date)
-                : convertToDateWithoutYearOnly(x.date)
-            }`;
+            const tooltipText = `${x.value}${
+              valueSuffix || ""
+            } ${this.formatDateTime(x.date, dateTimeFormat)}`;
 
             return (
               <Tooltip
@@ -71,6 +70,17 @@ class Histogram extends React.Component {
     );
   }
 
+  formatDateTime = (date, dateTimeFormat) => {
+    switch (dateTimeFormat) {
+      case dateTimeFormatTypes.TIMEONLY:
+        return convertToTimeOnly(date);
+      case dateTimeFormatTypes.MONTHONLY:
+        return convertToMonthOnly(date);
+      default:
+        return convertToDateWithoutYearOnly(date);
+    }
+  };
+
   calculateRank = (value, min, max, minimalStep) => {
     if (min === max) return 3;
 
@@ -88,12 +98,12 @@ Histogram.propTypes = {
   colorData: PropTypes.func,
   valueSuffix: PropTypes.string,
   minimalStep: PropTypes.number,
-  displayOnlyTime: PropTypes.bool,
+  dateTimeFormat: PropTypes.string,
 };
 
 Histogram.defaultProps = {
   minimalStep: 0.1,
-  displayOnlyTime: true,
+  dateTimeFormat: dateTimeFormatTypes.TIMEONLY,
 };
 
 export default Histogram;

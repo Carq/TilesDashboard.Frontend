@@ -35,6 +35,7 @@ class MetricTileContentGraph extends React.Component {
     let dataSeriesName;
     let min = minBy(data, "value")?.value - 5;
     let max;
+    let timeFormat = "dd MMM";
     switch (metricType) {
       case metricTypes.PERCENTAGE:
         dataSeriesName = "%";
@@ -43,6 +44,7 @@ class MetricTileContentGraph extends React.Component {
       case metricTypes.MONEY:
         dataSeriesName = unit || "€";
         max = maxBy(data, "value")?.value + 5;
+        timeFormat = "MMM";
         break;
       case metricTypes.TIME:
         dataSeriesName = "Time";
@@ -118,6 +120,7 @@ class MetricTileContentGraph extends React.Component {
         type: "datetime",
         labels: {
           datetimeUTC: false,
+          format: timeFormat,
         },
         axisTicks: {
           show: true,
@@ -142,7 +145,7 @@ class MetricTileContentGraph extends React.Component {
       },
       tooltip: {
         x: {
-          format: "dd MMM",
+          format: timeFormat,
         },
       },
       theme: {

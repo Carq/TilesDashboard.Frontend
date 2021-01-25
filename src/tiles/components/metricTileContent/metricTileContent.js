@@ -11,7 +11,11 @@ import Histogram from "../histogram";
 import PropTypes, { object } from "prop-types";
 import classNames from "classnames";
 import { metricConfiguration } from "../../propTypes";
-import { colorStatuses, metricTypes } from "../../constants";
+import {
+  colorStatuses,
+  metricTypes,
+  dateTimeFormatTypes,
+} from "../../constants";
 import { colorStatusToClassNames, metricTypeToSufix } from "../../utils";
 
 class MetricTileContent extends React.Component {
@@ -61,7 +65,11 @@ class MetricTileContent extends React.Component {
                 value: item.value,
                 date: item.addedOn,
               }))}
-              displayOnlyTime={false}
+              dateTimeFormat={
+                metricType === metricTypes.MONEY
+                  ? dateTimeFormatTypes.MONTHONLY
+                  : dateTimeFormatTypes.DATEONLY
+              }
               colorData={this.calculateColor}
               valueSuffix={metricTypeToSufix(metricType, unit)}
             />
