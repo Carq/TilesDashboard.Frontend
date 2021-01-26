@@ -4,7 +4,6 @@ import "./styles.scss";
 import Histogram from "../histogram";
 import PropTypes, { object } from "prop-types";
 import { integerConfiguration } from "../../propTypes";
-import { dateTimeFormatTypes } from "../../constants";
 
 class IntegerTileContent extends React.Component {
   render() {
@@ -27,7 +26,6 @@ class IntegerTileContent extends React.Component {
                 value: item.value,
                 date: item.addedOn,
               }))}
-              dateTimeFormat={dateTimeFormatTypes.DATEONLY}
             />
           </div>
         </div>

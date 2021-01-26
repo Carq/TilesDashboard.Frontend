@@ -11,6 +11,7 @@ import {
   convertToTimeOnly,
   convertToDateWithoutYearOnly,
   convertToMonthOnly,
+  calculateDateTimeFormat,
 } from "../../utils";
 import { histogramData } from "../../propTypes";
 import { colorStatuses, dateTimeFormatTypes } from "../../constants";
@@ -18,13 +19,7 @@ import "./styles.scss";
 
 class Histogram extends React.Component {
   render() {
-    const {
-      data,
-      colorData,
-      valueSuffix,
-      minimalStep,
-      dateTimeFormat,
-    } = this.props;
+    const { data, colorData, valueSuffix, minimalStep } = this.props;
 
     if (data.length === 0) {
       return <div className="histogram"></div>;
@@ -33,6 +28,7 @@ class Histogram extends React.Component {
     const sortedData = sortBy(data, "date");
     const max = Math.max(maxBy(data, "value")["value"]);
     const min = Math.min(minBy(data, "value")["value"]);
+    const dateTimeFormat = calculateDateTimeFormat(data.map((i) => i.date));
 
     return (
       <div className="histogram">
@@ -72,6 +68,7 @@ class Histogram extends React.Component {
 
   formatDateTime = (date, dateTimeFormat) => {
     switch (dateTimeFormat) {
+      case dateTimeFormatTypes.SECONDSONLY:
       case dateTimeFormatTypes.TIMEONLY:
         return convertToTimeOnly(date);
       case dateTimeFormatTypes.MONTHONLY:

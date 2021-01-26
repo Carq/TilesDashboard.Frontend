@@ -1,5 +1,7 @@
 import { colorStatuses } from "./constants";
-import { metricTypes } from "./constants";
+import { metricTypes, dateTimeFormatTypes } from "./constants";
+import max from "lodash/min";
+import min from "lodash/max";
 
 export function colorStatusToClassNames(colorStatus) {
   if (!colorStatus) return;
@@ -54,6 +56,22 @@ export function convertDateTime(date) {
   const month = `${localTime.getMonth() + 1}`.padStart(2, "0");
   const minutes = `${localTime.getMinutes()}`.padStart(2, "0");
   return `${day}.${month}.${localTime.getFullYear()} ${localTime.getHours()}:${minutes}`;
+}
+
+export function calculateDateTimeFormat(dates) {
+  if (dates.length < 2) {
+    return dateTimeFormatTypes.DATEONLY;
+  }
+
+  const maxDate = new Date(max(dates));
+  const minDate = new Date(min(dates));
+  const diffInMinutes = (minDate.getTime() - maxDate.getTime()) / (1000 * 60);
+  const avgDiffBetweenDatesInHours = diffInMinutes / 60 / (dates.length - 1);
+
+  if (avgDiffBetweenDatesInHours < 24) return dateTimeFormatTypes.TIMEONLY;
+  if (avgDiffBetweenDatesInHours <= 30 * 24)
+    return dateTimeFormatTypes.DATEONLY;
+  return dateTimeFormatTypes.MONTHONLY;
 }
 
 export function addHours(date, hours) {
