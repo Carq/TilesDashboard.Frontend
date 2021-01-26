@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import maxBy from "lodash/maxBy";
 import minBy from "lodash/minBy";
 import { metricTypes } from "../../constants";
+import { calculateDateTimeFormatAsString } from "../../utils";
 
 import "./styles.scss";
 
@@ -28,14 +29,16 @@ class MetricTileContentGraph extends React.Component {
     const { data, configuration, loadingData } = this.props;
     const { unit, metricType, lowerIsBetter } = configuration;
 
-    if (loadingData) {
+    if (loadingData || data.length <= 0) {
       return;
     }
 
     let dataSeriesName;
     let min = minBy(data, "value")?.value - 5;
     let max;
-    let timeFormat = "dd MMM";
+    const timeFormat = calculateDateTimeFormatAsString(
+      data.map((i) => i.addedOn)
+    );
     switch (metricType) {
       case metricTypes.PERCENTAGE:
         dataSeriesName = "%";
@@ -44,7 +47,6 @@ class MetricTileContentGraph extends React.Component {
       case metricTypes.MONEY:
         dataSeriesName = unit || "€";
         max = maxBy(data, "value")?.value + 5;
-        timeFormat = "MMM";
         break;
       case metricTypes.TIME:
         dataSeriesName = "Time";

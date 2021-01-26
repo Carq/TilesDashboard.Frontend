@@ -68,7 +68,6 @@ class Histogram extends React.Component {
 
   formatDateTime = (date, dateTimeFormat) => {
     switch (dateTimeFormat) {
-      case dateTimeFormatTypes.SECONDSONLY:
       case dateTimeFormatTypes.TIMEONLY:
         return convertToTimeOnly(date);
       case dateTimeFormatTypes.MONTHONLY:

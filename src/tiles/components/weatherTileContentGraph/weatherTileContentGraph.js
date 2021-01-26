@@ -4,6 +4,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import PropTypes from "prop-types";
 import maxBy from "lodash/maxBy";
 import minBy from "lodash/minBy";
+import { calculateDateTimeFormatAsString } from "../../utils";
 
 import "./styles.scss";
 
@@ -139,7 +140,7 @@ class WeatherTileContentGraph extends React.Component {
       },
       tooltip: {
         x: {
-          format: "HH:mm",
+          format: calculateDateTimeFormatAsString(data.map((i) => i.addedOn)),
         },
       },
       theme: {

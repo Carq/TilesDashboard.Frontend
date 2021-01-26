@@ -79,6 +79,18 @@ export function addHours(date, hours) {
   return dateObject.setHours(dateObject.getHours() + hours);
 }
 
+export function calculateDateTimeFormatAsString(dates) {
+  const dateTimeFormat = calculateDateTimeFormat(dates);
+  switch (dateTimeFormat) {
+    case dateTimeFormatTypes.TIMEONLY:
+      return "HH:mm";
+    case dateTimeFormatTypes.MONTHONLY:
+      return "MMM";
+    default:
+      return "dd MMM";
+  }
+}
+
 export function metricTypeToSufix(metricType, unit) {
   switch (metricType) {
     case metricTypes.PERCENTAGE:

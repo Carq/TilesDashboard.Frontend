@@ -4,7 +4,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import PropTypes from "prop-types";
 import { dualConfiguration } from "../../propTypes";
 import maxBy from "lodash/maxBy";
-import minBy from "lodash/minBy";
+import { calculateDateTimeFormatAsString } from "../../utils";
 
 import "./styles.scss";
 
@@ -117,7 +117,7 @@ class DualTileContentGraph extends React.Component {
       },
       tooltip: {
         x: {
-          format: "HH:mm",
+          format: calculateDateTimeFormatAsString(data.map((i) => i.addedOn)),
         },
       },
       theme: {
