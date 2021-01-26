@@ -85,7 +85,7 @@ class MetricTileContentGraph extends React.Component {
         },
       },
       annotations: {
-        position: "back",
+        position: "front",
         yaxis: [
           {
             y: Math.min(configuration.limit, configuration.goal),

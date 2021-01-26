@@ -131,7 +131,7 @@ class DualTileContentGraph extends React.Component {
       !isNaN(configuration.primaryRedValue)
     ) {
       options.annotations = {
-        position: "back",
+        position: "front",
         yaxis: [
           {
             y: configuration.primaryYellowValue,

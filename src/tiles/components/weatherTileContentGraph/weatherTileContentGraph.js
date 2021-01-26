@@ -70,7 +70,7 @@ class WeatherTileContentGraph extends React.Component {
         },
       },
       annotations: {
-        position: "back",
+        position: "front",
         yaxis: [
           {
             y: tempMax,
