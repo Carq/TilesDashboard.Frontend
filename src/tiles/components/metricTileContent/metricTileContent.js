@@ -32,7 +32,7 @@ class MetricTileContent extends React.Component {
 
     return (
       <div className="metric-tile-content">
-        <Table size="small" style={{ width: 200 }}>
+        <Table size="small" style={{ width: 255 }}>
           <TableBody>
             {this.renderMainTableRow(
               "Current",
@@ -42,6 +42,7 @@ class MetricTileContent extends React.Component {
               metricType,
               metricStatus
             )}
+
             {this.renderTableRow("Limit", limit, unit, metricType)}
             {this.renderTableRow("Goal", goal, unit, metricType)}
             {this.renderTableRow("Wish", wish, unit, metricType)}
