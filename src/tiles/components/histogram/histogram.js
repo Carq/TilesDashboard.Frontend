@@ -19,7 +19,13 @@ import "./styles.scss";
 
 class Histogram extends React.Component {
   render() {
-    const { data, colorData, valueSuffix, minimalStep } = this.props;
+    const {
+      data,
+      colorData,
+      formatValue,
+      valueSuffix,
+      minimalStep,
+    } = this.props;
 
     if (data.length === 0) {
       return <div className="histogram"></div>;
@@ -34,9 +40,12 @@ class Histogram extends React.Component {
       <div className="histogram">
         <div className="histogram__bars">
           {sortedData.map((x) => {
-            const tooltipText = `${x.value}${
-              valueSuffix || ""
-            } ${this.formatDateTime(x.date, dateTimeFormat)}`;
+            const tooltipText = `${
+              formatValue ? formatValue(x.value) : x.value
+            }${valueSuffix || ""} ${this.formatDateTime(
+              x.date,
+              dateTimeFormat
+            )}`;
 
             return (
               <Tooltip
@@ -92,6 +101,7 @@ class Histogram extends React.Component {
 Histogram.propTypes = {
   data: PropTypes.arrayOf(histogramData),
   colorData: PropTypes.func,
+  formatValue: PropTypes.func,
   valueSuffix: PropTypes.string,
   minimalStep: PropTypes.number,
   dateTimeFormat: PropTypes.string,

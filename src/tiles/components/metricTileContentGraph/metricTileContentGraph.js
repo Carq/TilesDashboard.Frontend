@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import maxBy from "lodash/maxBy";
 import minBy from "lodash/minBy";
 import { metricTypes } from "../../constants";
-import { calculateDateTimeFormatAsString } from "../../utils";
+import { calculateDateTimeFormatAsString, getFormatedTime } from "../../utils";
 
 import "./styles.scss";
 
@@ -33,6 +33,7 @@ class MetricTileContentGraph extends React.Component {
       return;
     }
 
+    let formatValue;
     let dataSeriesName;
     let min = minBy(data, "value")?.value - 5;
     let max;
@@ -50,6 +51,7 @@ class MetricTileContentGraph extends React.Component {
         break;
       case metricTypes.TIME:
         dataSeriesName = "Time";
+        formatValue = getFormatedTime;
         break;
       default:
         dataSeriesName = "";
@@ -134,8 +136,10 @@ class MetricTileContentGraph extends React.Component {
           min: min,
           max: max,
           tickAmount: 6,
+          forceNiceScale: true,
           labels: {
             show: true,
+            formatter: formatValue,
           },
         },
       ],
@@ -148,6 +152,9 @@ class MetricTileContentGraph extends React.Component {
       tooltip: {
         x: {
           format: timeFormat,
+        },
+        y: {
+          formatter: formatValue,
         },
       },
       theme: {

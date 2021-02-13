@@ -98,10 +98,23 @@ export function metricTypeToSufix(metricType, unit) {
     case metricTypes.MONEY:
       return unit || "€";
     case metricTypes.TIME:
-      return "Time";
+      return "";
     default:
       return "";
   }
+}
+
+export function getFormatedTime(totalSeconds) {
+  const format = (val) => `${Math.floor(val)}`.slice(-2);
+  const hours = format(totalSeconds / 3600);
+  const minutes = format((totalSeconds % 3600) / 60);
+  const seconds = format(totalSeconds % 60);
+
+  let finalFormat = hours > 0 ? `${hours}h ` : "";
+  finalFormat += minutes > 0 ? `${minutes}m ` : "";
+  finalFormat += seconds > 0 ? `${seconds}s ` : "";
+
+  return finalFormat;
 }
 
 export function convertToSeconds(microseconds) {

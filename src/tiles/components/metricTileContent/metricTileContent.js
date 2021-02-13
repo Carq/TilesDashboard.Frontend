@@ -12,7 +12,11 @@ import PropTypes, { object } from "prop-types";
 import classNames from "classnames";
 import { metricConfiguration } from "../../propTypes";
 import { colorStatuses, metricTypes } from "../../constants";
-import { colorStatusToClassNames, metricTypeToSufix } from "../../utils";
+import {
+  colorStatusToClassNames,
+  metricTypeToSufix,
+  getFormatedTime,
+} from "../../utils";
 
 class MetricTileContent extends React.Component {
   render() {
@@ -62,6 +66,7 @@ class MetricTileContent extends React.Component {
                 value: item.value,
                 date: item.addedOn,
               }))}
+              formatValue={metricType === "time" ? getFormatedTime : null}
               colorData={this.calculateColor}
               valueSuffix={metricTypeToSufix(metricType, unit)}
             />
@@ -104,7 +109,7 @@ class MetricTileContent extends React.Component {
       case "money":
         return `${value.toFixed(0)}` + (unit || "€");
       case "time":
-        return this.getFormatedTime(value);
+        return getFormatedTime(value);
       default:
         return value;
     }
@@ -120,19 +125,6 @@ class MetricTileContent extends React.Component {
     if (current <= goal) return colorStatuses.GREEN;
     if (current <= limit) return colorStatuses.AMBER;
     return colorStatuses.RED;
-  };
-
-  getFormatedTime = (totalSeconds) => {
-    const format = (val) => `${Math.floor(val)}`.slice(-2);
-    const hours = format(totalSeconds / 3600);
-    const minutes = format((totalSeconds % 3600) / 60);
-    const seconds = format(totalSeconds % 60);
-
-    let finalFormat = hours > 0 ? `${hours}h ` : "";
-    finalFormat += minutes > 0 ? `${minutes}m ` : "";
-    finalFormat += seconds > 0 ? `${seconds}s ` : "";
-
-    return finalFormat;
   };
 
   calculateColor = (value) => {
