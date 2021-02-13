@@ -73,6 +73,11 @@ class MetricTileContent extends React.Component {
           </div>
           <Typography
             variant="h3"
+            style={
+              metricType === "time" && value > 600
+                ? { "font-size": "2.8rem" }
+                : {}
+            }
             align="center"
             className={classNames(colorStatusToClassNames(metricStatus))}
           >

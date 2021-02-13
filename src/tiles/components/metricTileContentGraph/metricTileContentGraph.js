@@ -136,7 +136,6 @@ class MetricTileContentGraph extends React.Component {
           min: min,
           max: max,
           tickAmount: 6,
-          forceNiceScale: true,
           labels: {
             show: true,
             formatter: formatValue,
