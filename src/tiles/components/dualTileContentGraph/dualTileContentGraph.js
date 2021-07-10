@@ -34,14 +34,14 @@ class DualTileContentGraph extends React.Component {
 
     const series = [
       {
-        name: configuration.primaryName || "Primary",
+        name: configuration.primaryName + (configuration.primaryUnit &&  ` ${configuration.primaryUnit}`) || "Primary",
         data: data.map((i) => [
           new Date(i.addedOn).getTime(),
           i.primary.toFixed(primaryDecimalPlaces),
         ]),
       },
       {
-        name: configuration.secondaryName || "Secondary",
+        name: configuration.secondaryName + (configuration.secondaryUnit &&  ` ${configuration.secondaryUnit}`) || "Secondary",
         data: data.map((i) => [
           new Date(i.addedOn).getTime(),
           i.secondary.toFixed(secondaryDecimalPlaces),
@@ -53,6 +53,10 @@ class DualTileContentGraph extends React.Component {
       maxBy(data, "primary")?.primary.toFixed(primaryDecimalPlaces)
     );
 
+    let secondaryHighestValue = Number(
+      maxBy(data, "secondary")?.secondary.toFixed(primaryDecimalPlaces)
+    );
+
     let primaryOffset = 5;
 
     let primaryMax =
@@ -60,8 +64,14 @@ class DualTileContentGraph extends React.Component {
     let primaryMin = isNaN(configuration.primaryMinGraphValue)
       ? 0
       : configuration.primaryMinGraphValue;
-    let secondaryMax = configuration.secondaryMaxGraphValue || 100;
+    let secondaryMax = configuration.secondaryMaxGraphValue || secondaryHighestValue + primaryOffset;
     let secondaryMin = configuration.secondaryMinGraphValue || 0;
+
+    if (configuration.primaryAndSecondaryHaveTheSameYAxis && (!configuration.secondaryMaxGraphValue || !configuration.primaryMaxGraphValue))
+    {
+      primaryMax = Math.max(primaryMax, secondaryMax);
+      secondaryMax = Math.max(primaryMax, secondaryMax);
+    }
 
     const options = {
       chart: {

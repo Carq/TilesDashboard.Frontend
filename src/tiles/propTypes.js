@@ -59,6 +59,7 @@ export const dualConfiguration = PropTypes.shape({
   secondaryGreenValue: PropTypes.number,
   secondaryYellowValue: PropTypes.number,
   secondaryRedValue: PropTypes.number,
+  primaryAndSecondaryHaveTheSameMaxY: PropTypes.boolean,
   lowerIsBetter: PropTypes.boolean,
 });
 

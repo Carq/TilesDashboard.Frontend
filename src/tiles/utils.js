@@ -68,7 +68,7 @@ export function calculateDateTimeFormat(dates) {
   const diffInMinutes = (minDate.getTime() - maxDate.getTime()) / (1000 * 60);
   const avgDiffBetweenDatesInHours = diffInMinutes / 60 / (dates.length - 1);
 
-  if (avgDiffBetweenDatesInHours < 24) return dateTimeFormatTypes.TIMEONLY;
+  if (avgDiffBetweenDatesInHours <= 23.9) return dateTimeFormatTypes.TIMEONLY;
   if (avgDiffBetweenDatesInHours <= 30 * 24)
     return dateTimeFormatTypes.DATEONLY;
   return dateTimeFormatTypes.MONTHONLY;
