@@ -113,29 +113,29 @@ class Tile extends React.Component {
 
     switch (type) {
       case tileTypes.WEATHER:
-        return this.renderWeatherTileContent(data[0], data.slice(1));
+        return this.renderWeatherTileContent(data[0], data);
       case tileTypes.METRIC:
         return this.renderMetricTileContent(
           data[0],
-          data.slice(1),
+          data,
           configuration
         );
       case tileTypes.INTEGER:
         return this.renderIntegerTileContent(
           data[0],
-          data.slice(1),
+          data,
           configuration
         );
       case tileTypes.HEARTBEAT:
         return this.renderHearBeatTileContent(
           data[0],
-          data.slice(1),
+          data,
           configuration
         );
       case tileTypes.DUAL:
         return this.renderDualTileContent(
           data[0],
-          data.slice(1),
+          data,
           configuration
         );
       default:

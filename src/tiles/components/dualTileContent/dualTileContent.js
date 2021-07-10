@@ -27,6 +27,7 @@ class DualTileContent extends React.Component {
                   value: Number(item.primary.toFixed(primaryDecimalPlaces)),
                   date: item.addedOn,
                 }))}
+                minimalStep={1}
                 valueSuffix={configuration.primaryUnit}
                 colorData={this.calculatePrimaryColor}
               />
