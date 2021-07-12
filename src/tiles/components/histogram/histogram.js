@@ -31,15 +31,10 @@ class Histogram extends React.Component {
       return <div className="histogram"></div>;
     }
 
-    
-
-    const sortedData = sortBy(data, "date").slice(0, -1);
+    const sortedData = sortBy(data, "date");
     const max = Math.max(maxBy(data, "value")["value"]);
     const min = Math.min(minBy(data, "value")["value"]);
     const dateTimeFormat = calculateDateTimeFormat(data.map((i) => i.date));
-
-    console.log({ data })
-    console.log({ sortedData })
 
     return (
       <div className="histogram">
@@ -96,9 +91,6 @@ class Histogram extends React.Component {
 
     const step = Math.max(((max - min) / 4).toFixed(1), minimalStep);
 
-    console.log(
-      {step, minimalStep,
-      "3": max - step * 3})
     if (value >= max) return 5;
     if (value >= max - step) return 4;
     if (value >= max - step * 2) return 3;
