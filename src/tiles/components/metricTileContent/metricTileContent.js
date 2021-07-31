@@ -75,7 +75,7 @@ class MetricTileContent extends React.Component {
             variant="h3"
             style={
               metricType === "time" && value > 600
-                ? { "font-size": "2.8rem" }
+                ? { "font-size": "2.7rem" }
                 : {}
             }
             align="center"
