@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { HubConnectionBuilder } from "@aspnet/signalr";
+import { HubConnectionBuilder } from "@microsoft/signalr";
 import { Box, Typography } from "@material-ui/core";
 import groupBy from "lodash/groupBy";
 import orderBy from "lodash/orderBy";
