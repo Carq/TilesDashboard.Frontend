@@ -7,7 +7,11 @@ import orderBy from "lodash/orderBy";
 import config from "config";
 import "./styles.scss";
 import TilesGroup from "../tilesGroup";
-import NamedDivider from "../namedDivider";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
 
 class Dashboard extends React.Component {
   state = { lastGroups: undefined };
@@ -74,20 +78,24 @@ class Dashboard extends React.Component {
             {config.dashboard.name || "Tiles"}
           </Box>
         </Typography>
+
         {grouped &&
           grouped.map((group) => (
-            <div key={group.name || "default"}>
-              {group.name && (
-                <NamedDivider
-                  name={group.name !== "undefined" ? group.name : null}
+            <Accordion className="accordion" disableGutters defaultExpanded>
+              <AccordionSummary
+                className="accordion-header"
+                expandIcon={<ExpandMoreIcon />}
+              >
+                <Typography>{!group.name ? "Main" : group.name}</Typography>
+              </AccordionSummary>
+              <AccordionDetails className="accordion-details">
+                <TilesGroup
+                  isLoadingMetrics={isLoadingMetrics}
+                  tiles={group.tiles}
+                  lastTilesAmount={group.count}
                 />
-              )}
-              <TilesGroup
-                isLoadingMetrics={isLoadingMetrics}
-                tiles={group.tiles}
-                lastTilesAmount={group.count}
-              />
-            </div>
+              </AccordionDetails>
+            </Accordion>
           ))}
       </div>
     );
