@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Grid } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { Grid } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import Tile from "../tile";
 
 class TilesGroup extends React.Component {
@@ -9,7 +9,7 @@ class TilesGroup extends React.Component {
     const { lastTilesAmount } = this.props;
     return [...Array(parseInt(lastTilesAmount || 1)).keys()].map((x) => (
       <Grid item key={x}>
-        <Skeleton variant="rect" height={295} width={305} />
+        <Skeleton variant="rectangular" height={295} width={305} />
       </Grid>
     ));
   };
@@ -21,7 +21,7 @@ class TilesGroup extends React.Component {
       <Grid
         container
         direction="row"
-        justify="center"
+        justifyContent="center"
         alignItems="flex-start"
         spacing={4}
       >

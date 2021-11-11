@@ -1,6 +1,6 @@
 import React from "react";
 import Chart from "react-apexcharts";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from "@mui/material/CircularProgress";
 import PropTypes from "prop-types";
 import maxBy from "lodash/maxBy";
 import minBy from "lodash/minBy";

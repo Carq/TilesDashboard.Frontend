@@ -5,7 +5,7 @@ import {
   TableCell,
   TableRow,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import "./styles.scss";
 import Histogram from "../histogram";
 import PropTypes, { object } from "prop-types";

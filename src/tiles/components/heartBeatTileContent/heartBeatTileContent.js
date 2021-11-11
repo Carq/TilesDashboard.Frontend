@@ -1,12 +1,12 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import "./styles.scss";
 import classNames from "classnames";
-import Link from "@material-ui/core/Link";
+import Link from "@mui/material/Link";
 import { colorStatuses } from "../../constants";
 import { colorStatusToClassNames, convertToSeconds } from "../../utils";
 import Histogram from "../histogram";
-import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import PropTypes, { object } from "prop-types";
 import { heartBeatData, heartBeatConfiguration } from "../../propTypes";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { Tooltip, Zoom } from "@material-ui/core";
+import { Tooltip, Zoom } from "@mui/material";
 import maxBy from "lodash/maxBy";
 import minBy from "lodash/minBy";
 import sortBy from "lodash/sortBy";

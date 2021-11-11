@@ -8,8 +8,8 @@ import {
   Typography,
   Tooltip,
   CardHeader,
-} from "@material-ui/core";
-import TimelineOutlinedIcon from "@material-ui/icons/TimelineOutlined";
+} from "@mui/material";
+import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { tileTypes, viewModes } from "tiles/constants";
@@ -65,7 +65,7 @@ class Tile extends React.Component {
                 <IconButton
                   onClick={this.toggleView}
                   color={isGraph ? "primary" : "inherit"}
-                >
+                  size="large">
                   <TimelineOutlinedIcon />
                 </IconButton>
               </Tooltip>

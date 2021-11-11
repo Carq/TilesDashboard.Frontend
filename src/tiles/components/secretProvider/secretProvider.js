@@ -1,7 +1,7 @@
 import React from "react";
-import TextField from "@material-ui/core/TextField";
+import TextField from "@mui/material/TextField";
 import PropTypes from "prop-types";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import { withSnackbar } from "notistack";
 
 import "./styles.scss";

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { HubConnectionBuilder } from "@microsoft/signalr";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography } from "@mui/material";
 import groupBy from "lodash/groupBy";
 import orderBy from "lodash/orderBy";
 import config from "config";

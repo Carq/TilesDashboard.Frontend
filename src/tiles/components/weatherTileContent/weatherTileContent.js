@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import { colorStatuses } from "../../constants";
 import { colorStatusToClassNames } from "../../utils";
