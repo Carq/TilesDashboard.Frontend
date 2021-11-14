@@ -14,7 +14,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 
 class Dashboard extends React.Component {
-  state = { lastGroups: undefined };
+  state = { lastGroups: undefined, lastAccordionsState: {} };
 
   componentDidMount = () => {
     const { getAllTiles } = this.props;
@@ -22,6 +22,13 @@ class Dashboard extends React.Component {
     if (groups) {
       this.setState({
         lastGroups: JSON.parse(groups),
+      });
+    }
+
+    var lastAccordionsState = localStorage.getItem("lastAccordionsState");
+    if (lastAccordionsState) {
+      this.setState({
+        lastAccordionsState: JSON.parse(lastAccordionsState),
       });
     }
 
@@ -67,7 +74,7 @@ class Dashboard extends React.Component {
 
   render() {
     const { isLoadingMetrics, tiles } = this.props;
-    const { lastGroups } = this.state;
+    const { lastGroups, lastAccordionsState } = this.state;
 
     var grouped = isLoadingMetrics ? lastGroups : this.groupTiles(tiles);
 
@@ -81,7 +88,15 @@ class Dashboard extends React.Component {
 
         {grouped &&
           grouped.map((group) => (
-            <Accordion className="accordion" disableGutters defaultExpanded>
+            <Accordion
+              key={group.name}
+              className="accordion"
+              disableGutters
+              expanded={lastAccordionsState[group.name] ?? true}
+              onChange={(event, expanded) =>
+                this.saveStateOfAccordion(group.name, expanded)
+              }
+            >
               <AccordionSummary
                 className="accordion-header"
                 expandIcon={<ExpandMoreIcon />}
@@ -98,6 +113,20 @@ class Dashboard extends React.Component {
             </Accordion>
           ))}
       </div>
+    );
+  }
+
+  saveStateOfAccordion(groupName, expanded) {
+    const { lastAccordionsState } = this.state;
+    lastAccordionsState[groupName] = expanded;
+
+    this.setState({
+      lastAccordionsState: lastAccordionsState,
+    });
+
+    localStorage.setItem(
+      "lastAccordionsState",
+      JSON.stringify(lastAccordionsState)
     );
   }
 

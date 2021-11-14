@@ -1,4 +1,4 @@
-export default {
+const config = {
   api: {
     URL: "https://localhost:5001",
     protectReadEndpoints: false,
@@ -7,3 +7,5 @@ export default {
     name: "Tiles",
   },
 };
+
+export default config;
