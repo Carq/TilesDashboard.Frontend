@@ -4,6 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import PropTypes from "prop-types";
 import maxBy from "lodash/maxBy";
 import minBy from "lodash/minBy";
+import meanBy from "lodash/meanBy";
 import { calculateDateTimeFormatAsString } from "../../utils";
 
 import "./styles.scss";
@@ -38,8 +39,14 @@ class WeatherTileContentGraph extends React.Component {
       },
     ];
 
-    let tempMax = maxBy(data, "temperature")?.temperature;
-    let tempMin = minBy(data, "temperature")?.temperature;
+    let tempMaxData = maxBy(data, "temperature");
+    let tempMax = tempMaxData?.temperature;
+    let tempMaxDate = new Date(tempMaxData?.addedOn).getTime();
+
+    let tempMinData = minBy(data, "temperature");
+    let tempMin = tempMinData?.temperature;
+    let tempMinDate = new Date(tempMinData?.addedOn).getTime();
+    const tempAvg = meanBy(data, "temperature")?.toFixed(1);
     let diff = tempMax - tempMin;
 
     let tempOffset = 0.5;
@@ -71,36 +78,61 @@ class WeatherTileContentGraph extends React.Component {
       },
       annotations: {
         position: "front",
-        yaxis: [
+        points: [
           {
+            x: tempMaxDate,
             y: tempMax,
-            strokeDashArray: 0,
-            borderColor: "mediumvioletred",
-            borderWidth: 2,
+            marker: {
+              fillColor: "red",
+              strokeWidth: 2,
+              strokeColor: "#f2f2f2",
+              size: 6,
+            },
             label: {
-              text: tempMax + "°C",
-              position: "left",
               borderWidth: 0,
-              textAnchor: "start",
+              offsetX: tempMaxDate > tempMinDate ? -15 : 0,
               style: {
-                background: "mediumvioletred",
+                background: "#e60073",
               },
+
+              text: "Max " + tempMax + "°C",
             },
           },
           {
+            x: tempMinDate,
             y: tempMin,
-            strokeDashArray: 0,
-            opacity: 0.2,
-            borderColor: "lightgreen",
-            borderWidth: 2,
+            marker: {
+              fillColor: "darkgreen",
+              strokeWidth: 2,
+              strokeColor: "#f2f2f2",
+              size: 6,
+            },
             label: {
-              text: tempMin + "°C",
               borderWidth: 0,
-              position: "left",
-              textAnchor: "start",
-              offsetY: 18,
+              offsetY: 40,
+              offsetX: tempMaxDate > tempMinDate ? 15 : 0,
               style: {
                 background: "darkgreen",
+              },
+
+              text: "Min " + tempMin + "°C",
+            },
+          },
+        ],
+        yaxis: [
+          {
+            y: tempAvg,
+            strokeDashArray: 5,
+            borderColor: "#bf80ff",
+            borderWidth: 1,
+            label: {
+              text: tempAvg + "°C",
+              position: "left",
+              offsetY: 5,
+              borderWidth: 0,
+              textAnchor: "right",
+              style: {
+                background: "#b366ff",
               },
             },
           },

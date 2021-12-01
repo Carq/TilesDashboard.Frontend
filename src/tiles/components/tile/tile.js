@@ -65,7 +65,8 @@ class Tile extends React.Component {
                 <IconButton
                   onClick={this.toggleView}
                   color={isGraph ? "primary" : "inherit"}
-                  size="large">
+                  size="large"
+                >
                   <TimelineOutlinedIcon />
                 </IconButton>
               </Tooltip>
@@ -115,29 +116,13 @@ class Tile extends React.Component {
       case tileTypes.WEATHER:
         return this.renderWeatherTileContent(data[0], data);
       case tileTypes.METRIC:
-        return this.renderMetricTileContent(
-          data[0],
-          data,
-          configuration
-        );
+        return this.renderMetricTileContent(data[0], data, configuration);
       case tileTypes.INTEGER:
-        return this.renderIntegerTileContent(
-          data[0],
-          data,
-          configuration
-        );
+        return this.renderIntegerTileContent(data[0], data, configuration);
       case tileTypes.HEARTBEAT:
-        return this.renderHearBeatTileContent(
-          data[0],
-          data,
-          configuration
-        );
+        return this.renderHearBeatTileContent(data[0], data, configuration);
       case tileTypes.DUAL:
-        return this.renderDualTileContent(
-          data[0],
-          data,
-          configuration
-        );
+        return this.renderDualTileContent(data[0], data, configuration);
       default:
         return this.renderUnsupportedTile();
     }
