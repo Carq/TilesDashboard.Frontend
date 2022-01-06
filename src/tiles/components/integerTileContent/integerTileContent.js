@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import "./styles.scss";
 import Histogram from "../histogram";
 import PropTypes, { object } from "prop-types";
@@ -12,23 +12,34 @@ class IntegerTileContent extends React.Component {
 
     return (
       <div className="integer-tile-content">
-        <div className="integer-tile__current-section ">
-          <Typography variant="h1" align="center">
-            {current}
-          </Typography>
-          <Typography align="center">{unit}</Typography>
+        <Box justifyContent="center">
+          <div className="integer-tile__current-section ">
+            <Typography variant="h2" align="center">
+              {current}
+            </Typography>
+            <div className="integer-tile__primary-unit">
+              <Typography align="center">{unit}</Typography>
+            </div>
+          </div>
           <Typography color="textSecondary" align="center">
             {description}
           </Typography>
-          <div className="integer-tile__histogram">
-            <Histogram
-              data={data.map((item) => ({
-                value: item.value,
-                date: item.addedOn,
-              }))}
-            />
+        </Box>
+        <Box justifyContent="center">
+          <div className="integer-tile__current-section ">
+            <div className="integer-tile__histogram">
+              <Histogram
+                data={data.map((item) => ({
+                  value: item.value,
+                  date: item.addedOn,
+                }))}
+              />
+            </div>
           </div>
-        </div>
+          <Typography color="textSecondary" align="center">
+            History
+          </Typography>
+        </Box>
       </div>
     );
   }

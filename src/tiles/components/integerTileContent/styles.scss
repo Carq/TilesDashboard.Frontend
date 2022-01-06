@@ -1,19 +1,21 @@
 .integer-tile-content {
   display: flex;
   justify-content: center;
-}
-
-.red.MuiTypography-body1 {
-  color: tomato;
+  flex-direction: column;
 }
 
 .integer-tile__current-section {
   display: flex;
   justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  align-items: flex-end;
+  flex-direction: row;
+}
+
+.integer-tile__primary-unit {
+  margin-bottom: 6px;
 }
 
 .integer-tile__histogram {
-  height: 50px;
+  height: 40px;
+  margin-bottom: 10px;
 }
