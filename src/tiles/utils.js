@@ -40,7 +40,10 @@ export function convertToTimeOnly(date) {
 
 export function convertToMonthOnly(date) {
   const localTime = new Date(date);
-  return `${localTime.toLocaleString("default", { month: "short" })}`;
+  return `${localTime.toLocaleString("default", {
+    month: "short",
+    year: "numeric",
+  })}`;
 }
 
 export function convertToDateWithoutYearOnly(date) {
@@ -67,10 +70,9 @@ export function calculateDateTimeFormat(dates) {
   const minDate = new Date(min(dates));
   const diffInMinutes = (minDate.getTime() - maxDate.getTime()) / (1000 * 60);
   const avgDiffBetweenDatesInHours = diffInMinutes / 60 / (dates.length - 1);
-
+  console.log(avgDiffBetweenDatesInHours);
   if (avgDiffBetweenDatesInHours <= 23.9) return dateTimeFormatTypes.TIMEONLY;
-  if (avgDiffBetweenDatesInHours <= 30 * 24)
-    return dateTimeFormatTypes.DATEONLY;
+  if (avgDiffBetweenDatesInHours < 30 * 24) return dateTimeFormatTypes.DATEONLY;
   return dateTimeFormatTypes.MONTHONLY;
 }
 
@@ -85,7 +87,7 @@ export function calculateDateTimeFormatAsString(dates) {
     case dateTimeFormatTypes.TIMEONLY:
       return "HH:mm";
     case dateTimeFormatTypes.MONTHONLY:
-      return "MMM";
+      return "MMM yyyy";
     default:
       return "dd MMM";
   }
@@ -112,7 +114,7 @@ export function getFormatedTime(totalSeconds) {
 
   let finalFormat = hours > 0 ? `${hours}h ` : "";
   finalFormat += minutes > 0 ? `${minutes}m ` : "";
-  finalFormat += seconds > 0 ? `${seconds}s ` : "";
+  finalFormat += seconds > 0 && hours === 0 ? `${seconds}s ` : "";
 
   return finalFormat;
 }
