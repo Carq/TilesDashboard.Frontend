@@ -23,6 +23,8 @@ export default function AddTileDataDialog(basicData) {
 
   const handleClose = () => {
     setOpen(false);
+    setPrimaryValue(null);
+    setSecondaryValue(null);
   };
 
   const saveTileData = () => {
