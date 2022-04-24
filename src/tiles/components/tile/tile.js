@@ -23,6 +23,7 @@ import IntegerTileContentGraph from "../integerTileContentGraph";
 import HeartBeatTileContent from "../heartBeatTileContent";
 import DualTileContent from "../dualTileContent";
 import DualTileContentGraph from "../dualTileContentGraph";
+import AddTileDataDialog from "../addTileDataDialog";
 
 import { convertDateTime, addHours } from "tiles/utils";
 import "./styles.scss";
@@ -41,6 +42,8 @@ class Tile extends React.Component {
     const { tileData, view, loadingData, animate } = this.state;
     const lastUpdated = data[0].addedOn;
     const graphSupport = basicData.type !== tileTypes.HEARTBEAT;
+    const writeModeIsActive =
+      basicData.type === tileTypes.DUAL && localStorage.getItem("writeSecret");
     const isGraph = view === viewModes.GRAPH;
 
     if (animate) {
@@ -60,17 +63,20 @@ class Tile extends React.Component {
           style={{ padding: "6px" }}
           title={basicData.name}
           action={
-            graphSupport && (
-              <Tooltip title="History">
-                <IconButton
-                  onClick={this.toggleView}
-                  color={isGraph ? "primary" : "inherit"}
-                  size="large"
-                >
-                  <TimelineOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-            )
+            <React.Fragment>
+              {writeModeIsActive && <AddTileDataDialog {...basicData} />}
+              {graphSupport && (
+                <Tooltip title="History">
+                  <IconButton
+                    onClick={this.toggleView}
+                    color={isGraph ? "primary" : "inherit"}
+                    size="medium"
+                  >
+                    <TimelineOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </React.Fragment>
           }
         />
         {isGraph && (

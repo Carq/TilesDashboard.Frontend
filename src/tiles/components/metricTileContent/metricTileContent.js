@@ -21,14 +21,8 @@ import {
 class MetricTileContent extends React.Component {
   render() {
     const { current, data, configuration } = this.props;
-    const {
-      metricType,
-      limit,
-      wish,
-      goal,
-      unit,
-      lowerIsBetter,
-    } = configuration;
+    const { metricType, limit, wish, goal, unit, lowerIsBetter } =
+      configuration;
     const metricStatus =
       metricType === metricTypes.PERCENTAGE || lowerIsBetter === false
         ? this.calculateStatusGreater(current, limit, goal)
@@ -74,9 +68,7 @@ class MetricTileContent extends React.Component {
           <Typography
             variant="h3"
             style={
-              metricType === "time" && value > 600
-                ? { "font-size": "2.7rem" }
-                : {}
+              metricType === "time" && value > 600 ? { fontSize: "2.7rem" } : {}
             }
             align="center"
             className={classNames(colorStatusToClassNames(metricStatus))}

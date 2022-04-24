@@ -56,3 +56,8 @@
 .MuiCardActions-root {
   margin-top: auto;
 }
+
+.MuiCardHeader-action {
+  display: flex;
+  flex-direction: row;
+}
