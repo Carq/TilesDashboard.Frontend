@@ -113,7 +113,7 @@ export function getFormatedTime(totalSeconds) {
 
   let finalFormat = hours > 0 ? `${hours}h ` : "";
   finalFormat += minutes > 0 ? `${minutes}m ` : "";
-  finalFormat += seconds > 0 && hours === 0 ? `${seconds}s ` : "";
+  finalFormat += seconds > 0 && hours < 1 ? `${seconds}s ` : "";
 
   return finalFormat;
 }
