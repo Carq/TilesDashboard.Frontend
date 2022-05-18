@@ -38,7 +38,7 @@ class Tile extends React.Component {
   };
 
   render() {
-    const { basicData, data } = this.props;
+    const { basicData, data, configuration } = this.props;
     const { tileData, view, loadingData, animate } = this.state;
     const lastUpdated = data[0].addedOn;
     const graphSupport = basicData.type !== tileTypes.HEARTBEAT;
@@ -64,7 +64,9 @@ class Tile extends React.Component {
           title={basicData.name}
           action={
             <React.Fragment>
-              {writeModeIsActive && <AddTileDataDialog {...basicData} />}
+              {writeModeIsActive && (
+                <AddTileDataDialog {...basicData} {...configuration} />
+              )}
               {graphSupport && (
                 <Tooltip title="History">
                   <IconButton

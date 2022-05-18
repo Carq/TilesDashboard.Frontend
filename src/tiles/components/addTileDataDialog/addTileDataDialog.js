@@ -6,6 +6,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
+import InputAdornment from "@mui/material/InputAdornment";
 import DialogTitle from "@mui/material/DialogTitle";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -14,7 +15,7 @@ import config from "config";
 
 import "./styles.scss";
 
-export default function AddTileDataDialog(basicData) {
+export default function AddTileDataDialog(tileData) {
   const [open, setOpen] = React.useState(false);
   const [loadingDate, setLoadingData] = React.useState(false);
   const [primaryValue, setPrimaryValue] = React.useState();
@@ -36,21 +37,18 @@ export default function AddTileDataDialog(basicData) {
   const saveTileData = () => {
     setLoadingData(true);
 
-    fetch(
-      `${config.api.URL}/tiles/${basicData.type}/${basicData.name}/record`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: localStorage.getItem("writeSecret"),
-        },
-        body: JSON.stringify({
-          primary: primaryValue,
-          secondary: secondaryValue,
-          occurredOn: occurredOnValue,
-        }),
-      }
-    )
+    fetch(`${config.api.URL}/tiles/${tileData.type}/${tileData.name}/record`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("writeSecret"),
+      },
+      body: JSON.stringify({
+        primary: primaryValue,
+        secondary: secondaryValue,
+        occurredOn: occurredOnValue,
+      }),
+    })
       .then((res) => {})
       .then(
         (result) => {
@@ -75,9 +73,16 @@ export default function AddTileDataDialog(basicData) {
           <div className="add-tile-data__dialog-content">
             <TextField
               size="small"
-              id="outlined-basic"
-              label="Primary value"
+              id="outlined-adornment-basic"
+              label={tileData.primaryName || "Primary value"}
               value={primaryValue}
+              InputProps={{
+                endAdornment: tileData.primaryUnit && (
+                  <InputAdornment position="end">
+                    {tileData.primaryUnit}
+                  </InputAdornment>
+                ),
+              }}
               type="number"
               variant="outlined"
               disabled={loadingDate}
@@ -86,8 +91,15 @@ export default function AddTileDataDialog(basicData) {
             <TextField
               size="small"
               id="outlined-basic"
-              label="Secondary value"
+              label={tileData.secondaryName || "Secondary value"}
               value={secondaryValue}
+              InputProps={{
+                endAdornment: tileData.secondaryUnit && (
+                  <InputAdornment position="end">
+                    {tileData.secondaryUnit}
+                  </InputAdornment>
+                ),
+              }}
               type="number"
               variant="outlined"
               disabled={loadingDate}
