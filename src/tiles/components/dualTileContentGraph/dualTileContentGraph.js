@@ -34,14 +34,20 @@ class DualTileContentGraph extends React.Component {
 
     const series = [
       {
-        name: configuration.primaryName + (configuration.primaryUnit &&  ` ${configuration.primaryUnit}`) || "Primary",
+        name:
+          configuration.primaryName +
+            (configuration.primaryUnit && ` ${configuration.primaryUnit}`) ||
+          "Primary",
         data: data.map((i) => [
           new Date(i.addedOn).getTime(),
           i.primary.toFixed(primaryDecimalPlaces),
         ]),
       },
       {
-        name: configuration.secondaryName + (configuration.secondaryUnit &&  ` ${configuration.secondaryUnit}`) || "Secondary",
+        name:
+          configuration.secondaryName +
+            (configuration.secondaryUnit &&
+              ` ${configuration.secondaryUnit}`) || "Secondary",
         data: data.map((i) => [
           new Date(i.addedOn).getTime(),
           i.secondary.toFixed(secondaryDecimalPlaces),
@@ -64,11 +70,16 @@ class DualTileContentGraph extends React.Component {
     let primaryMin = isNaN(configuration.primaryMinGraphValue)
       ? 0
       : configuration.primaryMinGraphValue;
-    let secondaryMax = configuration.secondaryMaxGraphValue || secondaryHighestValue + primaryOffset;
+    let secondaryMax =
+      configuration.secondaryMaxGraphValue ||
+      secondaryHighestValue + primaryOffset;
     let secondaryMin = configuration.secondaryMinGraphValue || 0;
 
-    if (configuration.primaryAndSecondaryHaveTheSameYAxis && (!configuration.secondaryMaxGraphValue || !configuration.primaryMaxGraphValue))
-    {
+    if (
+      configuration.primaryAndSecondaryHaveTheSameYAxis &&
+      (!configuration.secondaryMaxGraphValue ||
+        !configuration.primaryMaxGraphValue)
+    ) {
       primaryMax = Math.max(primaryMax, secondaryMax);
       secondaryMax = Math.max(primaryMax, secondaryMax);
     }
@@ -82,6 +93,9 @@ class DualTileContentGraph extends React.Component {
         toolbar: {
           show: false,
         },
+      },
+      stroke: {
+        curve: "smooth",
       },
       grid: {
         show: true,
