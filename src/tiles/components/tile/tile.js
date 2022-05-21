@@ -43,7 +43,9 @@ class Tile extends React.Component {
     const lastUpdated = data[0].addedOn;
     const graphSupport = basicData.type !== tileTypes.HEARTBEAT;
     const writeModeIsActive =
-      basicData.type === tileTypes.DUAL && localStorage.getItem("writeSecret");
+      (basicData.type === tileTypes.DUAL ||
+        basicData.type === tileTypes.INTEGER) &&
+      localStorage.getItem("writeSecret");
     const isGraph = view === viewModes.GRAPH;
 
     if (animate) {

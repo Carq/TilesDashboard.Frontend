@@ -12,6 +12,7 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import AddIcon from "@mui/icons-material/Add";
 import config from "config";
+import { tileTypes } from "tiles/constants";
 
 import "./styles.scss";
 
@@ -44,8 +45,11 @@ export default function AddTileDataDialog(tileData) {
         Authorization: localStorage.getItem("writeSecret"),
       },
       body: JSON.stringify({
-        primary: primaryValue,
-        secondary: secondaryValue,
+        ...(tileData.type === tileTypes.DUAL && {
+          primary: primaryValue,
+          secondary: secondaryValue,
+        }),
+        ...(tileData.type === tileTypes.INTEGER && { value: primaryValue }),
         occurredOn: occurredOnValue,
       }),
     })
@@ -74,12 +78,14 @@ export default function AddTileDataDialog(tileData) {
             <TextField
               size="small"
               id="outlined-adornment-basic"
-              label={tileData.primaryName || "Primary value"}
+              label={
+                tileData.primaryName || tileData.description || "Primary value"
+              }
               value={primaryValue}
               InputProps={{
-                endAdornment: tileData.primaryUnit && (
+                endAdornment: (tileData.primaryUnit || tileData.unit) && (
                   <InputAdornment position="end">
-                    {tileData.primaryUnit}
+                    {tileData.primaryUnit || tileData.unit}
                   </InputAdornment>
                 ),
               }}
@@ -88,23 +94,25 @@ export default function AddTileDataDialog(tileData) {
               disabled={loadingDate}
               onChange={(e) => setPrimaryValue(e.target.value)}
             />
-            <TextField
-              size="small"
-              id="outlined-basic"
-              label={tileData.secondaryName || "Secondary value"}
-              value={secondaryValue}
-              InputProps={{
-                endAdornment: tileData.secondaryUnit && (
-                  <InputAdornment position="end">
-                    {tileData.secondaryUnit}
-                  </InputAdornment>
-                ),
-              }}
-              type="number"
-              variant="outlined"
-              disabled={loadingDate}
-              onChange={(e) => setSecondaryValue(e.target.value)}
-            />
+            {tileData.type === tileTypes.DUAL && (
+              <TextField
+                size="small"
+                id="outlined-basic"
+                label={tileData.secondaryName || "Secondary value"}
+                value={secondaryValue}
+                InputProps={{
+                  endAdornment: tileData.secondaryUnit && (
+                    <InputAdornment position="end">
+                      {tileData.secondaryUnit}
+                    </InputAdornment>
+                  ),
+                }}
+                type="number"
+                variant="outlined"
+                disabled={loadingDate}
+                onChange={(e) => setSecondaryValue(e.target.value)}
+              />
+            )}
             <LocalizationProvider dateAdapter={AdapterMoment}>
               <DateTimePicker
                 size="small"
