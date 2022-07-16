@@ -1,6 +1,6 @@
 {
   "name": "tilesdashboard.frontend",
-  "homepage": "https://carq.github.io/TilesDashboard.Frontend",
+  "homepage": "https://carq.github.io/mieszkanie",
   "version": "0.1.0",
   "dependencies": {
     "@date-io/moment": "^2.14.0",
@@ -16,7 +16,6 @@
     "core-js": "^3.22.2",
     "cross-fetch": "^3.1.5",
     "fibers": "^4.0.2",
-    "gh-pages": "^2.2.0",
     "loadash": "^1.0.0",
     "moment": "^2.29.3",
     "notistack": "^2.0.4",
@@ -37,6 +36,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "stats": "webpack --profile --json > stats.json",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
@@ -64,6 +64,7 @@
     "@babel/preset-react": "^7.16.7",
     "@webpack-cli/serve": "^1.6.1",
     "babel-loader": "^8.2.5",
+    "gh-pages": "^2.2.0",
     "html-loader": "^1.1.0",
     "html-webpack-plugin": "^4.0.4",
     "node-sass": "^7.0.0",
