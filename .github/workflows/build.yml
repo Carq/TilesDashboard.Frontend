@@ -1,5 +1,4 @@
-name: Node CI
-
+name: build
 on: [push]
 
 jobs:
@@ -17,6 +16,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+
       - name: npm install, build
         run: |
           npm ci
