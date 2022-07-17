@@ -1,22 +1,21 @@
 name: build
+
 on: [push]
+
+env:
+  PERFORM_DEPLOY: ${{ github.ref == 'refs/heads/master' }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [14.x]
-
     steps:
-      - name: Checkout...
+      - name: Checkout 🛎️
         uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 14
 
       - name: npm install, build
         run: |
@@ -29,3 +28,27 @@ jobs:
         uses: actions/upload-artifact@v3.1.0
         with:
           path: build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v3.0.0
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: artifact
+          repository-name: Carq/mieszkanie
+          branch: master
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
