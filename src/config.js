@@ -1,10 +1,10 @@
 const config = {
   api: {
-    URL: "https://localhost:5001",
+    URL: "https://mieszkanie-be-canturon.azurewebsites.net",
     protectReadEndpoints: false,
   },
   dashboard: {
-    name: "Tiles",
+    name: "Mieszkanie",
   },
 };
 
