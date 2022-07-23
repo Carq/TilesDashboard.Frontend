@@ -2,9 +2,6 @@ name: build
 
 on: [push]
 
-env:
-  PERFORM_DEPLOY: ${{ github.ref == 'refs/heads/master' }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
