@@ -96,10 +96,24 @@ class DualTileContent extends React.Component {
     );
   }
 
-  calculateColor = (value, greenValue, yellowValue, redValue) => {
-    if (!isNaN(redValue) && value > redValue) return colorStatuses.RED;
-    if (!isNaN(yellowValue) && value > yellowValue) return colorStatuses.AMBER;
-    if (!isNaN(greenValue) && value > greenValue) return colorStatuses.GREEN;
+  calculateColor = (
+    value,
+    greenValue,
+    yellowValue,
+    redValue,
+    lowerIsBetter
+  ) => {
+    if (lowerIsBetter === false) {
+      if (!isNaN(greenValue) && value > greenValue) return colorStatuses.GREEN;
+      if (!isNaN(yellowValue) && value > yellowValue)
+        return colorStatuses.AMBER;
+      if (!isNaN(redValue) && value > redValue) return colorStatuses.RED;
+    } else {
+      if (!isNaN(redValue) && value > redValue) return colorStatuses.RED;
+      if (!isNaN(yellowValue) && value > yellowValue)
+        return colorStatuses.AMBER;
+      if (!isNaN(greenValue) && value > greenValue) return colorStatuses.GREEN;
+    }
     return colorStatuses.SILVER;
   };
 
@@ -109,7 +123,8 @@ class DualTileContent extends React.Component {
       value,
       configuration.primaryGreenValue,
       configuration.primaryYellowValue,
-      configuration.primaryRedValue
+      configuration.primaryRedValue,
+      configuration.lowerIsBetter
     );
   };
 
@@ -119,7 +134,8 @@ class DualTileContent extends React.Component {
       value,
       configuration.secondaryGreenValue,
       configuration.secondaryYellowValue,
-      configuration.secondaryRedValue
+      configuration.secondaryRedValue,
+      configuration.lowerIsBetter
     );
   };
 }
