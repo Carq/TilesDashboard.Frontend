@@ -84,6 +84,14 @@ class DualTileContentGraph extends React.Component {
       secondaryMax = Math.max(primaryMax, secondaryMax);
     }
 
+    var yellowAnnotationsValues = configuration.lowerIsBetter
+      ? [configuration.primaryYellowValue, configuration.primaryRedValue]
+      : [configuration.primaryYellowValue, configuration.primaryGreenValue];
+
+    var greenAnnotationsValues = configuration.lowerIsBetter
+      ? [configuration.primaryYellowValue, configuration.primaryGreenValue]
+      : [configuration.primaryGreenValue, 100000];
+
     const options = {
       chart: {
         zoom: {
@@ -191,35 +199,25 @@ class DualTileContentGraph extends React.Component {
             },
           },
           {
-            y: Math.min(
-              configuration.primaryYellowValue,
-              configuration.primaryRedValue
-            ),
-            y2: Math.max(
-              configuration.primaryYellowValue,
-              configuration.primaryRedValue
-            ),
+            y: Math.min(...yellowAnnotationsValues),
+            y2: Math.max(...yellowAnnotationsValues),
             strokeDashArray: 0,
             opacity: 0.1,
             fillColor: "yellow",
             borderWidth: 0,
           },
           {
-            y: Math.min(
-              configuration.primaryGreenValue,
-              configuration.primaryYellowValue
-            ),
-            y2: Math.max(
-              configuration.primaryGreenValue,
-              configuration.primaryYellowValue
-            ),
+            y: Math.min(...greenAnnotationsValues),
+            y2: Math.max(...greenAnnotationsValues),
             strokeDashArray: 0,
             opacity: 0.2,
             fillColor: "green",
             borderWidth: 1,
           },
           {
-            y: configuration.primaryRedValue,
+            y: configuration.lowerIsBetter
+              ? configuration.primaryRedValue
+              : configuration.primaryYellowValue,
             y2: configuration.lowerIsBetter ? 10000 : 0,
             strokeDashArray: 0,
             opacity: 0.2,
