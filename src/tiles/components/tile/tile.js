@@ -271,6 +271,10 @@ class Tile extends React.Component {
         ? "since?hours=16"
         : "recent?amountOfData=30";
 
+    if (basicData.name === "Energia co 1h") {
+      query = "since?hours=16";
+    }
+
     fetch(
       `${config.api.URL}/tiles/${basicData.type}/${basicData.name}/${query}`,
       {
