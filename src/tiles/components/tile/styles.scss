@@ -13,8 +13,8 @@
 }
 
 .card {
-  width: 305px;
-  height: 295px;
+  width: 275px;
+  height: 275px;
 
   &.metric {
     @extend %tile-image;
