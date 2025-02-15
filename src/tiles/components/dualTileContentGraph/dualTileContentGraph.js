@@ -166,13 +166,17 @@ class DualTileContentGraph extends React.Component {
         position: "front",
         yaxis: [
           {
-            y: configuration.primaryYellowValue,
+            y: configuration.lowerIsBetter
+              ? configuration.primaryYellowValue
+              : configuration.primaryGreenValue,
             strokeDashArray: 0,
             borderColor: "#D5A406",
             borderWidth: 2,
             label: {
               text:
-                configuration.primaryYellowValue +
+                (configuration.lowerIsBetter
+                  ? configuration.primaryYellowValue
+                  : configuration.primaryGreenValue) +
                 ` ${configuration.primaryUnit}`,
               position: "left",
               borderWidth: 0,
@@ -183,13 +187,18 @@ class DualTileContentGraph extends React.Component {
             },
           },
           {
-            y: configuration.primaryRedValue,
+            y: configuration.lowerIsBetter
+              ? configuration.primaryRedValue
+              : configuration.primaryYellowValue,
             strokeDashArray: 0,
             borderColor: "red",
             borderWidth: 2,
             label: {
               text:
-                configuration.primaryRedValue + ` ${configuration.primaryUnit}`,
+                (configuration.lowerIsBetter
+                  ? configuration.primaryRedValue
+                  : configuration.primaryYellowValue) +
+                ` ${configuration.primaryUnit}`,
               position: "left",
               borderWidth: 0,
               textAnchor: "start",
