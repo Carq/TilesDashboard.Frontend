@@ -4,7 +4,7 @@ const config = {
     protectReadEndpoints: false,
   },
   dashboard: {
-    name: "Mieszkanie",
+    name: "Dom",
   },
 };
 
